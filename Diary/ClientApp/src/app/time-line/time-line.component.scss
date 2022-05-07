@@ -1,0 +1,8 @@
+.post {
+    .author {
+        display: flex;
+        &-name {
+            margin-right: 10px;
+        }
+    }
+}
