@@ -1,0 +1,95 @@
+.verification {
+    width: 100%;
+    border: 0.5px solid rgba(240, 248, 255, 0.199);
+    height: auto;
+    background-color: #22272b;
+    padding: 16px 26px;
+    color: #5e6061;
+    &__alternative {
+        display: flex;
+        margin-top: 12px;
+        justify-content: space-between;
+        div {
+            height: 32px;
+            width: 32px;
+            background-color: #333333;
+            text-align: center;
+            padding-top: 4px;
+            border-radius: 5px;
+            mat-icon {
+                color: white;
+            }
+        }
+        div:hover:nth-last-child(1) {
+            background-color: #e94235;
+        }
+        div:hover:nth-last-child(2) {
+            background-color: #385899;
+        }
+        div:hover:nth-last-child(3) {
+            background-color: #385899;
+        }
+        div:hover:nth-last-child(4) {
+            background-color: #0077ff;
+        }
+    }
+    .text {
+        text-align: center;
+        cursor: pointer;
+        font-size: 12px;
+        line-height: 18px;
+        &-foot {
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            margin-top: 12px;
+            span {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        }
+    }
+    hr {
+        color: #5e6061;
+        width: 100%;
+        height: 1px;
+    }
+    
+    .input {
+        width: 100%;
+    }
+    mat-form-field {
+        .mat-form-field-flex {
+            border: 0.5px solid rgba(240, 248, 255, 0.199);
+        }
+        mat-label {
+            color: #5e6061;
+        }
+        // &:hover {
+        //     pointer-events: none !important;
+        //     color: transparent;
+        // }
+    }
+    .btn {
+        &__reg { 
+            margin-top: 12px;
+            width: 100%;
+            margin-top: 12px;
+            font-size: 13px;
+            line-height: 20px;
+            font-weight: 500;
+            color: #5a8684;
+            cursor: pointer;
+        }
+        
+        &__init {
+            margin-top: 12px;
+            background-color: #5a8684;
+            width: 100%;
+            color: aliceblue;
+            border-radius: 5px;
+        }
+    }
+}

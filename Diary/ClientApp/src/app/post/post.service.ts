@@ -1,0 +1,40 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Inject } from '@angular/core';
+
+import { IPost } from '../models/post.model';
+import { StoreModel } from '../store';
+import { JwtHelperService } from "@auth0/angular-jwt";
+
+@Injectable({ providedIn: 'root' })
+export class PostService {
+
+    private baseUrl : string = "";
+
+    httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+
+    constructor (
+        private http: HttpClient,
+        private storeModel:StoreModel,
+        private jwtHelper: JwtHelperService
+    ) { 
+        const token = localStorage.getItem("jwt");
+        this.baseUrl = storeModel.getBaseUrl()
+
+        if(token && !this.jwtHelper.isTokenExpired(token)) {
+            this.httpOptions.headers = new HttpHeaders({
+                'Content-Type':  'application/json',
+                Authorization: 'bearer ' + token
+            })
+        }
+    }
+
+    getPosts(): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts`, this.httpOptions);
+    }
+}

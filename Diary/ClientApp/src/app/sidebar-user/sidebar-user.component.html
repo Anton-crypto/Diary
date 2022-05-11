@@ -1,0 +1,38 @@
+<div class = "sidebar-user">
+    <div class = "user sidebar-user__info">
+        <div class = "user__header">
+            <div class = "avatar">
+                <img src="{{user.Icon}}" alt="" srcset="">
+            </div>
+            <div class = "user__info">
+                <div class = "user__info-item">
+                  {{user.Name}}
+                </div>
+                <div class = "user__info-item user__exit">
+                  выйти 
+                </div>
+            </div>
+        </div>
+        <div>
+
+        </div>
+    </div>
+    <div class = "sidebar-user__info">
+        <div>
+          <span class = "sidebar-user__lable">100</span>
+          <span class = "sidebar-user__hint">рейтинг</span>
+        </div>
+        <div>
+          <span class = "sidebar-user__lable">0</span>
+          <span class = "sidebar-user__hint">подписчиков</span>
+        </div>
+    </div>
+    <div class = "sidebar-user__menu">
+      <a class="sidebar-user__menu-item" [routerLink]="['/']">Управление подписками</a>
+      <a class="sidebar-user__menu-item" [routerLink]="['/']">Комментарии</a>
+      <a class="sidebar-user__menu-item" [routerLink]="['/']">Сохраненное</a>
+    </div>
+</div>
+<div>
+  <button mat-raised-button class = "btn__add" >Добавить пост</button>
+</div>

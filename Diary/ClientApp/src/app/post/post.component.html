@@ -1,0 +1,31 @@
+<div class="stories__container" >
+    <div class="story" *ngFor="let item of posts">
+        <div class="story__header">
+            <div class="story__author">
+                <div class="story__img">
+                    <img src="#" alt=""> 
+                </div>
+                <div class="author__name">
+                    {{item.user.name}}
+                </div>
+                <div class="story__time">
+                    {{item.timePost}}
+                </div>
+            </div>
+            <div class="post-title">
+                
+            </div>
+        </div>
+        <div class="story__body">
+            <div class="story__body-text">
+                {{item.bodyText}}
+            </div>
+            <div class="story__body-img">
+                <img src="Images/{{item.bodyUrlImg}}" alt="" srcset="">
+            </div>
+        </div>
+        <div class="post-menu">
+            
+        </div>
+    </div>
+</div>

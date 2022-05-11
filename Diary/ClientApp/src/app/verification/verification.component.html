@@ -1,0 +1,41 @@
+<div class = "verification" *ngIf="!isUserAuthenticated()">
+    <form class="example-form"  #loginForm="ngForm" (ngSubmit)="login(loginForm)" *ngIf="!isUserAuthenticated()">
+      <mat-form-field class="input" appearance="outline">
+        <mat-label>Логин</mat-label>
+        <input matInput pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"maxlength="256" outlined type="email" id="username" name="username" [(ngModel)]="credentials.email">
+      </mat-form-field>
+      <mat-form-field class="input" appearance="outline">
+        <mat-label>Пароль</mat-label>
+        <input matInput maxlength="256" [minLength]="10" type="password" id="password" name="password" [(ngModel)]="credentials.password">
+      </mat-form-field>
+      <div class = "text">Забыли пароль?</div>
+      <div>
+        <button mat-raised-button class = "btn__init" [disabled]="!loginForm.valid">Войти</button>
+      </div>
+    </form>
+    <div>
+      <button mat-button class = "btn__reg">Регистрация</button>
+    </div>
+    <div  class = "text-foot">
+      <hr/>
+      <span>или</span>
+      <hr/>
+    </div>
+    <div class = "verification__alternative">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" color = "#ffffff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M23.45 5.948c.166-.546 0-.948-.795-.948H20.03c-.668 0-.976.347-1.143.73c0 0-1.335 3.196-3.226 5.272c-.612.602-.89.793-1.224.793c-.167 0-.418-.191-.418-.738V5.948c0-.656-.184-.948-.74-.948H9.151c-.417 0-.668.304-.668.593c0 .621.946.765 1.043 2.513v3.798c0 .833-.153.984-.487.984c-.89 0-3.055-3.211-4.34-6.885C4.45 5.288 4.198 5 3.527 5H.9c-.75 0-.9.347-.9.73c0 .682.89 4.07 4.145 8.551C6.315 17.341 9.37 19 12.153 19c1.669 0 1.875-.368 1.875-1.003v-2.313c0-.737.158-.884.687-.884c.39 0 1.057.192 2.615 1.667C19.11 18.216 19.403 19 20.405 19h2.625c.75 0 1.126-.368.91-1.096c-.238-.724-1.088-1.775-2.215-3.022c-.612-.71-1.53-1.475-1.809-1.858c-.389-.491-.278-.71 0-1.147c0 0 3.2-4.426 3.533-5.929Z" clip-rule="evenodd"/></svg>
+      </div>
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" color = "#ffffff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M22.46 6c-.77.35-1.6.58-2.46.69c.88-.53 1.56-1.37 1.88-2.38c-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29c0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15c0 1.49.75 2.81 1.91 3.56c-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07a4.28 4.28 0 0 0 4 2.98a8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21C16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56c.84-.6 1.56-1.36 2.14-2.23Z"/></svg>
+      </div>
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" color = "#ffffff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M13.397 20.997v-8.196h2.765l.411-3.209h-3.176V7.548c0-.926.258-1.56 1.587-1.56h1.684V3.127A22.336 22.336 0 0 0 14.201 3c-2.444 0-4.122 1.492-4.122 4.231v2.355H7.332v3.209h2.753v8.202h3.312z"/></svg>
+      </div>
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" color = "#ffffff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M21.456 10.154c.123.659.19 1.348.19 2.067c0 5.624-3.764 9.623-9.449 9.623A9.841 9.841 0 0 1 2.353 12a9.841 9.841 0 0 1 9.844-9.844c2.658 0 4.879.978 6.583 2.566l-2.775 2.775V7.49c-1.033-.984-2.344-1.489-3.808-1.489c-3.248 0-5.888 2.744-5.888 5.993c0 3.248 2.64 5.998 5.888 5.998c2.947 0 4.953-1.685 5.365-3.999h-5.365v-3.839h9.26Z"/></svg>
+      </div>
+    </div>
+</div>
+<div *ngIf="isUserAuthenticated()">
+  Anton 
+</div>

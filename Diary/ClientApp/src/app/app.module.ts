@@ -6,37 +6,65 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
+
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { TimeLineComponent } from './time-line/time-line.component';
 
+import { MainComponent } from './main/main.component';
+import { PostComponent } from './post/post.component';
+import { TimeLineComponent } from './timeline/timeline.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { VerificationComponent } from './verification/verification.component';
+import { SidebarUserComponent } from './sidebar-user/sidebar-user.component';
+
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { AuthGuard } from './guards/auth.guard';
+
+import { JwtModule, } from "@auth0/angular-jwt";
+
+import {StoreModel} from "./store"
+
+export function tokenGetter() { 
+  return localStorage.getItem("jwt"); 
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
     FetchDataComponent,
-    TimeLineComponent
+    PostComponent,
+    TimeLineComponent,
+    MainComponent,
+    SidebarComponent, 
+    VerificationComponent,
+    SidebarUserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
     MatIconModule,
+    MatInputModule,
+    MatButtonModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'time-line', component: TimeLineComponent },
+      { path: '', component: MainComponent },
+      // { path: '/log', component: MainComponent, canActivate: [AuthGuard] },
     ]),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:5001"],
+        disallowedRoutes: []
+      }
+    })
   ],
-  providers: [],
+  providers: [
+    StoreModel,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
