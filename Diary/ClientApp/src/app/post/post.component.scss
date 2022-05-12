@@ -34,6 +34,14 @@
         }
         &__body {
             padding: 0px 23px;
+            padding-bottom: 20px;
+            &-img {
+                width: 100% !important;
+                margin-top: 15px;
+                img {
+                    width: 100% !important;
+                }
+            }
         }
     }
     .author {

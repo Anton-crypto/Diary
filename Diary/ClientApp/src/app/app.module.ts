@@ -13,10 +13,11 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { MainComponent } from './main/main.component';
 import { PostComponent } from './post/post.component';
+import { WorkPostComponent } from './work-post/work-post.component';
 import { TimeLineComponent } from './timeline/timeline.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { VerificationComponent } from './verification/verification.component';
-import { SidebarUserComponent } from './sidebar-user/sidebar-user.component';
+import { SidebarUserComponent } from './sidebar/sidebar-user/sidebar-user.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -42,7 +43,8 @@ export function tokenGetter() {
     MainComponent,
     SidebarComponent, 
     VerificationComponent,
-    SidebarUserComponent
+    SidebarUserComponent,
+    WorkPostComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,14 +55,28 @@ export function tokenGetter() {
     MatRadioModule,
     MatButtonModule,
     RouterModule.forRoot([
-      { path: '', component: MainComponent },
+      { 
+        path: '', 
+        component: MainComponent,
+        children: [
+          {
+            path: '',
+            component: TimeLineComponent,
+          },
+          {
+            path: 'work-post',
+            component: WorkPostComponent,
+          },
+        ],
+      },
+      // { path: '/work-post', component: WorkPostComponent },
       // { path: '/log', component: MainComponent, canActivate: [AuthGuard] },
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:5001"],
+        allowedDomains: ["localhost:44407"],
         disallowedRoutes: []
       }
     })

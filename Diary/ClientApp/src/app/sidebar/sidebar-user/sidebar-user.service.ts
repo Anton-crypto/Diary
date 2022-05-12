@@ -6,8 +6,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Inject } from '@angular/core';
 import { JwtHelperService } from "@auth0/angular-jwt";
 
-import { IUser } from '../models/user.model';
-import { StoreModel } from '../store';
+import { IUser } from '../../models/user.model';
+import { StoreModel } from '../../store';
 
 @Injectable({ providedIn: 'root' })
 export class SidebarUserService {

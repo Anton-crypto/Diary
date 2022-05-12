@@ -20,8 +20,8 @@
             <div class="story__body-text">
                 {{item.bodyText}}
             </div>
-            <div class="story__body-img">
-                <!-- <img src="Images/{{item.bodyUrlImg}}" alt="" srcset=""> -->
+            <div class="story__body-img" *ngIf = "item.bodyUrlImg != ''">
+                <img [src]="createImgPath(item.bodyUrlImg)" alt="" srcset="">
             </div>
         </div>
         <div class="post-menu">

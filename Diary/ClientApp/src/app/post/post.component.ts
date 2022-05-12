@@ -29,6 +29,7 @@ export class PostComponent {
       });
     });
   }
+  public createImgPath = (serverPath: string) => this.postService.createImgPath(serverPath);
 
   private diffDays(dateFirst: Date, dateLast: Date): number {
 

@@ -13,6 +13,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 export class PostService {
 
     private baseUrl : string = "";
+    private baseUrlImg : string = "";
 
 
     httpOptions = {
@@ -28,6 +29,7 @@ export class PostService {
         const refreshToken: string = localStorage.getItem("refreshToken")!;
 
         this.baseUrl = storeModel.getBaseUrl()
+        this.baseUrlImg = storeModel.getBaseUrlImg()
 
         if(token && !this.jwtHelper.isTokenExpired(token) && refreshToken && !this.jwtHelper.isTokenExpired(refreshToken)) {
             const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
@@ -40,5 +42,8 @@ export class PostService {
 
     getPosts(): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `posts`, this.httpOptions);
+    }
+    createImgPath (serverPath: string) { 
+        return this.baseUrlImg + serverPath; 
     }
 }

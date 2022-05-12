@@ -1,16 +1,16 @@
+@import "../../color.scss";
+
 $color-element: #58b6b6;
 
 .sidebar-user {
     background-color: #22272b;
     width: 100%;
     color: #5e6061;
-    border: 0.5px solid rgba(240, 248, 255, 0.199);
-
     .user {
         background-color: #1a1e21;
         display: flex;
         justify-content: space-between;
-        border-bottom: 0.5px solid rgba(240, 248, 255, 0.199);
+        border-bottom: 1px solid $colorBorder !important;
         &__header {
             display: flex;
         }
@@ -30,7 +30,7 @@ $color-element: #58b6b6;
 
     &__info {
         padding: 16px 24px;
-        border-bottom: 0.5px solid rgba(240, 248, 255, 0.199);
+        border-bottom: 1px solid $colorBorder !important;
     }
     &__hint {
         font-size: 14px;

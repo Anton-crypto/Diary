@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core'
 import { SidebarUserService } from './sidebar-user.service';
-import { IUser } from '../models/user.model';
+import { IUser } from '../../models/user.model';
 
 
 @Component({

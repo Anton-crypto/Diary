@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Diary.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
+using System.Net.Http.Headers;
 
 namespace Diary.Controllers
 {
@@ -23,23 +23,87 @@ namespace Diary.Controllers
         }
 
         [HttpGet("{id}")]
+
         public async Task<ActionResult<Post>> Get(Guid id)
         {
             Post post = await _context.Posts.FirstOrDefaultAsync(x => x.ID == id);
             return post == null ? NotFound() : new ObjectResult(post);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<User>> Post(Post post)
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("upload")]
+        public async Task<ActionResult<Post>> Post()
         {
-            if (post == null)
+            try
             {
-                return BadRequest();
-            }
+                var formCollection = await Request.ReadFormAsync();
 
-            _context.Posts.Add(post);
-            await _context.SaveChangesAsync();
-            return Ok(post);
+                var file = formCollection.Files.First();
+                var postForm = formCollection.Keys.ToList();
+
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                if (file.Length > 0)
+                {
+                    var fileName = 
+                        Guid.NewGuid().ToString() +
+                        "." + 
+                        ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"').Split('.')[1];
+
+
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    string title = null;
+                    string bodyText = null;
+                    Guid userId = new Guid();
+
+                    foreach (var item in postForm)
+                    {
+                        if (item == "title")
+                        {
+                            title = formCollection[item];
+                        }
+                        else if (item == "bodyText")
+                        {
+                            bodyText = formCollection[item];
+                        }
+                        else if (item == "userId")
+                        {
+                            userId = Guid.Parse(formCollection[item]);
+                        }
+                    }
+
+                    var post = new Post
+                    {
+                        ID = Guid.NewGuid(),
+                        TimePost = DateTime.Today,
+                        Title = title,
+                        BodyText = bodyText,
+                        BodyUrlImg = dbPath,
+                        UserID = userId,
+                    };
+
+                    _context.Posts.Add(post);
+                    await _context.SaveChangesAsync();
+
+                    return Ok(post);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
 
         [HttpPut]

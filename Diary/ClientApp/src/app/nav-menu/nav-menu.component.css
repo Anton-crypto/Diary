@@ -28,7 +28,10 @@ html {
 .left {
   display: flex;
 }
-
+.border-nav {
+  border-bottom: 1px solid #2d3236 !important;
+  border-radius: 2px;
+}
 .icon {
   width: 36px;
   height: 36px;

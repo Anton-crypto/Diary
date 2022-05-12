@@ -4,13 +4,17 @@ import { Injectable } from '@angular/core';
 export class StoreModel {
 
     private params =  {
-        host: 'localhost:7022/api/',
         protocol: 'https://',
+        host: 'localhost:7022/',
+        prefix: 'api/',
     };
 
     constructor() {}
 
     public getBaseUrl() : string {
+        return `${this.params.protocol + this.params.host + this.params.prefix}`
+    }
+    public getBaseUrlImg() : string {
         return `${this.params.protocol + this.params.host}`
     }
 

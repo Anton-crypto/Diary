@@ -1,0 +1,44 @@
+<div class="post__add">
+    <div>
+        <input type="text" class="post__input-title" placeholder="Заголовок или ссылка на пост для ответа">
+    </div>
+    <div class = "post__body">
+        <!-- <div class = "post__body-item" *ngFor ="let item of bodyItem"  [innerHTML]="item"></div> -->
+        <div class = "post__body-item">
+            <div
+                role="textbox"
+                contenteditable="true" 
+                class="post__input-body" 
+                data-placeholder="Введите текст"
+            ></div>
+        </div>
+        <div class = "post__body-item">
+            <div *ngIf="selectedFile != null">
+                <img class="post__body-img" [src]="selectedFileUrl" alt="" srcset="">
+            </div>
+        </div>
+        <div class="post__menu">
+            <div>
+                <input
+                    style="display: none"
+                    #fileInput
+                    type="file" 
+                    (change)="onFileSelected($event)"
+                >
+            </div>
+            <div>
+                <div class="post__menu-item camer" (click)="fileInput.click()">
+                    <svg xmlns="http://www.w3.org/2000/svg" color ="#fff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="currentColor" d="M32 8h-7.3l-1.06-2.72A2 2 0 0 0 21.78 4h-7.56a2 2 0 0 0-1.87 1.28L11.3 8H4a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2ZM6.17 13.63a.8.8 0 0 1 0-1.6h2.4a.8.8 0 0 1 0 1.6ZM18 28a9 9 0 1 1 9-9a9 9 0 0 1-9 9Z" class="clr-i-solid clr-i-solid-path-1"/><path fill="currentColor" d="M11.11 19.06a7.07 7.07 0 0 0 4.11 6.41l1.09-1.74a5 5 0 1 1 5.22-8.39l1.09-1.76a7.06 7.06 0 0 0-11.51 5.48Z" class="clr-i-solid clr-i-solid-path-2"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                </div>
+                <div class="post__menu-item text">
+                    <svg xmlns="http://www.w3.org/2000/svg" color ="#fff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><g fill="currentColor"><path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/><path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/><path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/></g></svg>
+                </div>
+                <div class="post__menu-item play">
+                    <svg xmlns="http://www.w3.org/2000/svg" color ="#fff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="m11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                </div>
+            </div>
+        </div>
+        <!-- <div class = "post__body-img"></div>
+        <div class = "post__body-video"></div> -->
+    </div>
+</div>

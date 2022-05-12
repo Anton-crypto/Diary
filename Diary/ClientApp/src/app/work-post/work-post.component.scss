@@ -1,0 +1,83 @@
+@import "../color.scss";
+
+.post {
+    &__add {
+        
+        width: 100%;
+    }
+    &__input-title {
+        border: 1px solid $colorBorder;
+        padding: 15px 15px;
+        background-color: $colorItem;
+        width: 100%;
+        color: $colorText;
+    }
+    &__input-title:focus-visible{
+        border: 1px solid $colorElent;
+        outline: none !important;
+    }
+    &__body {
+        margin-top: 15px;
+        height: auto;
+        border: 1px solid $colorBorder;
+        &-img {
+            width: 100% !important; 
+        }
+        &-item {
+            background-color: $colorItem;
+            padding: 10px;
+            height: auto;
+            .post__input-body {
+                padding-top: 10px;
+                border: none;
+                height: auto;
+                padding: 15px 15px;
+                width: 100%;
+                color: $colorText;
+                background-color: transparent;
+            }
+            .post__input-body:focus-visible{
+                border: none !important;
+                outline: none !important;
+            }
+        }
+    }
+    &__menu {
+        display: flex;
+        padding: 16px 24px;
+        justify-content: center;
+        background-color: $colorItem;
+        div {
+            display: flex;
+        }
+        &-item {
+            width: 48px;
+            height: 48px;
+            margin-right: 10px;
+            background-color: $colorElent;
+            border-radius: 100%;
+            text-align: center;
+            display: flex;
+            align-content: center;
+            justify-content: space-around;
+            cursor: pointer;
+        }
+        &-item:last-child {
+            margin-right: 0px;
+        }
+
+        .text {
+            font-size: 23px;
+            padding-top: 11px;
+        }
+        .play {
+            font-size: 35px;
+            padding-top: 6px;
+            padding-left: 4px;
+        }
+        .camer {
+            padding-top: 12px;
+            font-size: 23px;
+        }
+    }
+}
