@@ -36,14 +36,14 @@ export class SidebarUserService {
             const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
             this.httpOptions.headers = new HttpHeaders({
                 'Content-Type':  'application/json',
-                Authorization:  ' Bearer ' + token,
                 'Accept' : 'application/json',
+                Authorization:  'Bearer ' + token,
             })
         }
     }
 
-    getUser(id: string): Observable<IUser> {
-        return this.http.get<IUser>(this.baseUrl + `user/?id=${id}`,this.httpOptions);
+    getUser(id: string): Observable<IUser []> {
+        return this.http.get<IUser[]>(this.baseUrl + `user/?id=${id}`,this.httpOptions);
     }
     putUser() {
 

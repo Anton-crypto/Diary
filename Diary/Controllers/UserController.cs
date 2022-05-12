@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿    using Microsoft.AspNetCore.Mvc;
 using Diary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
@@ -17,13 +17,13 @@ namespace Diary.Controllers
             _context = context;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> Get()
         {
             return new ObjectResult(await _context.Users.ToListAsync());
         }
 
-        [HttpGet("{id}"), Authorize]
+        [HttpGet("{id}")]
         public async Task<ActionResult<User>> Get(Guid id)
         {
             User user = await _context.Users.FirstOrDefaultAsync(x => x.ID == id);

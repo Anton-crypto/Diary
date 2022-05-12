@@ -1,4 +1,4 @@
-<div class = "sidebar-user">
+<div class = "sidebar-user" *ngIf="user">
     <div class = "user sidebar-user__info">
         <div class = "user__header">
             <div class = "avatar">
@@ -6,7 +6,7 @@
             </div>
             <div class = "user__info">
                 <div class = "user__info-item">
-                  {{user.Name}}
+                  {{user.name}}
                 </div>
                 <div class = "user__info-item user__exit" (click) ="logOut()">
                   выйти 

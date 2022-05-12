@@ -13,15 +13,11 @@ export class SidebarUserComponent {
 
   constructor(private sidebarUserService: SidebarUserService) { }
   
-  user: IUser = {
-    Id: "",
-    Email: "",
-    Name: "",
-    Icon: "",
-  };
+  user: IUser | undefined;
 
   ngOnInit(): void {
     this.getUser();
+    console.log(this.user)
   }
   
   getUser() {
@@ -32,10 +28,10 @@ export class SidebarUserComponent {
     // console.log(user);
     // console.log(localStorage.getItem("jwt"));
 
-    if(this.user) {
-      this.sidebarUserService.getUser(user.id).subscribe((user) => {
-        this.user = user
-        console.log(this.user)
+    if(user) {
+      this.sidebarUserService.getUser(user.id).subscribe((hero) => {
+        this.user = hero[0];
+        console.log(hero[0])
       });
     }
   }

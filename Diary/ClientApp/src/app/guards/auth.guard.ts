@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StoreModel } from '../store';
 import { AuthenticatedResponse } from '../models/authenticatedresponse.model';
 
@@ -15,7 +14,6 @@ export class AuthGuard implements CanActivate  {
 
   constructor (
     private router:Router, 
-    private jwtHelper: JwtHelperService, 
     private http: HttpClient,
     private storeModel:StoreModel,
   ) {
@@ -26,9 +24,7 @@ export class AuthGuard implements CanActivate  {
 
     const token = localStorage.getItem("jwt")!;
 
-    // !this.jwtHelper.isTokenExpired(token)
     if (token){
-      console.log(this.jwtHelper.decodeToken(token))
       return true;
     }
 
