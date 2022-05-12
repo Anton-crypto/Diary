@@ -14,6 +14,7 @@ export class PostService {
 
     private baseUrl : string = "";
 
+
     httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
@@ -24,12 +25,15 @@ export class PostService {
         private jwtHelper: JwtHelperService
     ) { 
         const token = localStorage.getItem("jwt");
+        const refreshToken: string = localStorage.getItem("refreshToken")!;
+
         this.baseUrl = storeModel.getBaseUrl()
 
-        if(token && !this.jwtHelper.isTokenExpired(token)) {
+        if(token && !this.jwtHelper.isTokenExpired(token) && refreshToken && !this.jwtHelper.isTokenExpired(refreshToken)) {
+            const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
             this.httpOptions.headers = new HttpHeaders({
                 'Content-Type':  'application/json',
-                Authorization: 'bearer ' + token
+                Authorization: credentials
             })
         }
     }

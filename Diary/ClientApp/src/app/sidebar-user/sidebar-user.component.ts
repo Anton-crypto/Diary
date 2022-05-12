@@ -21,12 +21,27 @@ export class SidebarUserComponent {
   };
 
   ngOnInit(): void {
-    this.getUser("6f9619ff-8b86-d011-b42d-00cf12c964ff");
+    this.getUser();
   }
   
-  getUser(id : string) {
-    this.sidebarUserService.getUser(id).subscribe((user) => {
-      this.user = user
-    });
+  getUser() {
+    
+    let user = JSON.parse(localStorage.getItem("user")!);
+
+    // console.log(user.id);
+    // console.log(user);
+    // console.log(localStorage.getItem("jwt"));
+
+    if(this.user) {
+      this.sidebarUserService.getUser(user.id).subscribe((user) => {
+        this.user = user
+        console.log(this.user)
+      });
+    }
+  }
+  logOut() {
+    localStorage.removeItem("jwt");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
   }
 }

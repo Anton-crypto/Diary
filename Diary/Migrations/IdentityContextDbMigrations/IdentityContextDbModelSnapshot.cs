@@ -29,20 +29,33 @@ namespace Diary.Migrations.IdentityContextDbMigrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Person", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("6f9619ff-8b86-d011-b42d-00cf12c964ff"),
+                            Email = "toni_naumov_1990@mail.ru",
+                            Password = "+fdJcDdWes/ILm4grOH6Zw==",
+                            RefreshTokenExpiryTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Role = "user"
+                        });
                 });
 #pragma warning restore 612, 618
         }

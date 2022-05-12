@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core'
 import { PostService } from './post.service';
 import { IPost } from '../models/post.model';
 
+
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',

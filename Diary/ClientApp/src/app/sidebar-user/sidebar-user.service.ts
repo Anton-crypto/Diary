@@ -24,18 +24,26 @@ export class SidebarUserService {
         private jwtHelper: JwtHelperService
     ) { 
         const token = localStorage.getItem("jwt");
+        const refreshToken: string = localStorage.getItem("refreshToken")!;
+
         this.baseUrl = storeModel.getBaseUrl()
 
-        if(token && !this.jwtHelper.isTokenExpired(token)) {
+        if(token && refreshToken) {
+
+            console.log(token)
+            console.log(refreshToken)
+
+            const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
             this.httpOptions.headers = new HttpHeaders({
                 'Content-Type':  'application/json',
-                Authorization: 'bearer ' + token
+                Authorization:  ' Bearer ' + token,
+                'Accept' : 'application/json',
             })
         }
     }
 
     getUser(id: string): Observable<IUser> {
-        return this.http.get<IUser>(this.baseUrl + `user/?id= ${id}`,this.httpOptions);
+        return this.http.get<IUser>(this.baseUrl + `user/?id=${id}`,this.httpOptions);
     }
     putUser() {
 

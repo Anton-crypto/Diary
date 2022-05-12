@@ -23,7 +23,7 @@ namespace Diary.Controllers
             return new ObjectResult(await _context.Users.ToListAsync());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}"), Authorize]
         public async Task<ActionResult<User>> Get(Guid id)
         {
             User user = await _context.Users.FirstOrDefaultAsync(x => x.ID == id);

@@ -16,7 +16,7 @@ namespace Diary.Controllers
             _context = context;
         }
 
-        [HttpGet, Authorize]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> Get()
         {
             return new ObjectResult(await _context.Posts.Include(p => p.User).ToListAsync());

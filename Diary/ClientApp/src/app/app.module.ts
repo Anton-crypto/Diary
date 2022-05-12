@@ -20,6 +20,8 @@ import { SidebarUserComponent } from './sidebar-user/sidebar-user.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import {MatRadioModule} from '@angular/material/radio';
+
 import { AuthGuard } from './guards/auth.guard';
 
 import { JwtModule, } from "@auth0/angular-jwt";
@@ -48,6 +50,7 @@ export function tokenGetter() {
     FormsModule,
     MatIconModule,
     MatInputModule,
+    MatRadioModule,
     MatButtonModule,
     RouterModule.forRoot([
       { path: '', component: MainComponent },

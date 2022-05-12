@@ -8,6 +8,8 @@ $color-element: #58b6b6;
 
     .user {
         background-color: #1a1e21;
+        display: flex;
+        justify-content: space-between;
         border-bottom: 0.5px solid rgba(240, 248, 255, 0.199);
         &__header {
             display: flex;

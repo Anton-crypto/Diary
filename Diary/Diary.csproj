@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\CombinModels\" />
     <Folder Include="Upload\" />
   </ItemGroup>
 

@@ -6,9 +6,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Diary.Models.IdentityModels;
+using Diary.Models;
 using Diary.Identity;
 using System.Web;
-
+using Diary.Services;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Diary.Controllers
 {
@@ -17,84 +20,110 @@ namespace Diary.Controllers
     public class AuthController : Controller
     {
         private readonly IdentityContextDb _context;
-        public AuthController(IdentityContextDb context)
+        private readonly DiaryContextDb _contextDiary;
+        private readonly ITokenService _tokenService;
+
+        public AuthController(IdentityContextDb context, ITokenService tokenService, DiaryContextDb contextDiary)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _contextDiary = contextDiary ?? throw new ArgumentNullException(nameof(contextDiary));
+            _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
 
         [HttpPost]
         [Route("login")]
         public IActionResult Login([FromBody] Login login)
         {
-            var identity = GetIdentity(login.Email, login.Password);
+            Person user = _context.Persons.FirstOrDefault(x => x.Email == login.Email && x.Password == GetHash(login.Password));
 
-            if (identity == null)
+            if (user is null) // Поправить ошибку
             {
-                return BadRequest(new { errorText = "Invalid username or password." });
+                return BadRequest("Invalid client request");
             }
 
-            var now = DateTime.UtcNow;  
-            // создаем JWT-токен
-            var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.ISSUER,
-                audience: AuthOptions.AUDIENCE,
-                claims: identity,
-                expires: DateTime.Now.AddMinutes(AuthOptions.LIFETIME),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
-            );
-
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return Ok(new AuthenticatedResponse { Token = encodedJwt });
-        }
-
-        private List<Claim> GetIdentity(string email, string password)
-        {
-            Person person = _context.Persons.FirstOrDefault(x => x.Email == email && x.Password == password);
-
-            if (person != null)
+            var claims = new List<Claim>
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Email),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role)
-                };
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role)
+            };
 
-                //ClaimsIdentity claimsIdentity = new ClaimsIdentity (
-                //    claims, 
-                //    "Token", 
-                //    ClaimsIdentity.DefaultNameClaimType,
-                //    ClaimsIdentity.DefaultRoleClaimType
-                //);
+            var accessToken = _tokenService.GenerateAccessToken(claims);
+            var refreshToken = _tokenService.GenerateRefreshToken();
 
-                return claims;
-            }
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
 
-            return null;
+            _context.SaveChanges();
+
+            return Ok(new AuthenticatedResponse
+            {
+                Token = accessToken,
+                RefreshToken = refreshToken,
+                User = user
+            });
         }
 
         [HttpPost]
         [Route("register")]
         [Produces("application/json")]
-        public async Task<IActionResult> Register(Login model)
+        public async Task<IActionResult> Register(Register register)
         {
-            //var userExists = await userManager.FindByNameAsync(model.Username);
-            //if (userExists != null)
-            //    return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel { Status = "Error", Message = "User already exists!" });
-            //ApplicationUser user = new ApplicationUser()
-            //{
-            //    Email = model.Email,
-            //    SecurityStamp = Guid.NewGuid().ToString(),
-            //    UserName = model.Username
-            //};
-            //var result = await userManager.CreateAsync(user, model.Password);
-            //if (!result.Succeeded)
-            //    return StatusCode(StatusCodes.Status500InternalServerError, new ResponseModel
-            //    {
-            //        Status = "Error",
-            //        Message = "User creation failed! Please check user details and try again."
-            //    });
-            return Ok("Ok");
+            if (register is null)
+            {
+                return BadRequest("Invalid client request");
+            }
+
+            Person user = _context.Persons.FirstOrDefault(x => x.Email == register.Email);
+
+            if (user != null)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, register.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
+            };
+
+            var accessToken = _tokenService.GenerateAccessToken(claims);
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            Person person = new Person {
+                Id = Guid.NewGuid(),
+                Email = register.Email,
+                Password = GetHash(register.Password),
+                Role = "user",
+                RefreshToken = refreshToken,
+                RefreshTokenExpiryTime = DateTime.Now.AddDays(7),
+            };
+
+            await _context.Persons.AddAsync(person);
+            _context.SaveChanges();
+
+
+            User userDiary = new User
+            {
+                ID = Guid.NewGuid(),
+                Email = register.Email,
+                Name = register.NikeName,
+                Icon = "",
+            };
+
+            await _contextDiary.Users.AddAsync(userDiary);
+            _contextDiary.SaveChanges();
+
+            return Ok(new AuthenticatedResponse
+            {
+                Token = accessToken,
+                RefreshToken = refreshToken,
+                User = person   
+            }); ;
+        }
+        private string GetHash(string input)
+        {
+            var md5 = MD5.Create();
+            var hash = md5.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            return Convert.ToBase64String(hash);
         }
     }
 }

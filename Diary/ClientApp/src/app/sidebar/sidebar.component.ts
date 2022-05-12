@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core'
-import { JwtHelperService } from "@auth0/angular-jwt";
+import { JwtHelperService, } from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-sidebar',
@@ -12,13 +12,14 @@ export class SidebarComponent {
   constructor(private jwtHelper: JwtHelperService) { }
 
   isUserAuthenticated = (): boolean => {
-    const token = localStorage.getItem("jwt");
+    let token = localStorage.getItem("jwt");
+    
+    //console.log(!this.jwtHelper.isTokenExpired(token!))
 
-    if (token && !this.jwtHelper.isTokenExpired(token)){
+    if (token){
       
       return true;
     }
     return false;
   }
-
 }

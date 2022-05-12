@@ -1,6 +1,8 @@
+@use '@angular/material' as mat;
+$mainColor: #5a8684;
+
 .verification {
     width: 100%;
-    border: 0.5px solid rgba(240, 248, 255, 0.199);
     height: auto;
     background-color: #22272b;
     padding: 16px 26px;
@@ -33,6 +35,13 @@
             background-color: #0077ff;
         }
     }
+    .text-title {
+        text-align: center;
+        font-size: 14px;
+        line-height: 20px;
+        font-weight: 500;
+        color: #bfbfbf !important;
+    }
     .text {
         text-align: center;
         cursor: pointer;
@@ -59,18 +68,10 @@
     
     .input {
         width: 100%;
-    }
-    mat-form-field {
-        .mat-form-field-flex {
-            border: 0.5px solid rgba(240, 248, 255, 0.199);
+        color: #bfbfbf !important; 
+        input  {
+            color: #bfbfbf !important;
         }
-        mat-label {
-            color: #5e6061;
-        }
-        // &:hover {
-        //     pointer-events: none !important;
-        //     color: transparent;
-        // }
     }
     .btn {
         &__reg { 
@@ -89,7 +90,68 @@
             background-color: #5a8684;
             width: 100%;
             color: aliceblue;
-            border-radius: 5px;
+            border-radius: 0px;
         }
     }
+    &__radio {
+        background-color: #1a1e21;
+        padding: 12px;
+        margin-top: 12px;
+
+        &-item {
+            font-size: 13px;
+            line-height: 20px;
+            font-weight: 400;
+            color: #a6a6a6;
+        }
+    }
+    &__terms {
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 400;
+        text-align: left;
+        margin: 10px 0;
+        color: #7d7d7d;
+    }
+}
+::ng-deep mat-form-field.field-mat {
+    .mat-form-field-outline {
+        color: $mainColor;
+        opacity: 0.8; 
+        border-radius: 5px;
+        padding: 0px;
+    }
+    .mat-form-field-infix {
+        padding: 0px 0px 5px 0px;
+        margin: 0px;
+    }
+    .mat-form-field-wrapper {
+        padding-bottom: 0;
+        margin-top: 12px;
+
+    }
+    .mat-input-element {
+        color: #bfbfbf;
+    } 
+    .mat-input-element::placeholder {
+        color: #bfbfbf33;
+    }
+    
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-gap,
+    .mat-form-field-outline-end {
+        color: $mainColor;
+        border-width: 1px !important;
+    }
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-end {
+        border-radius: 0px;
+    }
+    width: 100%;
+    font-size: 15px;
+}
+
+.border {
+    border: 1px solid #2d3236 !important;
+    border-radius: 2px;
 }

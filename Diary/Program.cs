@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Diary.Identity;
 using Diary.Models.IdentityModels;
 using System.Text;
+using Diary.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,7 @@ builder.Services.AddCors(options =>
         .AllowAnyMethod();
     });
 });
+builder.Services.AddTransient<ITokenService, TokenService>();
 
 var app = builder.Build();
 
