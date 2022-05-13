@@ -20,7 +20,9 @@ export class SettingsUserComponent {
   constructor(private userService: UserService) { }
   
   user: IUser | undefined;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getUser();
+  }
 
   onIconSelected(event : any) {
     
@@ -46,6 +48,27 @@ export class SettingsUserComponent {
   }
 
   putUser() {
+    if (this.user != undefined) {
+      const formData = new FormData();
+
+      formData.append('id', this.user.id);
+      formData.append('name', this.user.name);
+      formData.append('about', this.user.about);
+      formData.append('gender', this.user.gender);
+
+      if(this.selectedFont != undefined) {
+        formData.append('font', this.selectedFont);
+      }
+      if(this.selectedIcon != undefined) {
+        formData.append('icon', this.selectedIcon);
+      }
+  
+      this.userService.putUser(formData).subscribe((() => {
+        this.getUser();
+      }));
+    }
+  }
+  getUser() {
     let user = JSON.parse(localStorage.getItem("user")!);
 
     if(user) {
@@ -55,7 +78,5 @@ export class SettingsUserComponent {
       });
     }
   }
-  getUser() {
-    
-  }
+  public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);
 }

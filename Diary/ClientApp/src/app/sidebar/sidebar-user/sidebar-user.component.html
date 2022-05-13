@@ -2,7 +2,7 @@
     <div class = "user sidebar-user__info">
         <div class = "user__header">
             <div class = "avatar">
-              <img [src]="user.icon" alt="" srcset="" *ngIf="user.icon != ''">
+              <img [src]="createImgPath(user.icon)"  alt="" srcset="" *ngIf="user.icon != ''">
               <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf="user.icon == ''">
             </div>
             <div class = "user__info">
@@ -34,6 +34,7 @@
       <a class="sidebar-user__menu-item" [routerLink]="['/']">Управление подписками</a>
       <a class="sidebar-user__menu-item" [routerLink]="['/']">Комментарии</a>
       <a class="sidebar-user__menu-item" [routerLink]="['/']">Сохраненное</a>
+      <a class="sidebar-user__menu-item" [routerLink]="['/']">Мои посты</a>
     </div>
 </div>
 <div>

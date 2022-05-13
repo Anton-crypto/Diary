@@ -3,4 +3,7 @@ export interface IUser {
     email : string
     name : string
     icon : string
+    about : string
+    gender : string
+    font : string
 }

@@ -17,7 +17,6 @@ export class SidebarUserComponent {
 
   ngOnInit(): void {
     this.getUser();
-    console.log(this.user)
   }
   
   getUser() {
@@ -35,4 +34,5 @@ export class SidebarUserComponent {
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
   }
+  public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);
 }

@@ -34,7 +34,7 @@
 
         .info {
             padding-top: 40px;
-            padding-bottom: 40px;
+            padding-bottom: 20px;
         }
         .text {
             font-size: 14px;
@@ -84,9 +84,9 @@
             font-size: 13px;
             line-height: 20px;
             font-weight: 400;
-            padding: 10px 40px;
+            padding: 8px 40px;
             background-color: $colorElent;
-            border-radius: 0;
+            border-radius: 2px;
             border: none;
             color: aliceblue;
         }
