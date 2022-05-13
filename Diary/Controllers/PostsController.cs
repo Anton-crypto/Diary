@@ -66,17 +66,12 @@ namespace Diary.Controllers
 
                     foreach (var item in postForm)
                     {
-                        if (item == "title")
+                        switch (item)
                         {
-                            title = formCollection[item];
-                        }
-                        else if (item == "bodyText")
-                        {
-                            bodyText = formCollection[item];
-                        }
-                        else if (item == "userId")
-                        {
-                            userId = Guid.Parse(formCollection[item]);
+                            case "title": { title = formCollection[item]; break; }
+                            case "bodyText": { bodyText = formCollection[item]; break; }
+                            case "userId": { userId = Guid.Parse(formCollection[item] ); break; }
+                            default: break;
                         }
                     }
 

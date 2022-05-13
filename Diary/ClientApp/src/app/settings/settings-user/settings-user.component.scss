@@ -1,0 +1,118 @@
+@import "../../color.scss";
+
+.settings{
+    position: relative;
+    &__user {
+        width: 100%;
+    }
+    &__backheader {
+        width: 100%;
+        img {
+            
+            width: 100%;
+            height: 150px;
+        }
+        &-button {
+            position: absolute;
+            right: 0;
+            padding-top: 10px;
+            padding-right: 10px;
+            font-size: 12px;
+            button {
+                background-color: rgba(34, 39, 43, 0.5);
+                color: aliceblue;
+                border: none;
+                line-height: 18px;
+                padding: 5px 10px;
+            }
+        }
+    }
+    &__body {
+        width: 100%;
+        height: auto;
+        background-color: $colorItem;
+
+        .info {
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .text {
+            font-size: 14px;
+            line-height: 24px;
+            font-weight: 500;
+            color: #7d7d7d;
+            width: 100%;
+            padding-top: 10px;
+            padding-left: 170px;
+            padding-right: 25px;
+
+            input {
+                color: #bfbfbf;
+                width: 100%;
+                background-color: transparent;
+                border: 1px solid $colorBorder !important;
+                padding: 10px 20px;
+                margin-top: 5px;
+                &:focus-visible{
+                    border: 1px solid $colorElent !important;
+                    outline: none !important;
+                }
+            }
+            select {
+                color: #bfbfbf;
+                width: 100%;
+                background-color: transparent;
+                border: 1px solid $colorBorder !important;
+                padding: 10px 20px;
+                margin-top: 5px;
+                &:focus-visible{
+                    border: 1px solid $colorElent !important;
+                    outline: none !important;
+                }
+            }
+            
+        }
+        .button {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding: 25px;
+
+        }
+        .save {
+            display: block;
+            font-size: 13px;
+            line-height: 20px;
+            font-weight: 400;
+            padding: 10px 40px;
+            background-color: $colorElent;
+            border-radius: 0;
+            border: none;
+            color: aliceblue;
+        }
+    }
+    .avatar {
+        cursor: pointer;
+        width: 128px;
+        height: 128px;
+        position: absolute;
+        top: 65px;
+        left: 25px;
+        background-color: $colorItem;
+        border-radius: 100%;
+        svg {
+            position: absolute;
+            color: aliceblue;
+            height: 50px;
+            width: 50px;
+            left: 39px;
+            top: 40px;
+        }
+        img {
+            width: 128px;
+            height: 128px;
+            border-radius: 100%;
+            padding: 2px;
+        }
+    }
+}

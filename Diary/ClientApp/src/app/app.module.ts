@@ -18,6 +18,7 @@ import { TimeLineComponent } from './timeline/timeline.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { VerificationComponent } from './verification/verification.component';
 import { SidebarUserComponent } from './sidebar/sidebar-user/sidebar-user.component';
+import { SettingsUserComponent } from './settings/settings-user/settings-user.component'
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -43,6 +44,7 @@ export function tokenGetter() {
     MainComponent,
     SidebarComponent, 
     VerificationComponent,
+    SettingsUserComponent,
     SidebarUserComponent,
     WorkPostComponent
   ],
@@ -66,6 +68,10 @@ export function tokenGetter() {
           {
             path: 'work-post',
             component: WorkPostComponent,
+          },
+          {
+            path: 'setting-user',
+            component: SettingsUserComponent,
           },
         ],
       },

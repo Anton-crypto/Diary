@@ -3,7 +3,8 @@
         <div class="story__header">
             <div class="story__author">
                 <div class="story__img">
-                    <img src="#" alt=""> 
+                    <img [src]=" item.user.icon" alt="" srcset="" *ngIf=" item.user.icon != ''">
+                    <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf=" item.user.icon == ''">
                 </div>
                 <div class="author__name">
                     {{item.user.name}}

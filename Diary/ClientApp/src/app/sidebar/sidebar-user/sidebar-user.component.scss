@@ -26,6 +26,11 @@ $color-element: #58b6b6;
         height: 48px;
         background-color: aliceblue;
         border-radius: 100%;
+        img {
+            width: 100%;
+            border-radius: 100%;
+            padding: 2px;
+        }
     }
 
     &__info {

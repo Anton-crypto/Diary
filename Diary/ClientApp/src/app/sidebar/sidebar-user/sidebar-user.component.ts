@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core'
-import { SidebarUserService } from './sidebar-user.service';
+import { UserService } from '../../service/user.service';
 import { IUser } from '../../models/user.model';
 
 
@@ -11,7 +11,7 @@ import { IUser } from '../../models/user.model';
 
 export class SidebarUserComponent {
 
-  constructor(private sidebarUserService: SidebarUserService) { }
+  constructor(private userService: UserService) { }
   
   user: IUser | undefined;
 
@@ -21,15 +21,10 @@ export class SidebarUserComponent {
   }
   
   getUser() {
-    
     let user = JSON.parse(localStorage.getItem("user")!);
 
-    // console.log(user.id);
-    // console.log(user);
-    // console.log(localStorage.getItem("jwt"));
-
     if(user) {
-      this.sidebarUserService.getUser(user.id).subscribe((hero) => {
+      this.userService.getUser(user.id).subscribe((hero) => {
         this.user = hero[0];
         console.log(hero[0])
       });
