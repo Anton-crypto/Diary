@@ -11,23 +11,11 @@ export class WorkPostComponent {
   selectedFile: File | null = null;
   selectedFileUrl: FileReader | null | string = null;
 
-  bodyText : string = `
-    <div
-      role="textbox"
-      contenteditable="true" 
-      class="post__input-body" 
-      data-placeholder="Введите текст"
-    ></div>
-  `
-  bodyImg : string = `
-    <div *ngIf="selectedFile != null">
-      <img class="post__body-img" [src]="selectedFileUrl" alt="" srcset="">
-    </div>
-  `
-
-  bodyItem : string [] = [
-    this.bodyText,
-    this.bodyImg,
+  bodyItem : ITest[] = [
+    {
+      teg : "text",
+      value : ""
+    },
   ]
   
   constructor() { }
@@ -39,6 +27,11 @@ export class WorkPostComponent {
 
     reader.onload = (event: any) => {
       this.selectedFileUrl = event.target.result;
+      this.bodyItem.push(
+      {
+        teg : "image",
+        value : event.target.result
+      });
     };
 
     reader.readAsDataURL(this.selectedFile);
@@ -47,6 +40,13 @@ export class WorkPostComponent {
   }
 
   ngOnInit(): void {
-
   }
+  addTextFild(): void {
+    this.bodyItem.push({teg : "text" , value : ""})
+  }
+}
+
+export interface ITest {
+  teg: string
+  value: any
 }
