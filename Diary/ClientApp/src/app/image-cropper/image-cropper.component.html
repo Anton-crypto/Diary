@@ -1,25 +1,30 @@
 <div class="cropper">
-    <div class="cropper-img">
-        <image-cropper
-            [imageChangedEvent]="iconFile"
-            [maintainAspectRatio]="true"
-            [containWithinAspectRatio]="containWithinAspectRatio"
-            [aspectRatio]="4 / 3"
-            [resizeToWidth]="256"
-            [cropperMinWidth]="128"
-            [onlyScaleDown]="true"
-            [roundCropper]="false"
-            [canvasRotation]="canvasRotation"
-            [transform]="transform"
-            [alignImage]="'left'"
-            (imageCropped)="imageCropped($event)"
-            (imageLoaded)="imageLoaded()"
-            (cropperReady)="cropperReady($event)"
-            (loadImageFailed)="loadImageFailed()"
-        >
-        </image-cropper>
+    <div class="cropper-body">
+        <div class="cropper-img">
+            <image-cropper
+                [imageChangedEvent]="iconFile"
+                [maintainAspectRatio]="true"
+                [containWithinAspectRatio]="containWithinAspectRatio"
+                [aspectRatio]="1 / 1"
+                [resizeToWidth]="200"
+                [cropperMinWidth]="100"
+                [onlyScaleDown]="true"
+                [roundCropper]="false"
+                [canvasRotation]="canvasRotation"
+                [transform]="transform"
+                [alignImage]="'left'"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded()"
+                (cropperReady)="cropperReady($event)"
+                (loadImageFailed)="loadImageFailed()"
+                
+            >
+            </image-cropper>
+        </div>
+        <div>
+            <img class="img" [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+        </div>
     </div>
-    <img [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
     <div class="cropper-btn">
         <button>Отмена</button>
         <button>Ок</button>

@@ -7,8 +7,33 @@
     top: calc(50% - 200px);
 
     image-cropper {
-        width: 250px;
-        height: 300px;
+        width: 150px;
+        height: 150px;
+    }
+    .img {
+        margin-left: 20px;
+        width: 150px;
+        height: 150px;
+        border-radius: 100%;
+    }
+    &-body {
+        display: flex;
+    }
+    &-btn {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        button {
+            display: block;
+            font-size: 13px;
+            line-height: 20px;
+            font-weight: 400;
+            padding: 8px 40px;
+            background-color: #5a8684;
+            border-radius: 2px;
+            border: none;
+            color: aliceblue;
+        }
     }
 }
 

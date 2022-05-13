@@ -25,13 +25,9 @@ export class ImageCropperComponent implements OnInit {
     containWithinAspectRatio = false;
     transform: ImageTransform = {};
 
-    fileChangeEvent(event: any): void {
-        this.imageChangedEvent = event;
-    }
-
     imageCropped(event: ImageCroppedEvent) {
         this.croppedImage = event.base64;
-        //console.log(event, base64ToFile(event.base64));
+        console.log(event);
     }
 
     imageLoaded() {

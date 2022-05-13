@@ -31,12 +31,14 @@ export class SettingsUserComponent {
 
   onIconSelected(event : any) {
     
+    this.imageChangedEvent = event
     this.selectedIcon = <File>event.target.files[0];
     var reader  = new FileReader();
 
     reader.onload = (event: any) => {
       this.selectedIconUrl = event.target.result;
       this.isCheckCrop = true;
+      this.user!.icon = "";
     };
 
     reader.readAsDataURL(this.selectedIcon);
@@ -48,6 +50,7 @@ export class SettingsUserComponent {
 
     reader.onload = (event: any) => {
       this.selectedFontUrl = event.target.result;
+      this.user!.font = "";
     };
 
     reader.readAsDataURL(this.selectedFont);
