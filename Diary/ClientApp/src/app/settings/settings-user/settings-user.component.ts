@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core'
 import { UserService } from '../../service/user.service';
 import { IUser } from '../../models/user.model';
-
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-settings-user',
@@ -17,6 +17,11 @@ export class SettingsUserComponent {
   selectedFont : File | undefined;
   selectedFontUrl: FileReader | undefined | string;
 
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+
+  isCheckCrop : boolean = false
+
   constructor(private userService: UserService) { }
   
   user: IUser | undefined;
@@ -31,6 +36,7 @@ export class SettingsUserComponent {
 
     reader.onload = (event: any) => {
       this.selectedIconUrl = event.target.result;
+      this.isCheckCrop = true;
     };
 
     reader.readAsDataURL(this.selectedIcon);
@@ -78,5 +84,12 @@ export class SettingsUserComponent {
       });
     }
   }
+
+  fileChangeEvent(event: any): void { }
+  imageCropped(event: ImageCroppedEvent) { }
+  imageLoaded(image: LoadedImage) { }
+  cropperReady() { }
+  loadImageFailed() { }
+
   public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);
 }

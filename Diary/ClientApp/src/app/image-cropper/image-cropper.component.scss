@@ -1,0 +1,14 @@
+@import "../color.scss";
+
+.cropper {
+    padding: 20px;
+    position: absolute;
+    background-color: $colorItem;
+    top: calc(50% - 200px);
+
+    image-cropper {
+        width: 250px;
+        height: 300px;
+    }
+}
+

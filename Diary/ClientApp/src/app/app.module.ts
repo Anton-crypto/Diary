@@ -18,17 +18,20 @@ import { TimeLineComponent } from './timeline/timeline.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { VerificationComponent } from './verification/verification.component';
 import { SidebarUserComponent } from './sidebar/sidebar-user/sidebar-user.component';
-import { SettingsUserComponent } from './settings/settings-user/settings-user.component'
+import { SettingsUserComponent } from './settings/settings-user/settings-user.component';
+import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import {MatRadioModule} from '@angular/material/radio';
 
 import { AuthGuard } from './guards/auth.guard';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { JwtModule, } from "@auth0/angular-jwt";
 
 import {StoreModel} from "./store"
+
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -46,12 +49,14 @@ export function tokenGetter() {
     VerificationComponent,
     SettingsUserComponent,
     SidebarUserComponent,
+    ImageCropperComponent,
     WorkPostComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ImageCropperModule,
     MatIconModule,
     MatInputModule,
     MatRadioModule,
