@@ -27,6 +27,7 @@ import {MatRadioModule} from '@angular/material/radio';
 
 import { AuthGuard } from './guards/auth.guard';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { JwtModule, } from "@auth0/angular-jwt";
 
@@ -60,6 +61,7 @@ export function tokenGetter() {
     MatIconModule,
     MatInputModule,
     MatRadioModule,
+    YouTubePlayerModule,
     MatButtonModule,
     RouterModule.forRoot([
       { 

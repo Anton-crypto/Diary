@@ -1,6 +1,19 @@
 @import "../color.scss";
 
 .post {
+    [contentEditable=true]:empty:before {
+        content: attr(placeholder);
+        opacity: 0.6;
+    }
+    .vidio {
+        width: 100%;
+        youtube-player {
+            width: 100%;
+            iframe {
+                width: 100%;
+            }
+        }
+    }
     &__add {
         
         width: 100%;

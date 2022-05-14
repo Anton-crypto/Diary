@@ -40,9 +40,20 @@ export class WorkPostComponent {
   }
 
   ngOnInit(): void {
+    const tag = document.createElement('script');
+
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
   }
   addTextFild(): void {
     this.bodyItem.push({teg : "text" , value : ""})
+  }
+  addInputVidioFild(): void {
+    this.bodyItem.push({teg : "input" , value : ""})
+  }
+  addVidioFild(item:string): void {
+    const vidioId : string = item.split("=")![1].split('&')[0];
+    this.bodyItem.push({teg : "vidio" , value : vidioId})
   }
 }
 
