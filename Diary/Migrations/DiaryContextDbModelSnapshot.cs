@@ -22,17 +22,46 @@ namespace Diary.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Diary.Models.Comment", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PostID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PostID");
+
+                    b.ToTable("Comment", (string)null);
+                });
+
             modelBuilder.Entity("Diary.Models.Post", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BodyText")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid>("ImageID")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BodyUrlImg")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("PostImageID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PostTextID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PostVidioID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TextID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("TimePost")
                         .HasColumnType("datetime2");
@@ -44,11 +73,81 @@ namespace Diary.Migrations
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("VidioID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("PostImageID");
+
+                    b.HasIndex("PostTextID");
+
+                    b.HasIndex("PostVidioID");
 
                     b.HasIndex("UserID");
 
                     b.ToTable("Post", (string)null);
+                });
+
+            modelBuilder.Entity("Diary.Models.SubPost.PostImage", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImgUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PostImage", (string)null);
+                });
+
+            modelBuilder.Entity("Diary.Models.SubPost.PostText", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PostText", (string)null);
+                });
+
+            modelBuilder.Entity("Diary.Models.SubPost.PostVidio", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("VidioUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PostVidio", (string)null);
+                });
+
+            modelBuilder.Entity("Diary.Models.Subscriptions", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Subscriptions", (string)null);
                 });
 
             modelBuilder.Entity("Diary.Models.User", b =>
@@ -80,10 +179,50 @@ namespace Diary.Migrations
                     b.ToTable("User", (string)null);
                 });
 
+            modelBuilder.Entity("Diary.Models.Comment", b =>
+                {
+                    b.HasOne("Diary.Models.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("Diary.Models.Post", b =>
                 {
+                    b.HasOne("Diary.Models.SubPost.PostImage", "PostImage")
+                        .WithMany("Post")
+                        .HasForeignKey("PostImageID");
+
+                    b.HasOne("Diary.Models.SubPost.PostText", "PostText")
+                        .WithMany("Post")
+                        .HasForeignKey("PostTextID");
+
+                    b.HasOne("Diary.Models.SubPost.PostVidio", "PostVidio")
+                        .WithMany("Post")
+                        .HasForeignKey("PostVidioID");
+
                     b.HasOne("Diary.Models.User", "User")
                         .WithMany("Posts")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PostImage");
+
+                    b.Navigation("PostText");
+
+                    b.Navigation("PostVidio");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Diary.Models.Subscriptions", b =>
+                {
+                    b.HasOne("Diary.Models.User", "User")
+                        .WithMany("Subscribers")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -91,9 +230,31 @@ namespace Diary.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Diary.Models.Post", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Diary.Models.SubPost.PostImage", b =>
+                {
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Diary.Models.SubPost.PostText", b =>
+                {
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Diary.Models.SubPost.PostVidio", b =>
+                {
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("Diary.Models.User", b =>
                 {
                     b.Navigation("Posts");
+
+                    b.Navigation("Subscribers");
                 });
 #pragma warning restore 612, 618
         }

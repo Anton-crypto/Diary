@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core'
 import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
+
+
 
 
 @Component({
@@ -11,13 +13,11 @@ import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper
 export class ImageCropperComponent implements OnInit {
 
     @Input() iconFile : File | undefined = undefined
-
-    ngOnInit() {
-        console.log(this.iconFile)
-    }
+    croppedImage: any = '';
+    @Output() dataChanged: EventEmitter<any> = new EventEmitter<any>()
+    ngOnInit() { }
 
     imageChangedEvent: any = '';
-    croppedImage: any = '';
     canvasRotation = 0;
     rotation = 0;
     scale = 1;
@@ -27,7 +27,13 @@ export class ImageCropperComponent implements OnInit {
 
     imageCropped(event: ImageCroppedEvent) {
         this.croppedImage = event.base64;
-        console.log(event);
+       /// console.log(this.dataURItoBlob(event.base64!));
+    }
+    
+    off () {
+        this.dataChanged.emit({
+            croppedImage: this.croppedImage,
+        })
     }
 
     imageLoaded() {

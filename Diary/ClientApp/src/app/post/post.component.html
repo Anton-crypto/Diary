@@ -1,28 +1,29 @@
-<div class="stories__container" *ngIf="posts">
-    <div class="story" *ngFor="let item of posts">
+<div class="stories__container" *ngIf="post">
+    <div class="story">
         <div class="story__header">
             <div class="story__author">
                 <div class="story__img">
-                    <img [src]=" item.user.icon" alt="" srcset="" *ngIf=" item.user.icon != ''">
-                    <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf=" item.user.icon == ''">
+                    <img [src]="createImgPath(post.user.icon)" alt="" srcset="" *ngIf=" post.user.icon != ''">
+                    <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf=" post.user.icon == ''">
                 </div>
                 <div class="author__name">
-                    {{item.user.name}}
+                    {{post.user.name}}
                 </div>
                 <div class="story__time">
-                    {{item.timePost}}
+                    {{post.timePost}}
                 </div>
             </div>
-            <div class="post-title">
-                
+            <div class = "threeDots">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/></svg>
+                <div class = "bntEdit">Редактировать</div>
             </div>
         </div>
         <div class="story__body">
             <div class="story__body-text">
-                {{item.bodyText}}
+                {{post.bodyText}}
             </div>
-            <div class="story__body-img" *ngIf = "item.bodyUrlImg != ''">
-                <img [src]="createImgPath(item.bodyUrlImg)" alt="" srcset="">
+            <div class="story__body-img" *ngIf="post.bodyUrlImg != ''">
+                <img [src]="createImgPath(post.bodyUrlImg)" alt="" srcset="">
             </div>
         </div>
         <div class="post-menu">

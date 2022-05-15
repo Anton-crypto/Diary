@@ -80,8 +80,6 @@ namespace Diary.Controllers
                         ID = Guid.NewGuid(),
                         TimePost = DateTime.Today,
                         Title = title,
-                        BodyText = bodyText,
-                        BodyUrlImg = dbPath,
                         UserID = userId,
                     };
 

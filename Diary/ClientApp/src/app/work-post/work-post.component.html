@@ -3,33 +3,57 @@
         <input type="text" class="post__input-title" placeholder="Заголовок или ссылка на пост для ответа">
     </div>
     <div class = "post__body">
-        <div class = "post__body-item" *ngFor="let item of bodyItem">
+        <div class = "post__body-item" *ngFor="let item of bodyItem;let i=index">
             <div class = "post__body-item" *ngIf="item.teg =='text'">
                 <div
-                    role="textbox"
-                    contenteditable="true" 
-                    class="post__input-body contenteditable" 
-                    placeholder="Contenteditable placeholder"
-                    name="text"
+                    role = "textbox"
+                    contenteditable = "true" 
+                    class = "post__input-body contenteditable" 
+                    data-placeholder = 'Введите текст'
                     #topicTitle
                     [textContent]="item.value" (input)="item.value=topicTitle.innerText"
                 ></div>
+                <div class="cross" *ngIf="i != 0 || bodyItem.length > 1">
+                    <div *ngIf="i != 0" (click)="upItem(i)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" color="#ffffff" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 7l7-7l7 7"/></svg></div>
+                    <div (click)="deleteItemFile(i)"><svg xmlns="http://www.w3.org/2000/svg" color="#ffffff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8L2.146 2.854Z"/></svg></div>
+                    <div *ngIf="i < bodyItem.length - 1" (click)="downItem(i)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" color="#ffffff"  role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 9l7 7l7-7"/></svg></div>
+                </div>
             </div>
             <div class = "post__body-item" *ngIf="item.teg =='image'">
                 <div>
                     <img class="post__body-img" [src]="item.value" alt="" srcset="">
                 </div>
+                <div class="cross" *ngIf="i != 0 || bodyItem.length > 1">
+                    <div *ngIf="i != 0" (click)="upItem(i)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" color="#ffffff" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 7l7-7l7 7"/></svg></div>
+                    <div (click)="deleteItemFile(i)"><svg xmlns="http://www.w3.org/2000/svg" color="#ffffff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8L2.146 2.854Z"/></svg></div>
+                    <div *ngIf="i < bodyItem.length - 1" (click)="downItem(i)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" color="#ffffff"  role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 9l7 7l7-7"/></svg></div>
+                </div>
             </div>
             <div *ngIf="item.teg =='input'" style="display:flex;">
-                <input type="text" class="post__input-title" [(ngModel)]="item.value"  placeholder="Ссылка на Youtube, YouTube Shorts, VK, Vimeo">
-                <button (click)="addVidioFild(item.value)">ОК</button>
+                <input 
+                    type="text" 
+                    class="post__input-title" 
+                    [(ngModel)]="item.value"  
+                    placeholder="Ссылка на Youtube, YouTube Shorts, VK, Vimeo"
+                    (input)="addVidioFild(item.value, i)"
+                >
+                <div class="cross" *ngIf="i != 0 || bodyItem.length > 1">
+                    <div *ngIf="i != 0" (click)="upItem(i)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" color="#ffffff" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 7l7-7l7 7"/></svg></div>
+                    <div (click)="deleteItemFile(i)"><svg xmlns="http://www.w3.org/2000/svg" color="#ffffff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8L2.146 2.854Z"/></svg></div>
+                    <div *ngIf="i < bodyItem.length - 1" (click)="downItem(i)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" color="#ffffff"  role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 9l7 7l7-7"/></svg></div>
+                </div>
             </div>
             <div class="vidio" *ngIf="item.teg =='vidio'">
                 <youtube-player
+                    class="youtube-player"
                     [videoId]="item.value"
-                    [width]="400"
                 >
                 </youtube-player>
+                <div class="cross" *ngIf="i != 0 || bodyItem.length > 1">
+                    <div *ngIf="i != 0" (click)="upItem(i)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" color="#ffffff" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 7l7-7l7 7"/></svg></div>
+                    <div (click)="deleteItemFile(i)"><svg xmlns="http://www.w3.org/2000/svg" color="#ffffff" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8L2.146 2.854Z"/></svg></div>
+                    <div *ngIf="i < bodyItem.length - 1" (click)="downItem(i)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" color="#ffffff"  role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 9l7 7l7-7"/></svg></div>
+                </div>
             </div>
         </div>
         <div class="post__menu">
@@ -53,7 +77,8 @@
                 </div>
             </div>
         </div>
-        <!-- <div class = "post__body-img"></div>
-        <div class = "post__body-video"></div> -->
     </div>
+</div>
+<div>
+    <button (click)="addNewPost()">Добавить</button>
 </div>

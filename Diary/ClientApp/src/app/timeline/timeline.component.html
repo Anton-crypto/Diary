@@ -1,4 +1,3 @@
-<div>
-    <app-post></app-post>
-    TimeLine
+<div >
+    <app-post *ngFor="let post of posts" [post]="post"></app-post>
 </div>  

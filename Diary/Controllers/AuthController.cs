@@ -106,6 +106,9 @@ namespace Diary.Controllers
                 Email = register.Email,
                 Name = register.NikeName,
                 Icon = "",
+                Font = "",
+                About = "",
+                Gender = "",
             };
 
             await _contextDiary.Users.AddAsync(userDiary);

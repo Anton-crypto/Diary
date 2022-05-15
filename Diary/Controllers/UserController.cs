@@ -74,7 +74,7 @@ namespace Diary.Controllers
                     }
 
                     var fileName = Guid.NewGuid().ToString() + "." +
-                        ContentDispositionHeaderValue.Parse(item.ContentDisposition).FileName.Trim('"').Split('.')[1];
+                        item.ContentType.Trim('"').Split('/')[1];
 
                     var fullPath = Path.Combine(pathToSave, fileName);
                     var dbPath = Path.Combine(folderName, fileName);

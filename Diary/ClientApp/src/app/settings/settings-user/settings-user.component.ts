@@ -1,7 +1,7 @@
-import { Component, Inject } from '@angular/core'
+import { Component, Inject, ViewChild, AfterViewInit } from '@angular/core'
 import { UserService } from '../../service/user.service';
 import { IUser } from '../../models/user.model';
-import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { ImageCroppedEvent, ImageCropperComponent, LoadedImage } from 'ngx-image-cropper';
 
 @Component({
   selector: 'app-settings-user',
@@ -9,26 +9,65 @@ import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
   styleUrls: ['./settings-user.component.scss']
 })
 
-export class SettingsUserComponent {
+export class SettingsUserComponent implements AfterViewInit{
 
   selectedIcon : File | undefined;
   selectedIconUrl: FileReader | undefined | string;
+  selectedIconUrlCrop: FileReader | undefined | string;
 
   selectedFont : File | undefined;
   selectedFontUrl: FileReader | undefined | string;
 
   imageChangedEvent: any = '';
-  croppedImage: any = '';
+  croppedImage: any;
 
   isCheckCrop : boolean = false
 
   constructor(private userService: UserService) { }
   
   user: IUser | undefined;
+
+  @ViewChild(ImageCropperComponent)
+  viewChild: ImageCropperComponent |any
+
   ngOnInit(): void {
     this.getUser();
   }
+  ngAfterViewInit() {
+    console.log(this.viewChild)
+  }
+  dataChangeHandler(data : any) {
+    this.isCheckCrop = false;
+    this.croppedImage = this.blobToFile(this.dataURItoBlob(data.croppedImage),"file." + this.dataURItoBlob(data.croppedImage).type.split('/')[1])
+    this.selectedIconUrlCrop = data.croppedImage
+    console.log(this.croppedImage)
+  }  
+  dataURItoBlob(dataURI : string) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
 
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+      byteString = atob(dataURI.split(',')[1]);
+    else
+      byteString = unescape(dataURI.split(',')[1]);
+
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ia], {type:mimeString});
+  }
+  public blobToFile = (theBlob: Blob, fileName:string): File => {
+    var b: any = theBlob;
+    //A Blob() is almost a File() - it just missing the two properties below which we will add
+    b.lastModifiedDate = new Date();
+    b.name = fileName;
+
+    //Cast to a File() type
+    return <File>theBlob;
+  }
   onIconSelected(event : any) {
     
     this.imageChangedEvent = event
@@ -69,7 +108,7 @@ export class SettingsUserComponent {
         formData.append('font', this.selectedFont);
       }
       if(this.selectedIcon != undefined) {
-        formData.append('icon', this.selectedIcon);
+        formData.append('icon', this.croppedImage);
       }
   
       this.userService.putUser(formData).subscribe((() => {

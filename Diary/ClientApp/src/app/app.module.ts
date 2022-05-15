@@ -34,6 +34,7 @@ import { JwtModule, } from "@auth0/angular-jwt";
 import {StoreModel} from "./store"
 
 
+
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
 }

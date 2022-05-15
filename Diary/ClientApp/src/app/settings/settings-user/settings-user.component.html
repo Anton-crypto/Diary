@@ -17,12 +17,12 @@
       *ngIf="selectedFontUrl != null" 
     >
     <img 
+      *ngIf='user.font != null'
       [src]="createImgPath(user.font)" 
-      *ngIf="user.font != ''"
     >
     <img src="../../../assets/img/font.jpg" alt="" srcset="" *ngIf="selectedFontUrl == null && (user.font == '' || user.font == null)">
   </div>
-  
+  {{user.font}}
   <div class="avatar" (click)="fileInputIcon.click()">
     <input
       style="display: none"
@@ -32,8 +32,8 @@
     >
     <div>
       <img 
-        [src]="selectedIconUrl" 
-        *ngIf="selectedIconUrl != null"
+        [src]="selectedIconUrlCrop" 
+        *ngIf="selectedIconUrlCrop != null"
       >
       <img 
         [src]="createImgPath(user.icon)" 
@@ -81,4 +81,4 @@
   </div>
 </div>
 
-<app-img-crop *ngIf="isCheckCrop" [iconFile]="imageChangedEvent" class="set-cropper"></app-img-crop>
+<app-img-crop *ngIf="isCheckCrop" [iconFile]="imageChangedEvent" class="set-cropper" (dataChanged)="dataChangeHandler($event)"></app-img-crop>

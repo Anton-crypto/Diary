@@ -3,32 +3,56 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatedResponse } from '../models/authenticatedresponse.model';
 import { StoreModel } from '../store';
 import { LoginModel } from '../models/login.model';
-import { RegisterModel } from '../models/register.model';
 import { Observable, of } from 'rxjs';
-import { Md5 } from 'ts-md5/dist/md5';
+import { JwtHelperService } from "@auth0/angular-jwt";
+import { IPost } from '../models/post.model';
+
 
 @Injectable({ providedIn: 'root' })
-export class UserService {
+export class PostService {
 
-    private baseUrl: string 
+    private baseUrl : string = "";
+    private baseUrlImg : string = "";
+
+    private httpOptions = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
 
     constructor (
         private http: HttpClient, 
         private storeModel:StoreModel,
+        private jwtHelper: JwtHelperService
     ) { 
         this.baseUrl = storeModel.getBaseUrl()
+        const token = localStorage.getItem("jwt");
+        const refreshToken: string = localStorage.getItem("refreshToken")!;
+
+        this.baseUrl = storeModel.getBaseUrl()
+        this.baseUrlImg = storeModel.getBaseUrlImg()
+
+        if(token && !this.jwtHelper.isTokenExpired(token) && refreshToken && !this.jwtHelper.isTokenExpired(refreshToken)) {
+            const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
+            this.httpOptions.headers = new HttpHeaders({
+                'Content-Type':  'application/json',
+                Authorization: credentials
+            })
+        }
     }
 
-    addPost(credentials: LoginModel) : Observable<AuthenticatedResponse> {
-
-        return this.http.post<AuthenticatedResponse>(this.baseUrl + `auth/login`, credentials, {
+    addPost(formData: FormData) : Observable<IPost> {
+        return this.http.post<IPost>(this.baseUrl + `posts`, {
             headers: new HttpHeaders({ "Content-Type": "application/json"})
         })
     }
     putPost(credentials: LoginModel) : Observable<AuthenticatedResponse> {
-
         return this.http.put<AuthenticatedResponse>(this.baseUrl + `auth/login`, credentials, {
             headers: new HttpHeaders({ "Content-Type": "application/json"})
         })
+    }
+    getPosts(): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts`, this.httpOptions);
+    }
+    createImgPath (serverPath: string) { 
+        return this.baseUrlImg + serverPath; 
     }
 }

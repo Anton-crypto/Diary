@@ -25,7 +25,9 @@ export class SidebarUserComponent {
     if(user) {
       this.userService.getUser(user.id).subscribe((hero) => {
         this.user = hero[0];
-        console.log(hero[0])
+        if(!hero[0]) {
+          this.logOut();
+        }
       });
     }
   }
