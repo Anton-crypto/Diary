@@ -1,6 +1,6 @@
 <div class="post__add">
     <div>
-        <input type="text" class="post__input-title" placeholder="Заголовок или ссылка на пост для ответа">
+        <input type="text" class="post__input-title" [(ngModel)]="title" placeholder="Заголовок или ссылка на пост для ответа">
     </div>
     <div class = "post__body">
         <div class = "post__body-item" *ngFor="let item of bodyItem;let i=index">

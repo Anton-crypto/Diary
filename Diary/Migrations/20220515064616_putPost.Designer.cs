@@ -4,6 +4,7 @@ using Diary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Diary.Migrations
 {
     [DbContext(typeof(DiaryContextDb))]
-    partial class DiaryContextDbModelSnapshot : ModelSnapshot
+    [Migration("20220515064616_putPost")]
+    partial class putPost
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +73,6 @@ namespace Diary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DisplayNumber")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ImgUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -93,9 +92,6 @@ namespace Diary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("DisplayNumber")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("PostID")
                         .HasColumnType("uniqueidentifier");
 
@@ -114,9 +110,6 @@ namespace Diary.Migrations
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DisplayNumber")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("PostID")
                         .HasColumnType("uniqueidentifier");

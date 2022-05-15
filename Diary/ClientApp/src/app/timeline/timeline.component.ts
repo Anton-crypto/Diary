@@ -16,7 +16,7 @@ export class TimeLineComponent {
   
   constructor(private postService: PostService) { }
   ngOnInit(): void {
-    
+    this.getPosts();
   }
   
   getPosts() {

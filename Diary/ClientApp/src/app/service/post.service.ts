@@ -40,9 +40,7 @@ export class PostService {
     }
 
     addPost(formData: FormData) : Observable<IPost> {
-        return this.http.post<IPost>(this.baseUrl + `posts`, {
-            headers: new HttpHeaders({ "Content-Type": "application/json"})
-        })
+        return this.http.post<IPost>(this.baseUrl + `posts`, formData)
     }
     putPost(credentials: LoginModel) : Observable<AuthenticatedResponse> {
         return this.http.put<AuthenticatedResponse>(this.baseUrl + `auth/login`, credentials, {

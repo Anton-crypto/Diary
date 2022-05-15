@@ -12,6 +12,8 @@ export class WorkPostComponent {
   selectedFile: File | null = null;
   selectedFileUrl: FileReader | null | string = null;
 
+  title : string = ""
+
   bodyItem : ITest[] = [
     {
       teg : "text",
@@ -78,30 +80,31 @@ export class WorkPostComponent {
 
       let files : File[] = []
       const formData = new FormData();
-      let indexFile: number = 0;
-      let indexText: number = 0;
-      let indexVidio: number = 0;
+
+      let index: number = 0;
 
       this.bodyItem.forEach(item  => {
         if(item.teg == "image") {
           if(item.file) {
-            formData.append('font' + indexFile, item.file);
-            indexFile ++;
+            formData.append('font-' + index, item.file);
+            index++;
           }
         };
         if(item.teg == "text") {
-          if(item.file) {
-            formData.append('font' + indexText, item.value);
-            indexFile ++;
-          }
+          formData.append('text-' + index, item.value);
+          index++;
         };
         if(item.teg == "vidio") {
-          if(item.file) {
-            formData.append('font' + indexVidio, item.value);
-            indexFile ++;
-          }
+          formData.append('vidio-' + index, item.value);
+          index ++;
         };
       });
+
+      let user = JSON.parse(localStorage.getItem("userModel")!);
+
+      formData.append('email-0', user.email);
+      formData.append('title-0', this.title);
+
       this.postService.addPost(formData).subscribe((() => {
       }));
     }
