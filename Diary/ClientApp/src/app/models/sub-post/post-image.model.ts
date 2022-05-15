@@ -1,6 +1,6 @@
-export interface IPostImage {
+export interface IPostImages {
     id? : string
     ImgUrl? : string 
-    DisplayNumber? : string
+    displayNumber? : string
     postid? : string
 }

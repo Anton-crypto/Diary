@@ -9,6 +9,16 @@
         background-color: #21262c;
         color: #c9cbcd;
 
+        &__menu {
+            display: flex;
+            padding: 15px 23px;
+            border-top: 1px solid $colorBorder;
+            background-color: $colorBack;
+
+            &-item {
+                margin-right: 10px;
+            }
+        }
         &__header {
             padding: 15px 23px 0;
             margin-bottom: 16px;
@@ -75,6 +85,7 @@
                     width: 100% !important;
                 }
             }
+            
         }
     }
     .author {

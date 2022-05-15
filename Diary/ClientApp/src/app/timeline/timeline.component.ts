@@ -22,11 +22,24 @@ export class TimeLineComponent {
   getPosts() {
     this.postService.getPosts().subscribe((posts) =>  {
       this.posts = posts
-      console.log(posts)
       this.posts.forEach(post => {
+
         const time = this.diffDays(new Date(post.timePost), new Date());
         post.timePost = ` ${time} дня назад`;
+
+        let item : any [] = [] 
+
+        if(post.postImages != undefined && post.postImages.length > 0) 
+          item.push(...post.postImages)
+        if(post.postTexts != undefined && post.postTexts.length > 0) 
+          item.push(...post.postTexts)
+        if(post.postVidio != undefined && post.postVidio.length > 0) 
+          item.push(...post.postVidio)
+
+        item.sort((a, b) => a.displayNumber > b.displayNumber ? 1 : -1);
+        post.postItem = item
       });
+      console.log(this.posts)
     });
   }
   private diffDays(dateFirst: Date, dateLast: Date): number {

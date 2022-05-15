@@ -1,6 +1,6 @@
 export interface IPostText {
     id? : string
     text? : string
-    DisplayNumber? : string
+    displayNumber? : string
     postid? : string
 }

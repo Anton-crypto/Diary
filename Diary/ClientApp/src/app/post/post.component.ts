@@ -14,6 +14,8 @@ export class PostComponent {
   constructor(private postService: PostService) { }
   @Input() post: IPost | undefined;
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+ 
+  }
   public createImgPath = (serverPath: string) => this.postService.createImgPath(serverPath);
 }

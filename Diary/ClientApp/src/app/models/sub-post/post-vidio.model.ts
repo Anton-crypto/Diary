@@ -1,6 +1,6 @@
 export interface IPostVidio {
     id? : string
     vidiourl? : string
-    DisplayNumber? : string
+    displayNumber? : string
     PostID? : string
 }
