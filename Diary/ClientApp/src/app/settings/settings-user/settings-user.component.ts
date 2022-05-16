@@ -32,7 +32,9 @@ export class SettingsUserComponent implements AfterViewInit{
 
   ngOnInit(): void {
     this.getUser();
+    console.log(this.user)
   }
+
   ngAfterViewInit() {
     console.log(this.viewChild)
   }
@@ -77,7 +79,6 @@ export class SettingsUserComponent implements AfterViewInit{
     reader.onload = (event: any) => {
       this.selectedIconUrl = event.target.result;
       this.isCheckCrop = true;
-      this.user!.icon = "";
     };
 
     reader.readAsDataURL(this.selectedIcon);
@@ -113,6 +114,8 @@ export class SettingsUserComponent implements AfterViewInit{
   
       this.userService.putUser(formData).subscribe((() => {
         this.getUser();
+        this.selectedFont = undefined;
+        this.selectedFontUrl = undefined ;
       }));
     }
   }
@@ -122,7 +125,7 @@ export class SettingsUserComponent implements AfterViewInit{
     if(user) {
       this.userService.getUser(user.id).subscribe((hero) => {
         this.user = hero[0];
-        console.log(hero[0])
+        console.log(this.user)
       });
     }
   }

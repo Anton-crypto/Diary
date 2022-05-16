@@ -22,6 +22,7 @@ export class TimeLineComponent {
   getPosts() {
     this.postService.getPosts().subscribe((posts) =>  {
       this.posts = posts
+      let user = JSON.parse(localStorage.getItem("user")!);
       this.posts.forEach(post => {
 
         const time = this.diffDays(new Date(post.timePost), new Date());
@@ -38,7 +39,11 @@ export class TimeLineComponent {
 
         item.sort((a, b) => a.displayNumber > b.displayNumber ? 1 : -1);
         post.postItem = item
+
+        post.isAccessories = user.email == post.user.email ?  true : false;
       });
+
+
       console.log(this.posts)
     });
   }

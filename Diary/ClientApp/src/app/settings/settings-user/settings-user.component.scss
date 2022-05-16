@@ -114,6 +114,20 @@
             border-radius: 100%;
             padding: 2px;
         }
+        .back {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(34, 39, 43, 0.5);
+            border-radius: 100%;
+            position: absolute;
+            visibility: hidden;
+            transition: opacity 200ms;
+        }
+    }
+    .avatar:hover {
+        .back {
+            visibility: inherit;
+        }
     }
 }
 

@@ -20,7 +20,7 @@ namespace Diary.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> Get()
         {
-            List<Post>? posts = _context.Posts.Include(p => p.User).ToList();
+                List<Post>? posts = _context.Posts.Include(p => p.User).ToList();
 
             foreach (var post in posts)
             {
@@ -40,7 +40,6 @@ namespace Diary.Controllers
         }
 
         [HttpGet("{id}")]
-
         public async Task<ActionResult<Post>> Get(Guid id)
         {
             Post? post = _context.Posts.Include(p => p.User).FirstOrDefault(x => x.ID == id);

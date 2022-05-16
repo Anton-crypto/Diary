@@ -20,6 +20,8 @@ import { VerificationComponent } from './verification/verification.component';
 import { SidebarUserComponent } from './sidebar/sidebar-user/sidebar-user.component';
 import { SettingsUserComponent } from './settings/settings-user/settings-user.component';
 import { ImageCropperComponent } from './image-cropper/image-cropper.component';
+import { PostDetailsComponent } from './post/post-details/post-details.component';
+import { CommentComponent } from './post/comment/comment.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -52,7 +54,9 @@ export function tokenGetter() {
     SettingsUserComponent,
     SidebarUserComponent,
     ImageCropperComponent,
-    WorkPostComponent
+    WorkPostComponent,
+    PostDetailsComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -81,6 +85,14 @@ export function tokenGetter() {
             path: 'setting-user',
             component: SettingsUserComponent,
           },
+          {
+            path: 'setting-user',
+            component: SettingsUserComponent,
+          },
+          { 
+            path: 'post-details/:id', 
+            component: PostDetailsComponent,
+          }
         ],
       },
       // { path: '/work-post', component: WorkPostComponent },

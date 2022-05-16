@@ -38,18 +38,18 @@ export class PostService {
             })
         }
     }
-
+    getPost(id: string): Observable<IPost> {
+        return this.http.get<IPost>(this.baseUrl + `posts/${id}`,this.httpOptions);    
+      }
     addPost(formData: FormData) : Observable<IPost> {
-        return this.http.post<IPost>(this.baseUrl + `posts`, formData)
+        return this.http.post<IPost>(this.baseUrl + `posts`,formData)
     }
-    putPost(credentials: LoginModel) : Observable<AuthenticatedResponse> {
-        return this.http.put<AuthenticatedResponse>(this.baseUrl + `auth/login`, credentials, {
-            headers: new HttpHeaders({ "Content-Type": "application/json"})
-        })
+    putPost(formData: FormData) : Observable<AuthenticatedResponse> {
+        return this.http.put<AuthenticatedResponse>(this.baseUrl + `auth/login`,formData)
     }
     getPosts(): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `posts`, this.httpOptions);
-    }
+    }   
     createImgPath (serverPath: string) { 
         return this.baseUrlImg + serverPath; 
     }

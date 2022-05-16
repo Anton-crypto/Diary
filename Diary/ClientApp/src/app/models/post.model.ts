@@ -17,9 +17,10 @@ export interface IPost {
         icon : string
         posts : []
     }
-    Comment : IComment []
+    comments : IComment []
     postVidio : IPostVidio []
     postTexts : IPostText []
     postImages : IPostImages []
     postItem : any []
+    isAccessories : any
 }

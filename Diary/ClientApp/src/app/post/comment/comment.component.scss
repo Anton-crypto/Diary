@@ -1,0 +1,41 @@
+@import "../../color.scss";
+
+.comment {
+    &__header {
+        border-bottom: 1px solid $colorBorder;
+        padding: 10px 24px;
+        color: $colorText;
+        background-color: $colorItem;
+    }
+    &__input {
+        input:focus-visible{
+            border: 1px solid $colorElent;
+            outline: none !important;
+        }
+        input {
+            border: 1px solid $colorBorder;
+            padding: 15px 15px;
+            background-color: $colorItem;
+            width: 100%;
+            color: $colorText;
+        }
+    }
+    &__button {
+        width: 100%;
+        background-color: $colorBack;
+        button {
+            background-color: $colorElent;
+            padding: 0 20px;
+            border-radius: 2px;
+            text-align: inherit;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 32px;
+            font-weight: 500;
+            outline: 0;
+            border: 0;
+            color: aliceblue;
+        }
+        padding: 16px 20px;
+    }
+}

@@ -11,7 +11,7 @@ namespace Diary.Models
         public Guid UserID { get; set; }
         public virtual User User { get; set; }
 
-        public virtual ICollection<Comment>? Comments { get; set; }
+        public ICollection<Comment>? Comments { get; set; }
         public virtual ICollection<PostImage>? PostImages { get; set; }
         public virtual ICollection<PostVidio>? PostVidios { get; set; }
         public virtual ICollection<PostText>? PostTexts { get; set; }

@@ -21,6 +21,16 @@ namespace Diary.Models
             modelBuilder.Entity<Post>().ToTable("Post");
             modelBuilder.Entity<User>().ToTable("User");
             modelBuilder.Entity<Comment>().ToTable("Comment");
+            //modelBuilder
+            //    .Entity<Comment>()
+            //    .HasOne(e => e.User)
+            //    .WithMany(e => e.Comments)
+            //    .OnDelete(DeleteBehavior.SetNull);
+            //modelBuilder
+            //    .Entity<Comment>()
+            //    .HasOne(e => e.Post)
+            //    .WithMany(e => e.Comments)
+            //    .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Subscriptions>().ToTable("Subscriptions");
             modelBuilder.Entity<PostVidio>().ToTable("PostVidio");
             modelBuilder.Entity<PostImage>().ToTable("PostImage");

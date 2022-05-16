@@ -21,21 +21,19 @@ export class SidebarUserComponent {
   
   getUser() {
     let user = JSON.parse(localStorage.getItem("user")!);
-
+    
     if(user) {
       this.userService.getUser(user.id).subscribe((hero) => {
         this.user = hero[0];
-        localStorage.setItem("userModel", JSON.stringify(user));
-        if(!hero[0]) {
-          this.logOut();
-        }
       });
+      // this.logOut();
     }
   }
   logOut() {
     localStorage.removeItem("jwt");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
+    localStorage.removeItem("userModel");
   }
   public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);
 }

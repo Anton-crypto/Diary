@@ -13,5 +13,6 @@
 
         public virtual ICollection<Post>? Posts { get; set; }
         public virtual ICollection<Subscriptions>? Subscribers { get; set; }
+        public virtual ICollection<Comment>? Comments { get; set; }
     }
 }

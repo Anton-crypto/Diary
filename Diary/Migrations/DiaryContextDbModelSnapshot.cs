@@ -28,16 +28,23 @@ namespace Diary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("PostID")
+                    b.Property<Guid?>("PostID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimePost")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UserID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
                     b.HasIndex("PostID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("Comment", (string)null);
                 });
@@ -180,11 +187,15 @@ namespace Diary.Migrations
                 {
                     b.HasOne("Diary.Models.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostID");
+
+                    b.HasOne("Diary.Models.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserID");
 
                     b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Diary.Models.Post", b =>
@@ -255,6 +266,8 @@ namespace Diary.Migrations
 
             modelBuilder.Entity("Diary.Models.User", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("Posts");
 
                     b.Navigation("Subscribers");

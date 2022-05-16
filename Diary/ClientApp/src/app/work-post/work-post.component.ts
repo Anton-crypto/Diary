@@ -100,14 +100,29 @@ export class WorkPostComponent {
         };
       });
 
-      let user = JSON.parse(localStorage.getItem("userModel")!);
+      let user = JSON.parse(localStorage.getItem("user")!);
 
       formData.append('email-0', user.email);
       formData.append('title-0', this.title);
 
       this.postService.addPost(formData).subscribe((() => {
+        this.reset();
       }));
     }
+  }
+  private reset() : void {
+    
+  this.selectedFile = null;
+  this.selectedFileUrl = null;
+
+  this.title = ""
+
+  this.bodyItem  = [
+    {
+      teg : "text",
+      value : ""
+    },
+  ]
   }
 }
 
