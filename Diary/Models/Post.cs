@@ -15,5 +15,7 @@ namespace Diary.Models
         public virtual ICollection<PostImage>? PostImages { get; set; }
         public virtual ICollection<PostVidio>? PostVidios { get; set; }
         public virtual ICollection<PostText>? PostTexts { get; set; }
+        public virtual ICollection<Like>? Likes { get; set; }
+        public virtual ICollection<Saved>? Saveds { get; set; }
     }
 }

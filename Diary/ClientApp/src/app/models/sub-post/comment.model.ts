@@ -3,5 +3,5 @@ export interface IComment {
     text? : string 
     postid? : string
     userid? : string
-    timePost : Date
+    timePost? : Date | number
 }

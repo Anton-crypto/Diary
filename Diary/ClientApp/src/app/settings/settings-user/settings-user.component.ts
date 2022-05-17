@@ -130,11 +130,5 @@ export class SettingsUserComponent implements AfterViewInit{
     }
   }
 
-  fileChangeEvent(event: any): void { }
-  imageCropped(event: ImageCroppedEvent) { }
-  imageLoaded(image: LoadedImage) { }
-  cropperReady() { }
-  loadImageFailed() { }
-
   public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);
 }

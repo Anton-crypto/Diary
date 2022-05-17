@@ -1,14 +1,33 @@
-<div class="comment border" *ngIf="commens">
+<div class="comment border">
     <div class="comment__header">
         Все комментарии
     </div>
-    <div class="comment__list">
+    <div *ngIf="post != undefined && post.comments != undefined">
+        <div class="comment__list" *ngFor="let comment of post.comments">
+            <div class="comment__list-header">
+                <div class="comment__img">
+                    <img [src]="createImgPath(post.user.icon)" alt="" srcset="" *ngIf=" post.user.icon != ''">
+                    <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf=" post.user.icon == ''">
+                </div>
+                <div *ngIf="user != undefined">
+                    {{user.name}}
+                </div>
+                <div>
+                    {{comment.timePost}}
+                </div>
+                <div>
 
+                </div>
+            </div>
+            <div class="comment__list-text">
+                {{comment.text}}
+            </div>
+        </div>
     </div>
     <div class="comment__input">
         <input type="text" [(ngModel)]="text" placeholder="Введите текст комментария">
     </div>
     <div class="comment__button">
-        <button>Отправить</button>
+        <button (click)="addComment()">Отправить</button>
     </div>
 </div>

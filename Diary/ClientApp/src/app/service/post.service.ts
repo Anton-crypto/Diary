@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatedResponse } from '../models/authenticatedresponse.model';
 import { StoreModel } from '../store';
-import { LoginModel } from '../models/login.model';
 import { Observable, of } from 'rxjs';
 import { JwtHelperService } from "@auth0/angular-jwt";
-import { IPost } from '../models/post.model';
 
+import { IPost } from '../models/post.model';
+import { IComment } from '../models/sub-post/comment.model';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -40,9 +40,12 @@ export class PostService {
     }
     getPost(id: string): Observable<IPost> {
         return this.http.get<IPost>(this.baseUrl + `posts/${id}`,this.httpOptions);    
-      }
+    }
     addPost(formData: FormData) : Observable<IPost> {
         return this.http.post<IPost>(this.baseUrl + `posts`,formData)
+    }
+    addComment(comment : IComment ): Observable<IComment> {
+        return this.http.post<IComment>(this.baseUrl + `comment`, comment, this.httpOptions)
     }
     putPost(formData: FormData) : Observable<AuthenticatedResponse> {
         return this.http.put<AuthenticatedResponse>(this.baseUrl + `auth/login`,formData)
@@ -52,5 +55,12 @@ export class PostService {
     }   
     createImgPath (serverPath: string) { 
         return this.baseUrlImg + serverPath; 
+    }
+    public diffDays(dateFirst: Date, dateLast: Date): number {
+
+        const timeDiff : number = Math.abs(dateFirst.getTime() - dateLast.getTime());
+        const diffDays : number = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+        
+        return diffDays;
     }
 }

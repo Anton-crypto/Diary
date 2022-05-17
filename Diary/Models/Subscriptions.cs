@@ -3,9 +3,8 @@
     public class Subscriptions
     {
         public Guid ID { get; set; }
-        
-        public Guid UserID { get; set; }
-        public User? User { get; set; }
-
+        public User Users { get; set; }
+        public Guid? UserSubscriptionID { get; set; }
+        public Guid? UserWriterID { get; set; }
     }
 }

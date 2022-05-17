@@ -2,6 +2,11 @@
 {
     public class User
     {
+        public User()
+        {
+            Subscribers = new List<Subscriptions>();
+        }
+
         public Guid ID { get; set; }
 
         public string? Email { get; set; }
@@ -14,5 +19,7 @@
         public virtual ICollection<Post>? Posts { get; set; }
         public virtual ICollection<Subscriptions>? Subscribers { get; set; }
         public virtual ICollection<Comment>? Comments { get; set; }
+        public virtual ICollection<Like>? Likes { get; set; }
+        public virtual ICollection<Saved>? Saveds { get; set; }
     }
 }

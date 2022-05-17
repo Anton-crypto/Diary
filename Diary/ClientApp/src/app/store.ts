@@ -17,5 +17,4 @@ export class StoreModel {
     public getBaseUrlImg() : string {
         return `${this.params.protocol + this.params.host}`
     }
-
 }

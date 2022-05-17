@@ -49,6 +49,30 @@ namespace Diary.Migrations
                     b.ToTable("Comment", (string)null);
                 });
 
+            modelBuilder.Entity("Diary.Models.Like", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PostID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("TimeLike")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PostID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Likes");
+                });
+
             modelBuilder.Entity("Diary.Models.Post", b =>
                 {
                     b.Property<Guid>("ID")
@@ -70,6 +94,30 @@ namespace Diary.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Post", (string)null);
+                });
+
+            modelBuilder.Entity("Diary.Models.Saved", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PostID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("TimeLike")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PostID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Saveds");
                 });
 
             modelBuilder.Entity("Diary.Models.SubPost.PostImage", b =>
@@ -144,12 +192,18 @@ namespace Diary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid?>("UserSubscriptionID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserWriterID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UsersID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UsersID");
 
                     b.ToTable("Subscriptions", (string)null);
                 });
@@ -198,6 +252,21 @@ namespace Diary.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Diary.Models.Like", b =>
+                {
+                    b.HasOne("Diary.Models.Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("PostID");
+
+                    b.HasOne("Diary.Models.User", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Diary.Models.Post", b =>
                 {
                     b.HasOne("Diary.Models.User", "User")
@@ -205,6 +274,21 @@ namespace Diary.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Diary.Models.Saved", b =>
+                {
+                    b.HasOne("Diary.Models.Post", "Post")
+                        .WithMany("Saveds")
+                        .HasForeignKey("PostID");
+
+                    b.HasOne("Diary.Models.User", "User")
+                        .WithMany("Saveds")
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -244,31 +328,39 @@ namespace Diary.Migrations
 
             modelBuilder.Entity("Diary.Models.Subscriptions", b =>
                 {
-                    b.HasOne("Diary.Models.User", "User")
+                    b.HasOne("Diary.Models.User", "Users")
                         .WithMany("Subscribers")
-                        .HasForeignKey("UserID")
+                        .HasForeignKey("UsersID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Diary.Models.Post", b =>
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("Likes");
+
                     b.Navigation("PostImages");
 
                     b.Navigation("PostTexts");
 
                     b.Navigation("PostVidios");
+
+                    b.Navigation("Saveds");
                 });
 
             modelBuilder.Entity("Diary.Models.User", b =>
                 {
                     b.Navigation("Comments");
 
+                    b.Navigation("Likes");
+
                     b.Navigation("Posts");
+
+                    b.Navigation("Saveds");
 
                     b.Navigation("Subscribers");
                 });

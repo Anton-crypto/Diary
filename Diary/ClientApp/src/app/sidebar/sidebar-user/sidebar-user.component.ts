@@ -25,8 +25,8 @@ export class SidebarUserComponent {
     if(user) {
       this.userService.getUser(user.id).subscribe((hero) => {
         this.user = hero[0];
+        localStorage.setItem("userExtendedModel", JSON.stringify(this.user));
       });
-      // this.logOut();
     }
   }
   logOut() {
