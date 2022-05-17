@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Diary.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class LikeController : ControllerBase
     {
         private readonly DiaryContextDb _context;

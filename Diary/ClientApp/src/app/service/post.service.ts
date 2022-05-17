@@ -7,6 +7,7 @@ import { JwtHelperService } from "@auth0/angular-jwt";
 
 import { IPost } from '../models/post.model';
 import { IComment } from '../models/sub-post/comment.model';
+import { ISaved } from '../models/saved.model';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -53,6 +54,14 @@ export class PostService {
     getPosts(): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `posts`, this.httpOptions);
     }   
+
+    savedPost(saved: ISaved) : Observable<ISaved> {
+        return this.http.post<ISaved>(this.baseUrl + `saved`, saved, this.httpOptions)
+    }
+    unSavedPost(id: string) : Observable<ISaved> {
+        return this.http.delete<ISaved>(this.baseUrl + `saved/` + id)
+    }
+
     createImgPath (serverPath: string) { 
         return this.baseUrlImg + serverPath; 
     }

@@ -28,11 +28,15 @@ namespace Diary.Controllers
                 List<PostVidio>? postVidio = _context.PostVidios.Where(x => x.PostID == post.ID).ToList();
                 List<PostImage>? postImage = _context.PostImages.Where(x => x.PostID == post.ID).ToList();
                 List<Comment>? comment = _context.Comments.Where(x => x.PostID == post.ID).ToList();
+                List<Like>? likes = _context.Likes.Where(x => x.PostID == post.ID).ToList();
+                List<Saved>? saveds = _context.Saveds.Where(x => x.PostID == post.ID).ToList();
 
                 if (postText != null) post.PostTexts = postText;
                 if (postVidio != null) post.PostVidios = postVidio;
                 if (postImage != null) post.PostImages = postImage;
                 if (comment != null) post.Comments = comment;
+                if (likes != null) post.Likes = likes;
+                if (saveds != null) post.Saveds = saveds;
             }
 
 
@@ -48,11 +52,15 @@ namespace Diary.Controllers
             List<PostVidio>? postVidio = _context.PostVidios.Where(x => x.PostID == post.ID).ToList();
             List<PostImage>? postImage = _context.PostImages.Where(x => x.PostID == post.ID).ToList();
             List<Comment>? comment = _context.Comments.Where(x => x.PostID == post.ID).ToList();
+            List<Like>? likes = _context.Likes.Where(x => x.PostID == post.ID).ToList();
+            List<Saved>? saveds = _context.Saveds.Where(x => x.PostID == post.ID).ToList();
 
             if (postText != null) post.PostTexts = postText;
             if (postVidio != null) post.PostVidios = postVidio;
             if (postImage != null) post.PostImages = postImage;
             if (comment != null) post.Comments = comment;
+            if (likes != null) post.Likes = likes;
+            if (saveds != null) post.Saveds = saveds;
 
             return post == null ? NotFound() : new ObjectResult(post);
         }

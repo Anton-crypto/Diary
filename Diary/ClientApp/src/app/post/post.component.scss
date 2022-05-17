@@ -40,11 +40,17 @@
                     background-color: $colorElent;
                     color: black;
                 }
-                .bntEdit {
+                .threeDots-sub {
                     visibility: inherit;
                 }
             }
             .threeDots {
+                &-sub {
+                    display: block;
+                    right: 12px;
+                    position: absolute;
+                    visibility: hidden;
+                }
                 position: relative;
                 svg {
                     box-sizing: content-box;
@@ -54,9 +60,6 @@
                 }
             }
             .bntEdit {
-                position: absolute;
-                visibility: hidden;
-                right: 12px;
                 background-color: $colorItem;
                 padding: 5px;
                 border: 1px solid $colorBorder;
