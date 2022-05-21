@@ -123,8 +123,8 @@ export class SettingsUserComponent implements AfterViewInit{
     let user = JSON.parse(localStorage.getItem("user")!);
 
     if(user) {
-      this.userService.getUser(user.id).subscribe((hero) => {
-        this.user = hero[0];
+      this.userService.getUser(user.id).subscribe((user) => {
+        this.user = user;
         console.log(this.user)
       });
     }

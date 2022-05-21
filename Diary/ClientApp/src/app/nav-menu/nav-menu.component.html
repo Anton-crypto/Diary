@@ -4,8 +4,7 @@
   >
     <div class="container">
       <div class="left">
-        <img src="../../assets/img/512x512bb.png" style = "width: 32px; height: 32px; margin-right: 10px;" alt="" srcset="">
-        <a class="navbar-brand" style ="color: aliceblue;" [routerLink]="['/']">Diary</a>
+        <img src="../../assets/img/my-diary.png" style = "width: 32px; height: 32px; margin-right: 10px;" [routerLink]="['/']" alt="" srcset="">
         <div
           class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
           [ngClass]="{ show: isExpanded }"
@@ -17,6 +16,20 @@
               [routerLinkActiveOptions]="{ exact: true }"
             >
               <a class="nav-link text-dark" [routerLink]="['/main']">Горячее</a>
+            </li>
+            <li
+              class="nav-item"
+              [routerLinkActive]="['link-active']"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a class="nav-link text-dark" [routerLink]="['/main']">Лучшее</a>
+            </li>
+            <li
+              class="nav-item"
+              [routerLinkActive]="['link-active']"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a class="nav-link text-dark" [routerLink]="['/main']">Подписки</a>
             </li>
           </ul>
         </div>

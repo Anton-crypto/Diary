@@ -31,10 +31,11 @@
         </div>
     </div>
     <div class = "sidebar-user__menu">
-      <a class="sidebar-user__menu-item" [routerLink]="['/']">Управление подписками</a>
-      <a class="sidebar-user__menu-item" [routerLink]="['/']">Комментарии</a>
-      <a class="sidebar-user__menu-item" [routerLink]="['/']">Сохраненное</a>
-      <a class="sidebar-user__menu-item" [routerLink]="['/']">Мои посты</a>
+      <a class="sidebar-user__menu-item" [routerLink]="[ '/subscriptions', user.id ]">Управление подписками</a>
+      <a class="sidebar-user__menu-item" [routerLink]="[ '/saved', user.id ]">Сохраненное</a>
+      <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Мои посты</a>
+      <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Проверка постов</a>
+      <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Список пользователей</a>
     </div>
 </div>
 <div>

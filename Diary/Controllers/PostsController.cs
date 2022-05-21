@@ -3,6 +3,8 @@ using Diary.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using Diary.Models.SubPost;
+using System.Net.Mail;
+using System.Net;
 
 namespace Diary.Controllers
 {
@@ -63,6 +65,38 @@ namespace Diary.Controllers
             if (saveds != null) post.Saveds = saveds;
 
             return post == null ? NotFound() : new ObjectResult(post);
+        }
+        [HttpGet("{id}")]
+        [Route("mypost/{id}")]
+        public async Task<ActionResult<Post>> GetMyPost(Guid id)
+        {
+            List<Post> posts = _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(x => x.UserID == id).ToList();
+
+            return posts is null ? NotFound() : new ObjectResult(posts);
+        }
+        [HttpGet("{id}")]
+        [Route("subscriptions/{id}")]
+        public async Task<ActionResult<Post>> GetPostSubscriptions (Guid id)
+        {
+            List<Post> posts = _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(u => u.User.Subscribers.Any(u => u.UserWriterID == id)).ToList();
+
+            return posts is null ? NotFound() : new ObjectResult(posts);
         }
 
         [HttpPost, DisableRequestSizeLimit]
@@ -178,6 +212,36 @@ namespace Diary.Controllers
 
                 _context.Posts.Update(post);
                 await _context.SaveChangesAsync();
+
+                List<Subscriptions> subscriptions = _context.Subscriptionses.Where(x => x.UserSubscriptionID == post.UserID).ToList();
+                User userSub = _context.Users.FirstOrDefault(x => x.ID == post.UserID);
+
+
+                foreach (var subscription in subscriptions)
+                {
+                    try
+                    {
+                        User user = await _context.Users.FirstOrDefaultAsync(x => x.ID == subscription.UserWriterID);
+
+                        MailAddress from = new MailAddress("toni_naumov_1990@mail.ru", "Diary");
+                        MailAddress to = new MailAddress(user.Email);
+                        MailMessage m = new MailMessage(from, to);
+
+                        m.Subject = "Оповещение";
+                        m.Body = $"<h2>У пользователя по именем {userSub.Name} gявился новый пост !</h2>";
+                        m.IsBodyHtml = true;
+
+                        SmtpClient smtp = new SmtpClient("smtp.mail.ru", 587);
+
+                        smtp.Credentials = new NetworkCredential("toni_naumov_1990", "999-333-111-Ked-139_L");
+                        smtp.EnableSsl = true;
+                        smtp.Send(m);
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
 
                 return Ok(post);
             }

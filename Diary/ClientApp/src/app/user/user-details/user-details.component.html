@@ -1,0 +1,61 @@
+<div class = "user-details border settings settings__user" *ngIf="user">
+    <div class="settings__backheader">
+      <img 
+        *ngIf='user.font != ""'
+        [src]="createImgPath(user.font)" 
+      >
+    </div>
+    <div class="avatar">
+        <img 
+          [src]="createImgPath(user.icon)" 
+          *ngIf="user.icon != ''"
+        >
+    </div>
+    <div class="body">
+        <div class="body__button">
+            <button class="body__button-sub">
+                Подписаться
+            </button>
+            <button class="body__button-un">
+                Отписаться
+            </button>
+        </div>
+        <div class="body__info">
+            <div class="title">
+                {{user.name}}
+            </div>
+            <div class="body__info-about">
+                {{user.about}}
+            </div>
+        </div>
+        <div class="body__digital">
+            <div class="body__digital-item">
+                <div class="title">
+                    0
+                </div>
+                <div>
+                    подписчиков
+                </div>
+            </div>
+            <div class="body__digital-item">
+                <div class="title">
+                    0
+                </div>
+                <div>
+                    комментариев
+                </div>
+            </div>
+            <div class="body__digital-item">
+                <div class="title">
+                    0
+                </div>
+                <div>
+                    постов
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div >
+    <app-post *ngFor="let post of posts" [post]="post"></app-post>
+</div>  

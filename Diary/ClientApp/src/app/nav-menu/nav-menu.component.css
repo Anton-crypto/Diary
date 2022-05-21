@@ -1,3 +1,5 @@
+@import "../color.scss";
+
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -41,4 +43,8 @@ html {
   align-items: center;
   justify-content: space-around;
   background-color: #5a8684;
+}
+
+.nav-link:hover {
+  color: #5a8684;
 }

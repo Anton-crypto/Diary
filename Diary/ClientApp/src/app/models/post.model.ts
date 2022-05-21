@@ -3,6 +3,7 @@ import { IPostText } from "./sub-post/post-text.model"
 import { IPostImages } from "./sub-post/post-image.model"
 import { IComment } from "./sub-post/comment.model"
 import { ISaved } from "./saved.model"
+import { ILike } from "./like.model"
 
 export interface IPost {
     id : number
@@ -20,6 +21,7 @@ export interface IPost {
     }
     comments : IComment []
     saveds : ISaved []
+    likes : ILike []
     postVidio : IPostVidio []
     postTexts : IPostText []
     postImages : IPostImages []

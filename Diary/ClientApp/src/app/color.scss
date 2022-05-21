@@ -1,13 +1,30 @@
 $colorItem: #22272b;
 $colorBack: #171c20;
 $colorElent: #5a8684;
-$colorText: #bfbfb1;
+
+
 $colorBorder:#2d3236;
+
+$colorButtonUse:#5a8684;
+$colorButtonUnUse:#2d3236;
+$colorButtonText:#ffffff;
+
+$colorTitleText:#bfbfbf;
+$colorBodyText:#a6a6a6;
+$colorText: #bfbfb1;
 
 .border {
     border: 1px solid $colorBorder !important;
     border-radius: 2px;
 }
+
 body {
     font-family: "Roboto","Open Sans",helvetica,arial,sans-serif;
+}
+
+.title {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 400;
+    color: $colorTitleText;
 }

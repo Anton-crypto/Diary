@@ -1,9 +1,6 @@
 import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core'
 import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
 
-
-
-
 @Component({
   selector: 'app-img-crop',
   templateUrl: './image-cropper.component.html',

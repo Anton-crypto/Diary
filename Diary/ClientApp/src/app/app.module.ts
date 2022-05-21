@@ -22,6 +22,11 @@ import { SettingsUserComponent } from './settings/settings-user/settings-user.co
 import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 import { PostDetailsComponent } from './post/post-details/post-details.component';
 import { CommentComponent } from './post/comment/comment.component';
+import { SavedComponent } from './saved/saved.component';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { MyPostComponent } from './my-post/my-post.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { SearchComponent } from './search/search.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -56,7 +61,12 @@ export function tokenGetter() {
     ImageCropperComponent,
     WorkPostComponent,
     PostDetailsComponent,
-    CommentComponent
+    CommentComponent,
+    SavedComponent,
+    SubscriptionsComponent,
+    MyPostComponent,
+    UserDetailsComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -92,6 +102,22 @@ export function tokenGetter() {
           { 
             path: 'post-details/:id', 
             component: PostDetailsComponent,
+          },
+          { 
+            path: 'saved/:id', 
+            component: SavedComponent,
+          },
+          { 
+            path: 'subscriptions/:id', 
+            component: SubscriptionsComponent,
+          },
+          { 
+            path: 'my-post/:id', 
+            component: MyPostComponent,
+          },
+          { 
+            path: 'user-details/:id', 
+            component: UserDetailsComponent,
           }
         ],
       },

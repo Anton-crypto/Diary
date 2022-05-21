@@ -15,12 +15,15 @@ export class UserService {
   private httpOptions = {
     headers: {}
   };
+  private httpOptionsJson = {
+    headers: {}
+  };
 
   constructor (
     private http: HttpClient,
     private storeModel:StoreModel,
     private jwtHelper: JwtHelperService
-) { 
+  ) { 
     const token = localStorage.getItem("jwt");
     const refreshToken: string = localStorage.getItem("refreshToken")!;
 
@@ -35,15 +38,33 @@ export class UserService {
         'Accept' : 'application/json',
         Authorization:  'Bearer ' + token,
       })
+      this.httpOptionsJson.headers = new HttpHeaders({
+        'Content-Type':  'application/json',
+        Authorization: credentials
+      })
     }
-}
-  getUser(id: string): Observable<IUser []> {
-    return this.http.get<IUser[]>(this.baseUrl + `user/?id=${id}`,this.httpOptions);
   }
+
+  // Method group Get // 
+    getUser(id: string): Observable<IUser> {
+      return this.http.get<IUser>(this.baseUrl + `user/id/${id}`, this.httpOptionsJson);
+    }
+    getUserOnEmail(email: string): Observable<IUser> {
+      return this.http.get<IUser>(this.baseUrl + `user/email/${email}`, this.httpOptionsJson);
+    }
+  // Method group Get // 
+
   putUser(formData: FormData) : Observable<IUser []> {
     return this.http.put<IUser []>(this.baseUrl + `user`, formData)
   }
+
+  // ============== // 
+
   createImgPath (serverPath: string) { 
     return this.baseUrlImg + serverPath; 
-}
+  }
+  getUserFromLocalStorge () {
+    return JSON.parse(localStorage.getItem("userExtendedModel")!);
+  }
+  
 }

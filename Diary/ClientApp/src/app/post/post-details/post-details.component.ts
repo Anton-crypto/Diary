@@ -22,7 +22,6 @@ export class PostDetailsComponent {
   }
   ngOnInit(): void {
     this.getPost(this.route.snapshot.paramMap.get('id')!);
-    console.log(this.route.snapshot.paramMap.get('id'));
   }
   
   getPost(id : string) {

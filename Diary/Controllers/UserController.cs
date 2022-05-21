@@ -24,9 +24,17 @@ namespace Diary.Controllers
         }
 
         [HttpGet("{id}")]
+        [Route("id/{id}")]
         public async Task<ActionResult<User>> Get(Guid id)
         {
             User user = await _context.Users.FirstOrDefaultAsync(x => x.ID == id);
+            return user == null ? NotFound() : new ObjectResult(user);
+        }
+        [HttpGet("{email}")]
+        [Route("email/{email}")]
+        public async Task<ActionResult<User>> GetUserOnEmail(string email)
+        {
+            User user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
             return user == null ? NotFound() : new ObjectResult(user);
         }
 

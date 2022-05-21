@@ -47,6 +47,9 @@ export class TimeLineComponent {
       console.log(this.posts)
     });
   }
+  dataSearchHandler(data : any) {
+    console.log(data)
+  }  
   private diffDays(dateFirst: Date, dateLast: Date): number {
 
     const timeDiff : number = Math.abs(dateFirst.getTime() - dateLast.getTime());

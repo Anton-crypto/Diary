@@ -23,8 +23,8 @@ export class SidebarUserComponent {
     let user = JSON.parse(localStorage.getItem("user")!);
     
     if(user) {
-      this.userService.getUser(user.id).subscribe((hero) => {
-        this.user = hero[0];
+      this.userService.getUserOnEmail(user.email).subscribe((user) => {
+        this.user = user;
         localStorage.setItem("userExtendedModel", JSON.stringify(this.user));
       });
     }
