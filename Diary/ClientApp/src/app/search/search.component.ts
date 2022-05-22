@@ -20,16 +20,51 @@ export class SearchComponent implements OnInit{
     private postService: PostService,
   ){ }
 
-  posts: IPost[] = [];
-  
-  @Input() searchSet : any
+  @Input() posts: IPost[] = [];
+
+  searchSet : Array<any> = [
+    {
+      name : "Теги",
+      value : "",
+      isVisibel: false,
+    },
+    {
+      name : "Рейтинг",
+      value : "0",
+      isVisibel: false,
+    },
+    {
+      name : "Автор",
+      value : "",
+      isVisibel: false,
+    },
+    {
+      name : "Тип постов",
+      value : "",
+      isVisibel: false,
+    },
+    {
+      name : "Период времени",
+      value : "",
+      isVisibel: false,
+    },
+    {
+      name : "Просмотренные посты",
+      value : "",
+      isVisibel: false,
+    },
+  ]
+
   @Output() searchEmit: EventEmitter<any> = new EventEmitter<any>()
 
   ngOnInit(): void {}
-  
+
   search () {
     this.searchEmit.emit({
       posts : this.posts
     })
+  }
+  setRam (event : any) {
+    this.searchSet[1].value = event
   }
 }

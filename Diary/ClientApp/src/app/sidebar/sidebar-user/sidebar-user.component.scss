@@ -98,4 +98,6 @@ $color-element: #58b6b6;
     color: aliceblue;
     border-radius: 2px;
 }
-
+.btn__add:hover {
+    filter: opacity(80%);
+}

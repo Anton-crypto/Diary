@@ -35,12 +35,108 @@
             color: $colorText;
             font-size: 20px;
         }
+        &-item {
+            button {
+                background-color: $colorElent;
+                outline: none;
+                border: none;
+                border-radius: 2px;
+                color: $colorButtonText;
+                padding: 0 20px;
+                text-transform: lowercase;
+            }
+            button:hover {
+                filter: opacity(80%);
+            }
+        }
     }
     &__teg{
         width: 100%;
+        padding: 16px 24px;
+        color: #7d7d7d; 
+        &-item:first-child {
+            margin-top: 0;
+            border-top: 0 !important;
+            padding-top: 0;
+        }
+        &-item {
+            margin-top: 10px;
+            border-top: 1px solid $colorBorder !important;
+            padding-top: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            div:first-child {
+                margin-right: 10px;
+
+                svg {
+                    padding: 2px;
+                    border: 2px;
+                }
+                .plus {
+                    background-color: $colorItem;
+                }
+                .cross {
+                    background-color: $colorButtonUse;
+                    color: rgb(255, 255, 255);
+                }
+            }
+            div:last-child {
+                font-size: 12px;
+            }
+            .range {
+                color: $colorButtonUse;
+            }
+        }
+        &-subItem {
+            display: flex;
+            margin-top: 15px;
+            margin-bottom: 15px;
+
+            button {
+                background-color: $colorElent;
+                outline: none;
+                border: none;
+                border-radius: 2px;
+                color: $colorButtonText;
+                padding: 0 20px;
+                margin-right: 10px;
+                text-transform: lowercase;
+            }
+            .slider {
+                -webkit-appearance: none;
+                appearance: none;
+                height: 2px;
+                background-color: $colorButtonUse;
+                outline: none;
+                -webkit-transition: .2s;
+                transition: opacity .2s;
+            }
+            .slider::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: $colorButtonUse;
+                cursor: pointer;
+            }
+            .text {
+                background-color: $colorItem;
+                outline: none;
+                border: 1px solid $colorBorder;
+                padding: 5px 5px;
+                color: $colorText;
+                display: block;
+            }
+            .text:focus-visible {
+                border: 1px solid $colorElent !important;
+            }
+
+        }
     }
     .search__input:focus-within {
-        border: 1px solid $colorElent;
+        border: 1px solid $colorElent !important;
         .search__input-btn:focus-visible{
             outline: none;
         }
