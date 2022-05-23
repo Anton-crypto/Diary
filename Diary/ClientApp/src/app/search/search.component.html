@@ -4,14 +4,14 @@
             <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="currentColor" d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396l1.414-1.414l-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8s3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6s-6-2.691-6-6s2.691-6 6-6z"/></svg>
         </div>
         <div class="search__input-item">
-            <input class="search__input-btn" type="text" placeholder="Поиск">
+            <input class="search__input-btn" [(ngModel)]="bodySearch" type="text" placeholder="Поиск">
         </div>
         <div class="search__input-item">
-            <button>поиск</button>
+            <button (click)="getPostForSearch()">поиск</button>
         </div>
     </div>
     <div class="search__teg border">
-        <div>
+        <div class="search__teg-line">
             <div class="search__teg-item" (click)="searchSet[0].isVisibel = !searchSet[0].isVisibel">
                 <div>
                     <svg class="plus" *ngIf="!searchSet[0].isVisibel" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="currentColor" d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8Z"/><path fill="currentColor" d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8Z"/></svg>
@@ -22,10 +22,16 @@
                 </div>
             </div>
             <div class="search__teg-subItem" *ngIf="searchSet[0].isVisibel == true">
-                <input class="" type="text" class="text" placeholder="добавить тег">
+                <div class="teg" *ngFor="let item of searchSet[0].tegs; let i = index; ">
+                    {{item}} 
+                    <svg (click)="deleteTeg(i)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M20 20L4 4m16 0L4 20"/></svg>                
+                </div>
+                <div>
+                    <input (keypress)="addTeg($event)" type="text" class="text" [(ngModel)]="searchSet[0].value" placeholder="добавить тег">
+                </div>
             </div>
         </div>
-        <div>
+        <div class="search__teg-line">
             <div class="search__teg-item" (click)="searchSet[1].isVisibel = !searchSet[1].isVisibel">
                 <div>
                     <svg class="plus" *ngIf="!searchSet[1].isVisibel" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="currentColor" d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8Z"/><path fill="currentColor" d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8Z"/></svg>
@@ -39,7 +45,7 @@
                 <input class="slider" type="range" id="volume" [(ngModel)]="searchSet[1].value" (ngModelChange)="setRam($event)" name="volume" min="0" max="10000">
             </div>
         </div>
-        <div>
+        <div class="search__teg-line">
             <div class="search__teg-item" (click)="searchSet[2].isVisibel = !searchSet[2].isVisibel">
                 <div>
                     <svg class="plus" *ngIf="!searchSet[2].isVisibel" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="currentColor" d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8Z"/><path fill="currentColor" d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8Z"/></svg>
@@ -50,10 +56,10 @@
                 </div>
             </div>
             <div class="search__teg-subItem" *ngIf="searchSet[2].isVisibel == true">
-                <input type="text" class="text" placeholder="ник пользователя">
+                <input type="text" class="text" [(ngModel)]="author" placeholder="ник пользователя">
             </div>
         </div>
-        <div>
+        <div class="search__teg-line">
             <div class="search__teg-item" (click)="searchSet[3].isVisibel = !searchSet[3].isVisibel">
                 <div>
                     <svg class="plus" *ngIf="!searchSet[3].isVisibel" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="currentColor" d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8Z"/><path fill="currentColor" d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8Z"/></svg>
@@ -64,27 +70,12 @@
                 </div>
             </div>
             <div class="search__teg-subItem" *ngIf="searchSet[3].isVisibel == true">
-                <div>
-                    <button>любые</button>
-                </div>
-                <div>
-                    <button>текстовые</button>
-                </div>
-                <div>
-                    <button>картинка</button>
-                </div>
-                <div>
-                    <button>видео</button>
-                </div>
-                <div>
-                    <button>[мое]</button>
-                </div>
-                <div>
-                    <button>NSFW</button>
+                <div *ngFor="let item of searchSet[3].types; let i = index; ">
+                    <button (click)="activeTypePost(i)" [ngClass]="getClassForButtonsType(item.isActive)">{{item.name}}</button>
                 </div>
             </div>
         </div>
-        <div>
+        <div class="search__teg-line">
             <div class="search__teg-item" (click)="searchSet[4].isVisibel = !searchSet[4].isVisibel">
                 <div> 
                     <svg class="plus" *ngIf="!searchSet[4].isVisibel" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024"><path fill="currentColor" d="M482 152h60q8 0 8 8v704q0 8-8 8h-60q-8 0-8-8V160q0-8 8-8Z"/><path fill="currentColor" d="M176 474h672q8 0 8 8v60q0 8-8 8H176q-8 0-8-8v-60q0-8 8-8Z"/></svg>
@@ -95,17 +86,18 @@
                 </div>
             </div>
             <div class="search__teg-subItem" *ngIf="searchSet[4].isVisibel == true">
-                <div>
-                    <button>за все время</button>
+                <div *ngFor="let item of searchSet[4].types; let i = index; ">
+                    <button *ngIf="i< 3" (click)="setDateRange(i)" [ngClass]="getClassForButtonsType(item.isActive)" >{{item.name}}</button>
                 </div>
                 <div>
-                    <button>неделя</button>
-                </div>
-                <div>
-                    <button>месяц</button>
-                </div>
-                <div>
-                    <button>задать даты</button>
+                    <input 
+                        type="date" 
+                        id="start"  
+                        name="trip-start"
+                        class="date"
+                        (change)="setDate($event)"
+                        [ngClass]="getClassForButtonsType(searchSet[4].types[3].isActive)"
+                    >
                 </div>
             </div>
         </div>
