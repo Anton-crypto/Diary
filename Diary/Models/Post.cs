@@ -7,6 +7,8 @@ namespace Diary.Models
         public Guid ID { get; set; }
         public DateTime TimePost { get; set; }
         public string Title { get; set; }
+        public string? Tegs { get; set; }
+        public string? Status { get; set; }
 
         public Guid UserID { get; set; }
         public virtual User User { get; set; }

@@ -1,4 +1,5 @@
 export interface ISearch {
+    userid : string
     bodySearch: string
     tegs : string
     rating : string

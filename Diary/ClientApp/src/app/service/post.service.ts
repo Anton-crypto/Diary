@@ -9,6 +9,7 @@ import { IPost } from '../models/post.model';
 import { IComment } from '../models/sub-post/comment.model';
 import { ISaved } from '../models/saved.model';
 import { ILike } from '../models/like.model';
+import { ISearch } from '../models/search.model';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
@@ -58,6 +59,9 @@ export class PostService {
     getPostSubscriptions(id: string): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `posts/subscriptions/${id}`);
     }  
+    getPostsForSearch(search : ISearch): Observable<IPost[]> {
+        return this.http.post<IPost[]>(this.baseUrl + `posts/search`, search, this.httpOptions)
+    }
     // Method group Post // 
 
     addPost(formData: FormData) : Observable<IPost> {

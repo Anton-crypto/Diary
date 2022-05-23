@@ -79,6 +79,12 @@ namespace Diary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tegs")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("TimePost")
                         .HasColumnType("datetime2");
 

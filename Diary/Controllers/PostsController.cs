@@ -99,6 +99,109 @@ namespace Diary.Controllers
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
 
+        [HttpPost]
+        [Route("search")]
+        public async Task<ActionResult<Post>> GetPostSubscriptions(Search search)
+        {
+
+            string nameAuthor = search.NameAuthor;
+            string bodySearch = search.BodySearch;
+            int rating = 0;
+
+            if (search.Rating != "")
+            {
+                rating = int.Parse(search.Rating);
+            }
+
+            List<Post> posts = _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where((e) =>
+                    EF.Functions.Like(e.User.Name.ToLower(), $"%{nameAuthor.ToLower()}%") && 
+                    (e.Comments.Count + e.Likes.Count + e.Saveds.Count) * 100 >= rating &&
+                    EF.Functions.Like(e.Title.ToLower(), $"%{bodySearch.ToLower()}%")
+                ).
+                ToList();
+
+            string[] tegs = search.Tegs.Split(',');
+
+            List<Post> newPosts = new List<Post>();
+
+            foreach (var item in posts)
+            {
+                string[] tegsPost = item.Tegs.Split(',');
+                int count = 0;
+
+                foreach (var teg in tegs)
+                {
+                    
+                    if(Array.Exists(tegsPost, e => e == teg))
+                    {
+                        count++;
+                    }
+                }
+                if(count == tegs.Length)
+                {
+                    newPosts.Add(item);
+                }
+            }
+            if(newPosts.Count != 0)
+            {
+                posts = newPosts;
+            }
+
+            string[] type = search.TypePost.Split(',');
+
+            foreach (var item in type)
+            {
+                if(item == "текстовые")
+                {
+                    posts = posts.Where(e => e.PostTexts.Count > 0).ToList();
+                } else if(item == "картинка")
+                {
+                    posts = posts.Where(e => e.PostImages.Count > 0).ToList();
+                } else if(item == "видео")
+                {
+                    posts = posts.Where(e => e.PostVidios.Count > 0).ToList();
+                } else if (item == "[ мое ]")
+                {
+                    posts = posts.Where(e => e.User.ID == Guid.Parse(search.UserID)).ToList();
+                } else if (item == "NSFW")
+                {
+                    posts = posts.Where(e => e.Status == "NSFW").ToList();
+                }
+
+            }
+
+            if(search.DataType == "7")
+            {
+                DateTime date = new DateTime();
+                date.AddDays(-7);
+                posts = posts.Where(e => e.TimePost > date).ToList();
+
+            } else if (search.DataType == "30")
+            {
+                DateTime date = new DateTime();
+                date.AddDays(-30);
+                posts = posts.Where(e => e.TimePost > date).ToList();
+
+            } else if (search.DataType != "max")
+            {
+                string[] dateString = search.DataType.Split('.');
+                DateTime date = new DateTime(int.Parse(dateString[2]), int.Parse(dateString[1]), int.Parse(dateString[0]));
+
+                posts = posts.Where(e => e.TimePost.ToShortDateString() == date.ToShortDateString()).ToList();
+
+            }
+
+            return posts is null ? NotFound() : new ObjectResult(posts);
+        }
+
         [HttpPost, DisableRequestSizeLimit]
         public async Task<ActionResult<Post>> Post()
         {

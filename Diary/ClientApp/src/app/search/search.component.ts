@@ -20,6 +20,7 @@ export class SearchComponent implements OnInit{
   author : string = ""
 
   searchBody : ISearch = {
+    userid : "",
     bodySearch: "",
     tegs : "",
     rating : "",
@@ -29,8 +30,6 @@ export class SearchComponent implements OnInit{
   }
 
   constructor (
-    private userService: UserService,
-    private route: ActivatedRoute,
     private postService: PostService,
   ){ 
 
@@ -210,5 +209,10 @@ export class SearchComponent implements OnInit{
     });
 
     console.log(this.searchBody)
+
+    this.postService.getPostsForSearch(this.searchBody).subscribe((posts) => {
+      this.posts = posts;
+      this.searchEmit.emit(this.posts)
+    });
   }
 }

@@ -48,6 +48,7 @@ export class TimeLineComponent {
     });
   }
   dataSearchHandler(data : any) {
+    this.posts = data
     console.log(data)
   }  
   private diffDays(dateFirst: Date, dateLast: Date): number {
