@@ -13,10 +13,10 @@
     </div>
     <div class="body">
         <div class="body__button">
-            <button class="body__button-sub">
+            <button class="body__button-sub" *ngIf="isSub == false && isSubCheckUser == true" (click)="addSub()">
                 Подписаться
             </button>
-            <button class="body__button-un">
+            <button class="body__button-un" *ngIf="isSub == true && isSubCheckUser == true" (click)="deleteSub()">
                 Отписаться
             </button>
         </div>
@@ -31,7 +31,7 @@
         <div class="body__digital">
             <div class="body__digital-item">
                 <div class="title">
-                    0
+                    {{subWriter!.length}}
                 </div>
                 <div>
                     подписчиков
@@ -39,7 +39,7 @@
             </div>
             <div class="body__digital-item">
                 <div class="title">
-                    0
+                    {{commentCount}}
                 </div>
                 <div>
                     комментариев
@@ -51,6 +51,14 @@
                 </div>
                 <div>
                     постов
+                </div>
+            </div>
+            <div class="body__digital-item">
+                <div class="title">
+                    {{reting}}
+                </div>
+                <div>
+                    рейтинг
                 </div>
             </div>
         </div>

@@ -13,6 +13,8 @@ namespace Diary.Models
         public Guid UserID { get; set; }
         public virtual User User { get; set; }
 
+        public bool? ValidationStatus { get; set; }
+
         public ICollection<Comment>? Comments { get; set; }
         public virtual ICollection<PostImage>? PostImages { get; set; }
         public virtual ICollection<PostVidio>? PostVidios { get; set; }

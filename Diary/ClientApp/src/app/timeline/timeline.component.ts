@@ -3,7 +3,6 @@ import { PostService } from '../service/post.service';
 import { IPost } from '../models/post.model';
 
 
-
 @Component({
   selector: 'app-time-line',
   templateUrl: './timeline.component.html',
@@ -13,6 +12,7 @@ import { IPost } from '../models/post.model';
 export class TimeLineComponent {
 
   posts: IPost[] = [];
+  check: boolean =  false
   
   constructor(private postService: PostService) { }
   ngOnInit(): void {
@@ -43,12 +43,37 @@ export class TimeLineComponent {
         post.isAccessories = user.email == post.user.email ?  true : false;
       });
 
+      this.check = true;
 
       console.log(this.posts)
     });
   }
   dataSearchHandler(data : any) {
+    this.check = false;
     this.posts = data
+
+    let user = JSON.parse(localStorage.getItem("user")!);
+
+    this.posts.forEach(post => {
+
+      const time = this.diffDays(new Date(post.timePost), new Date());
+      post.timePost = ` ${time} дня назад`;
+
+      let item : any [] = [] 
+
+      if(post.postImages != undefined && post.postImages.length > 0) 
+        item.push(...post.postImages)
+      if(post.postTexts != undefined && post.postTexts.length > 0) 
+        item.push(...post.postTexts)
+      if(post.postVidio != undefined && post.postVidio.length > 0) 
+        item.push(...post.postVidio)
+
+      item.sort((a, b) => a.displayNumber > b.displayNumber ? 1 : -1);
+      post.postItem = item
+
+      post.isAccessories = user.email == post.user.email ?  true : false;
+    });
+    this.check = true;
     console.log(data)
   }  
   private diffDays(dateFirst: Date, dateLast: Date): number {

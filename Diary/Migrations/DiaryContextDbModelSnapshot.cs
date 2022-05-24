@@ -95,6 +95,9 @@ namespace Diary.Migrations
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool?>("ValidationStatus")
+                        .HasColumnType("bit");
+
                     b.HasKey("ID");
 
                     b.HasIndex("UserID");
@@ -204,7 +207,7 @@ namespace Diary.Migrations
                     b.Property<Guid?>("UserWriterID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UsersID")
+                    b.Property<Guid?>("UsersID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
@@ -336,9 +339,7 @@ namespace Diary.Migrations
                 {
                     b.HasOne("Diary.Models.User", "Users")
                         .WithMany("Subscribers")
-                        .HasForeignKey("UsersID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UsersID");
 
                     b.Navigation("Users");
                 });

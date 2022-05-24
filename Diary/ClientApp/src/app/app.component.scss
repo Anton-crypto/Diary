@@ -6,3 +6,13 @@
 .app {
     background-color: #171c20;
 }
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1000px !important;
+    }
+}
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1000px !important;
+    }
+}

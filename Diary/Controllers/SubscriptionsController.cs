@@ -17,36 +17,78 @@ namespace Diary.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Subscriptions>> Post(Subscriptions subscriptions)
+        public async Task<ActionResult<Subscriptions>> Post(SubM sub)
         {
-            if (subscriptions is null)
+            if (sub is null)
             {
                 return BadRequest("Invalid client request");
             }
 
-            subscriptions.ID = Guid.NewGuid();
+            Subscriptions subscriptions = new Subscriptions
+            {
+                ID = Guid.NewGuid(),
+                UserSubscriptionID = sub.UserSubscriptionID,
+                UserWriterID = sub.UserWriterID,
+            };
 
             _context.Subscriptionses.Add(subscriptions);
             await _context.SaveChangesAsync();
 
             return Ok();
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Subscriptions>> Get(Guid id)
+
+        [HttpPost]
+        [Route("getSub")]
+        public async Task<ActionResult<Subscriptions>> GetAllSubscriptinPost(SubM subscriptions)
         {
-            return null;
+            if (subscriptions is null)
+            {
+                return NotFound();
+            }
+
+            Subscriptions sub = _context.Subscriptionses.FirstOrDefault(x => 
+                x.UserSubscriptionID == subscriptions.UserSubscriptionID && 
+                x.UserWriterID == subscriptions.UserWriterID
+            );
+
+            if (sub is null)
+            {
+                return new Subscriptions();
+            }
+
+            return sub;
         }
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Subscriptions>> Delete(Guid id)
+
+        [HttpGet("{id}")]
+        [Route("getAllSub/{id}")]
+        public async Task<ActionResult<Subscriptions>> GetAllSubscriptin(Guid id)
         {
-            Subscriptions subscriptions = _context.Subscriptionses.FirstOrDefault(x => x.UserWriterID == id);
+            List<Subscriptions> subscriptions = _context.Subscriptionses.Where(x => x.UserSubscriptionID == id).ToList();
+
+            foreach (var sub in subscriptions)
+            {
+                sub.Users = _context.Users.FirstOrDefault(e => e.ID == sub.UserWriterID);
+            }
 
             if (subscriptions is null)
             {
                 return NotFound();
             }
 
-            _context.Subscriptionses.Remove(subscriptions);
+            return new ObjectResult(subscriptions);
+        }
+        
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Subscriptions>> Delete(Guid id)
+        {
+            Subscriptions sub = _context.Subscriptionses.FirstOrDefault(x =>x.ID == id);
+
+            if (sub is null)
+            {
+                return NotFound();
+            }
+
+            _context.Subscriptionses.Remove(sub);
             await _context.SaveChangesAsync();
 
             return Ok();

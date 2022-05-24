@@ -22,25 +22,16 @@ namespace Diary.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> Get()
         {
-                List<Post>? posts = _context.Posts.Include(p => p.User).ToList();
-
-            foreach (var post in posts)
-            {
-                List<PostText>? postText = _context.PostTexts.Where(x => x.PostID == post.ID).ToList();
-                List<PostVidio>? postVidio = _context.PostVidios.Where(x => x.PostID == post.ID).ToList();
-                List<PostImage>? postImage = _context.PostImages.Where(x => x.PostID == post.ID).ToList();
-                List<Comment>? comment = _context.Comments.Where(x => x.PostID == post.ID).ToList();
-                List<Like>? likes = _context.Likes.Where(x => x.PostID == post.ID).ToList();
-                List<Saved>? saveds = _context.Saveds.Where(x => x.PostID == post.ID).ToList();
-
-                if (postText != null) post.PostTexts = postText;
-                if (postVidio != null) post.PostVidios = postVidio;
-                if (postImage != null) post.PostImages = postImage;
-                if (comment != null) post.Comments = comment;
-                if (likes != null) post.Likes = likes;
-                if (saveds != null) post.Saveds = saveds;
-            }
-
+            List<Post>? posts = _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(e => e.ValidationStatus == true)
+                .ToList();
 
             return posts == null ? NotFound() : new ObjectResult(posts);
         }
@@ -48,21 +39,16 @@ namespace Diary.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> Get(Guid id)
         {
-            Post? post = _context.Posts.Include(p => p.User).FirstOrDefault(x => x.ID == id);
-
-            List<PostText>? postText = _context.PostTexts.Where(x => x.PostID == post.ID).ToList();
-            List<PostVidio>? postVidio = _context.PostVidios.Where(x => x.PostID == post.ID).ToList();
-            List<PostImage>? postImage = _context.PostImages.Where(x => x.PostID == post.ID).ToList();
-            List<Comment>? comment = _context.Comments.Where(x => x.PostID == post.ID).ToList();
-            List<Like>? likes = _context.Likes.Where(x => x.PostID == post.ID).ToList();
-            List<Saved>? saveds = _context.Saveds.Where(x => x.PostID == post.ID).ToList();
-
-            if (postText != null) post.PostTexts = postText;
-            if (postVidio != null) post.PostVidios = postVidio;
-            if (postImage != null) post.PostImages = postImage;
-            if (comment != null) post.Comments = comment;
-            if (likes != null) post.Likes = likes;
-            if (saveds != null) post.Saveds = saveds;
+            Post? post = _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(e => e.ValidationStatus == true)
+                .FirstOrDefault(x => x.ID == id);
 
             return post == null ? NotFound() : new ObjectResult(post);
         }
@@ -78,7 +64,7 @@ namespace Diary.Controllers
                 .Include(c => c.Comments)
                 .Include(l => l.Likes)
                 .Include(s => s.Saveds)
-                .Where(x => x.UserID == id).ToList();
+                .Where(x => x.UserID == id && x.ValidationStatus == true).ToList();
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
@@ -94,7 +80,7 @@ namespace Diary.Controllers
                 .Include(c => c.Comments)
                 .Include(l => l.Likes)
                 .Include(s => s.Saveds)
-                .Where(u => u.User.Subscribers.Any(u => u.UserWriterID == id)).ToList();
+                .Where(u => u.User.Subscribers.Any(u => u.UserWriterID == id) && u.ValidationStatus == true).ToList();
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
@@ -124,6 +110,7 @@ namespace Diary.Controllers
                 .Where((e) =>
                     EF.Functions.Like(e.User.Name.ToLower(), $"%{nameAuthor.ToLower()}%") && 
                     (e.Comments.Count + e.Likes.Count + e.Saveds.Count) * 100 >= rating &&
+                    e.ValidationStatus == true &&
                     EF.Functions.Like(e.Title.ToLower(), $"%{bodySearch.ToLower()}%")
                 ).
                 ToList();
@@ -212,6 +199,7 @@ namespace Diary.Controllers
                 post.ID = Guid.NewGuid();
                 post.TimePost = DateTime.Now;
                 post.Title = "";
+                post.ValidationStatus = false;
 
                 var formCollection = await Request.ReadFormAsync();
 

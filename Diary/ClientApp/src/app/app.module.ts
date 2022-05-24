@@ -30,7 +30,8 @@ import { SearchComponent } from './search/search.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AuthGuard } from './guards/auth.guard';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -75,6 +76,7 @@ export function tokenGetter() {
     ImageCropperModule,
     MatIconModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     MatRadioModule,
     YouTubePlayerModule,
     MatButtonModule,

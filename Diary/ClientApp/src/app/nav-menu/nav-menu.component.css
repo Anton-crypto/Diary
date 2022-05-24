@@ -48,3 +48,14 @@ html {
 .nav-link:hover {
   color: #5a8684;
 }
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1000px !important;
+  }
+}
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1000px !important;
+  }
+}
