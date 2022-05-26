@@ -46,12 +46,12 @@ export class UserService {
   }
 
   // Method group Get // 
-    getUser(id: string): Observable<IUser> {
-      return this.http.get<IUser>(this.baseUrl + `user/id/${id}`, this.httpOptionsJson);
-    }
-    getUserOnEmail(email: string): Observable<IUser> {
-      return this.http.get<IUser>(this.baseUrl + `user/email/${email}`, this.httpOptionsJson);
-    }
+  getUser(id: string): Observable<IUser> {
+    return this.http.get<IUser>(this.baseUrl + `user/id/${id}`, this.httpOptionsJson);
+  }
+  getUserOnEmail(email: string): Observable<IUser> {
+    return this.http.get<IUser>(this.baseUrl + `user/email/${email}`, this.httpOptionsJson);
+  }
   // Method group Get // 
 
   putUser(formData: FormData) : Observable<IUser []> {

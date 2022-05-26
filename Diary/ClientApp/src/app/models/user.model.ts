@@ -6,4 +6,5 @@ export interface IUser {
     about : string
     gender : string
     font : string
+    role : string
 }

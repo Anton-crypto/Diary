@@ -1,10 +1,12 @@
+@import "./color.scss";
+
 
 .container {
     width: 100%;
     min-height: calc(100vh - 85px);
 }
 .app {
-    background-color: #171c20;
+    background-color: var(--colorBackGround);
 }
 @media (min-width: 1200px) {
     .container {
@@ -14,5 +16,77 @@
 @media (min-width: 1400px) {
     .container {
         max-width: 1000px !important;
+    }
+}
+
+.temaPiker {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 20px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $colorButtonText;
+    transition: background-color 200ms,box-shadow 200ms ease-out,bottom 200ms ease-out;
+    &__sub {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        background-color: var(--colorBackGroundCardOne);
+        visibility: hidden;
+
+        &-top {
+            display: flex;
+            div {
+                width: 30px;
+                height: 30px;
+                margin: 10px;
+                border-radius: 2px;
+            }
+            div:before {
+                content: "";
+                width: 0;
+                height: 0;
+                position: absolute;
+                right: 10px;
+                top: 100%;
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-top: 9px solid var(--colorBackGroundCardOne);
+            }
+            div:nth-child(1) {
+                background-color: #a5759d;
+            }
+            div:nth-child(2) {
+                background-color: #0086b5;
+            }
+            div:nth-child(3) {
+                background-color:#5a8684;
+            }
+            div:nth-child(4) {
+                background-color:#c01c68;
+            }
+        }
+        &-bottom {
+            padding: 10px;
+        }
+    }
+}
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb{
+    background-color: var(--colorActiveElemen);
+}
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: black;
+}
+.temaPiker:hover {
+    background-color: $colorItem;
+    box-shadow: 0 1px 8px $colorItem;
+    .temaPiker__sub {
+        visibility: visible;
+        background-color: $colorItem;
     }
 }

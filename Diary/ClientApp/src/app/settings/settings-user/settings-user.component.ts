@@ -120,7 +120,7 @@ export class SettingsUserComponent implements AfterViewInit{
     }
   }
   getUser() {
-    let user = JSON.parse(localStorage.getItem("user")!);
+    let user = this.userService.getUserFromLocalStorge();
 
     if(user) {
       this.userService.getUser(user.id).subscribe((user) => {

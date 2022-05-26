@@ -4,4 +4,5 @@ export interface AuthenticatedResponse {
     token: string;
     refreshToken: string;
     user : IUser
+    role: string
 }

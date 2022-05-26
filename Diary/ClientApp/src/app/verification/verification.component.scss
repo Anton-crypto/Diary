@@ -81,13 +81,13 @@ $mainColor: #5a8684;
             font-size: 13px;
             line-height: 20px;
             font-weight: 500;
-            color: #5a8684;
+            color: var(--colorActiveElemen);
             cursor: pointer;
         }
         
         &__init {
             margin-top: 12px;
-            background-color: #5a8684;
+            background-color: var(--colorActiveElemen);
             width: 100%;
             color: aliceblue;
             border-radius: 0px;
@@ -97,6 +97,25 @@ $mainColor: #5a8684;
         background-color: #1a1e21;
         padding: 12px;
         margin-top: 12px;
+
+        &-link {
+            display: flex;
+        }
+        &-radio {
+            height: 20px;
+            width: 20px;
+            border-radius: 100%;
+            background-color: rgb(29, 28, 28);
+            border: 1px solid #2d3236 !important;
+            margin-right: 5px;
+            div{
+                height: 18px;
+                border-radius: 100%;
+                width: 18px; 
+                background-color:var(--colorActiveElemen); 
+                padding:1px;
+            }
+        }
 
         &-item {
             font-size: 13px;
@@ -116,7 +135,7 @@ $mainColor: #5a8684;
 }
 ::ng-deep mat-form-field.field-mat {
     .mat-form-field-outline {
-        color: $mainColor;
+        color: var(--colorActiveElemen);
         opacity: 0.8; 
         border-radius: 5px;
         padding: 0px;
@@ -140,7 +159,7 @@ $mainColor: #5a8684;
     .mat-form-field-outline-start,
     .mat-form-field-outline-gap,
     .mat-form-field-outline-end {
-        color: $mainColor;
+        color: var(--colorActiveElemen);
         border-width: 1px !important;
     }
     .mat-form-field-outline-start,

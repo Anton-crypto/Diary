@@ -88,6 +88,7 @@
         id="password" 
         name="password"
         placeholder= "Пароль*"
+        (input)="checkPassword()"
         [(ngModel)]="credentialsReg.password"
       >
     </mat-form-field>
@@ -95,14 +96,35 @@
       <div class="verification__radio-item">
         Требования к паролю:
       </div>
-      <div>
-        <mat-radio-button class="verification__radio-item">Не менее 6 символов </mat-radio-button>
+      <div class="verification__radio-link">
+        <div class="verification__radio-radio">
+          <div *ngIf="passwordReq1">
+
+          </div>
+        </div>
+        <div>
+          Не менее 6 символов
+        </div>
       </div>
-      <div>
-        <mat-radio-button class="verification__radio-item">Как минимум 1 буква </mat-radio-button>
+      <div class="verification__radio-link">
+        <div class="verification__radio-radio">
+          <div *ngIf="passwordReq2">
+
+          </div>
+        </div>
+        <div>
+          Как минимум 1 буква
+        </div>
       </div>
-      <div>
-        <mat-radio-button class="verification__radio-item">Как минимум 1 цифра </mat-radio-button>
+      <div class="verification__radio-link">
+        <div class="verification__radio-radio">
+          <div *ngIf="passwordReq3">
+
+          </div>
+        </div>
+        <div>
+          Как минимум 1 цифра
+        </div>
       </div>
     </div>
     <div class="verification__terms">

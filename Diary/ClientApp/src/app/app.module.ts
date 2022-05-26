@@ -27,21 +27,24 @@ import { SubscriptionsComponent } from './subscriptions/subscriptions.component'
 import { MyPostComponent } from './my-post/my-post.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { SearchComponent } from './search/search.component';
+import { PostsModerComponent } from './posts/posts-moder/posts-moder.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AuthGuard } from './guards/auth.guard';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 
+
 import { JwtModule, } from "@auth0/angular-jwt";
 
 import {StoreModel} from "./store"
 
-
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -68,6 +71,7 @@ export function tokenGetter() {
     MyPostComponent,
     UserDetailsComponent,
     SearchComponent,
+    PostsModerComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -80,6 +84,7 @@ export function tokenGetter() {
     MatRadioModule,
     YouTubePlayerModule,
     MatButtonModule,
+    MatSlideToggleModule,
     RouterModule.forRoot([
       { 
         path: '', 
@@ -120,6 +125,10 @@ export function tokenGetter() {
           { 
             path: 'user-details/:id', 
             component: UserDetailsComponent,
+          },
+          { 
+            path: 'posts-moder', 
+            component: PostsModerComponent,
           }
         ],
       },

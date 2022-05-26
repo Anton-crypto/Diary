@@ -1,5 +1,6 @@
 import { Component, Inject, Input } from '@angular/core'
 import { PostService } from '../service/post.service';
+import { ModerService } from '../service/moder.service';
 
 import { IPost } from '../models/post.model';
 import { ISaved } from '../models/saved.model';
@@ -14,15 +15,20 @@ import { ILike } from '../models/like.model';
 
 export class PostComponent {
 
-  constructor(private postService: PostService) { }
+  constructor (
+    private postService: PostService,
+    private moderService: ModerService
+  ) { }
   @Input() post: IPost | undefined;
   user: IUser | undefined;
 
   isSaved : boolean = true
   isLike : boolean = true
+  userRole : string = ""
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem("userExtendedModel")!);
+    this.user = JSON.parse(localStorage.getItem("user")!);
+    this.userRole = this.postService.getRout();
 
     if(this.post != undefined && this.user != undefined) {
       if(this.post.likes != undefined) {
@@ -40,6 +46,17 @@ export class PostComponent {
   }
   contains(arr: any [], elem : string) : boolean {
     return arr.length == 0 ? false : arr.find((i : any) => {i.userID.toString() == elem.toString()}) != -1;
+  }
+  
+  reject() {
+    if(this.post && this.post.id) {
+      this.moderService.reject(this.post.id.toString()).subscribe((() => { this.isSaved = false }));
+    }
+  }
+  example() {
+    if(this.post && this.post.id) {
+      this.moderService.example(this.post.id.toString()).subscribe((() => { this.isSaved = false }));
+    }
   }
   public savedPost () {
     

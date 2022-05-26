@@ -1,12 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --colorItem: #22272b;
+  --colorBack: #171c20;
+  --colorElent: #5a8684;
+  
+  
+  --colorBorder:#2d3236;
+  
+  --colorButtonUse:#5a8684;
+  --colorButtonUnUse:#2d3236;
+  --colorButtonText:#ffffff;
+  
+  --colorTitleText:#bfbfbf;
+  --colorBodyText:#a6a6a6;
+  --colorText: #bfbfb1;
 
-/* Provide sufficient contrast against white background */
+/* ========================================= */
+  --colorActiveElemen:#5a8684;
+  --colorUnUseActiveElemen:#2d3236;
+
+  --colorBackGroundCardOne:#22272b;
+
+  --colorButtonText:#ffffff;
+
+  --colorBackGroundBlack:#171c20;
+  --colorBackGroundWhite:white;
+  --colorBackGround:var(--colorBackGroundBlack);
+}
+
+
 a {
   color: #0366d6;
 }
 
 code {
   color: #e01a76;
+  color: white;
 }
 
 .btn-primary {

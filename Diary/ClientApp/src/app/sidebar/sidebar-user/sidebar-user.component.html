@@ -31,11 +31,15 @@
         </div>
     </div>
     <div class = "sidebar-user__menu">
-      <a class="sidebar-user__menu-item" [routerLink]="[ '/subscriptions', user.id ]">Управление подписками</a>
-      <a class="sidebar-user__menu-item" [routerLink]="[ '/saved', user.id ]">Сохраненное</a>
-      <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Мои посты</a>
-      <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Проверка постов</a>
-      <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Список пользователей</a>
+      <div *ngIf="userRole == 'user'">
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/subscriptions', user.id ]">Управление подписками</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/saved', user.id ]">Сохраненное</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Мои посты</a>
+      </div>
+      <div *ngIf="userRole == 'moder' || userRole == 'admin'">
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/posts-moder' ]">Проверка постов</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Список пользователей</a>
+      </div>
     </div>
 </div>
 <div>

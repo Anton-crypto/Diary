@@ -15,6 +15,17 @@
             border-top: 1px solid $colorBorder;
             background-color: $colorBack;
 
+            &-btn {
+                background-color: var(--colorActiveElemen);
+                padding: 5px;
+                margin-right: 10px;
+                border: 1px solid var(--colorBorder);
+                color: var(--colorButtonText);
+                border-radius: 3px;
+            }
+            &-btn:hover {
+                background-color: var(--colorUnUseActiveElemen);
+            }
             &-item {
                 overflow: hidden;
                 margin-right: 10px;

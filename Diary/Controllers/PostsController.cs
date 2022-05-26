@@ -52,11 +52,11 @@ namespace Diary.Controllers
 
             return post == null ? NotFound() : new ObjectResult(post);
         }
-        [HttpGet("{id}")]
-        [Route("mypost/{id}")]
-        public async Task<ActionResult<Post>> GetMyPost(Guid id)
+        [HttpGet]
+        [Route("moder")]
+        public async Task<ActionResult<Post>> GetPostModerAsync()
         {
-            List<Post> posts = _context.Posts
+            List<Post> posts = await _context.Posts
                 .Include(p => p.User)
                 .Include(t => t.PostTexts)
                 .Include(v => v.PostVidios)
@@ -64,15 +64,31 @@ namespace Diary.Controllers
                 .Include(c => c.Comments)
                 .Include(l => l.Likes)
                 .Include(s => s.Saveds)
-                .Where(x => x.UserID == id && x.ValidationStatus == true).ToList();
+                .Where(x => x.ValidationStatus == false).ToListAsync();
+
+            return posts is null ? NotFound() : new ObjectResult(posts);
+        }
+        [HttpGet("{id}")]
+        [Route("mypost/{id}")]
+        public async Task<ActionResult<Post>> GetMyPostAsync(Guid id)
+        {
+            List<Post> posts = await _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(x => x.UserID == id && x.ValidationStatus == true).ToListAsync();
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
         [HttpGet("{id}")]
         [Route("subscriptions/{id}")]
-        public async Task<ActionResult<Post>> GetPostSubscriptions (Guid id)
+        public async Task<ActionResult<Post>> GetPostSubscriptionsAsync(Guid id)
         {
-            List<Post> posts = _context.Posts
+            List<Post> posts = await _context.Posts
                 .Include(p => p.User)
                 .Include(t => t.PostTexts)
                 .Include(v => v.PostVidios)
@@ -80,7 +96,7 @@ namespace Diary.Controllers
                 .Include(c => c.Comments)
                 .Include(l => l.Likes)
                 .Include(s => s.Saveds)
-                .Where(u => u.User.Subscribers.Any(u => u.UserWriterID == id) && u.ValidationStatus == true).ToList();
+                .Where(u => u.User.Subscribers.Any(u => u.UserWriterID == id) && u.ValidationStatus == true).ToListAsync();
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }

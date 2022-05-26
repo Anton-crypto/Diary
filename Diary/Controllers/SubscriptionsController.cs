@@ -77,7 +77,27 @@ namespace Diary.Controllers
 
             return new ObjectResult(subscriptions);
         }
-        
+
+
+        [HttpGet("{id}")]
+        [Route("getAllWriter/{id}")]
+        public async Task<ActionResult<Subscriptions>> GetAllWriter(Guid id)
+        {
+            List<Subscriptions> subscriptions = _context.Subscriptionses.Where(x => x.UserWriterID == id).ToList();
+
+            foreach (var sub in subscriptions)
+            {
+                sub.Users = _context.Users.FirstOrDefault(e => e.ID == sub.UserSubscriptionID);
+            }
+
+            if (subscriptions is null)
+            {
+                return NotFound();
+            }
+
+            return new ObjectResult(subscriptions);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult<Subscriptions>> Delete(Guid id)
         {

@@ -59,6 +59,9 @@ export class PostService {
     getPostSubscriptions(id: string): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `posts/subscriptions/${id}`);
     }  
+    getPostModer(): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts/moder`);
+    } 
     getPostsForSearch(search : ISearch): Observable<IPost[]> {
         return this.http.post<IPost[]>(this.baseUrl + `posts/search`, search, this.httpOptions)
     }
@@ -101,9 +104,11 @@ export class PostService {
         
         return diffDays;
     }
+
     public getUserFromLocalStorge () {
         return JSON.parse(localStorage.getItem("userExtendedModel")!);
     }
+
     public createImgPath (serverPath: string) { 
         return this.baseUrlImg + serverPath; 
     }
@@ -127,10 +132,16 @@ export class PostService {
   
           item.sort((a, b) => a.displayNumber > b.displayNumber ? 1 : -1);
           post.postItem = item
-  
-          post.isAccessories = user.email == post.user.email ?  true : false;
+
+            if(user != null) {
+                post.isAccessories = user.email == post.user.email ?  true : false;
+            }
         });
 
         return posts;
+    }
+
+    public getRout() {
+        return localStorage.getItem("role")!;
     }
 }

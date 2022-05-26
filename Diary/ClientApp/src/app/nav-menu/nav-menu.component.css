@@ -42,7 +42,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: #5a8684;
+  background-color: var(--colorActiveElemen);
 }
 
 .nav-link:hover {

@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Router } from '@angular/router'
 import { NgForm } from '@angular/forms'
 import { AuthenticatedResponse } from '../models/authenticatedresponse.model';
-import { VerificationService } from './verification.service';
+import { VerificationService } from '../service/verification.service';
 
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { User } from 'oidc-client';
@@ -26,6 +26,11 @@ export class VerificationComponent implements OnInit{
 
   nikeName : string = ""
   isCheckLogin : boolean = false;
+
+  passwordReq1 : boolean = false;
+  passwordReq2 : boolean = false;
+  passwordReq3 : boolean = false;
+
 
   constructor (
     private router: Router, 
@@ -50,6 +55,7 @@ export class VerificationComponent implements OnInit{
           localStorage.setItem("jwt", token); 
           localStorage.setItem("refreshToken", refreshToken);
           localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("role", response.role);
 
           this.router.navigate(["/"]);
         },
@@ -68,16 +74,41 @@ export class VerificationComponent implements OnInit{
           localStorage.setItem("jwt", token); 
           localStorage.setItem("refreshToken", refreshToken);
           localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("role", response.role);
 
           this.router.navigate(["/"]);
         },
       })
     }
   }
+  checkPassword() {
+    
+    this.passwordReq1 = false;
+    this.passwordReq2 = false;
+    this.passwordReq3 = false;
+
+    if(this.credentialsReg.password.length >=6) {
+      this.passwordReq1 = true;
+    } 
+
+    this.credentialsReg.password.split('').forEach(item => {
+      console.log( typeof item == "string")
+      if(this.checkSymbol(item)) {
+        this.passwordReq2 = true
+      }
+      if(parseInt(item, 10) != NaN) {
+        this.passwordReq3 = true
+      }
+    });
+  }
   checkTypeLogin() : boolean {
     return this.isCheckLogin;
   }
   toggolTypeLogin() {
     this.isCheckLogin = !this.isCheckLogin
+  }
+  checkSymbol(item: string) {
+    const re = /^[a-z]$/i;
+    return re.test(item);
   }
 }

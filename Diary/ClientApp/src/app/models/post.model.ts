@@ -6,7 +6,7 @@ import { ISaved } from "./saved.model"
 import { ILike } from "./like.model"
 
 export interface IPost {
-    id : number
+    id : string
     timePost : string 
     title : string
     bodyText : string

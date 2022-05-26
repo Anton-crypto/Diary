@@ -21,6 +21,7 @@ namespace Diary.Controllers
     {
         private readonly IdentityContextDb _context;
         private readonly DiaryContextDb _contextDiary;
+
         private readonly ITokenService _tokenService;
 
         public AuthController(IdentityContextDb context, ITokenService tokenService, DiaryContextDb contextDiary)
@@ -41,6 +42,13 @@ namespace Diary.Controllers
                 return BadRequest("Invalid client request");
             }
 
+            User userClientModel = _contextDiary.Users.FirstOrDefault(x => x.Email == login.Email);
+
+            if (user is null) // Поправить ошибку
+            {
+                return BadRequest("Invalid client request"); 
+            }
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
@@ -59,7 +67,8 @@ namespace Diary.Controllers
             {
                 Token = accessToken,
                 RefreshToken = refreshToken,
-                User = user
+                User = userClientModel,
+                Role = user.Role
             });
         }
 
@@ -81,7 +90,7 @@ namespace Diary.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, register.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, "moder")
             };
 
             var accessToken = _tokenService.GenerateAccessToken(claims);
@@ -118,7 +127,8 @@ namespace Diary.Controllers
             {
                 Token = accessToken,
                 RefreshToken = refreshToken,
-                User = person   
+                User = userDiary,
+                Role = person.Role
             }); ;
         }
         private string GetHash(string input)

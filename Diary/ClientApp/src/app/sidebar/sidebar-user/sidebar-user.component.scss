@@ -1,7 +1,5 @@
 @import "../../color.scss";
 
-$color-element: #58b6b6;
-
 .sidebar-user {
     background-color: #22272b;
     width: 100%;
@@ -69,7 +67,7 @@ $color-element: #58b6b6;
             opacity: 1;
             visibility: visible;
             &:hover {
-                color: #58b6b6;
+                color: var(--colorActiveElemen);
                 text-decoration: none;
             }
             &::before, &:hover:not(.menu__item_button-success)::before {
@@ -83,7 +81,7 @@ $color-element: #58b6b6;
             &::before {
                 transition: opacity 200ms ease-out;
                 content: "";
-                background-color:$color-element;
+                background-color:var(--colorActiveElemen);
                 opacity: 0;
                 position: absolute;
             }
@@ -93,7 +91,7 @@ $color-element: #58b6b6;
 }
 .btn__add {
     margin-top: 12px;
-    background-color: #5a8684;
+    background-color: var(--colorActiveElemen);
     width: 100%;
     color: aliceblue;
     border-radius: 2px;
