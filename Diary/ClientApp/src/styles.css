@@ -14,7 +14,8 @@
   --colorBodyText:#a6a6a6;
   --colorText: #bfbfb1;
 
-/* ========================================= */
+  /* ========================================= */
+
   --colorActiveElemen:#5a8684;
   --colorUnUseActiveElemen:#2d3236;
 
@@ -22,9 +23,26 @@
 
   --colorButtonText:#ffffff;
 
+  
+  /* BackGround */
+
   --colorBackGroundBlack:#171c20;
-  --colorBackGroundWhite:white;
-  --colorBackGround:var(--colorBackGroundBlack);
+  --colorBackGroundWhite:#f4f4f4;
+
+  --colorBackGroundElementBlack:#22272b;
+  --colorBackGroundElementWhite:#ffffff;
+
+  --colorTitleTextBlack : #212121;
+  --colorTitleTextWhite : #bfbfbf;
+
+  --colorBodyTextBlack : #212121;
+  --colorBodyTextWhite : #a6a6a6;
+
+  --colorTitleText: var(--colorTitleTextWhite);
+  --colorTitleBody: var(--colorBodyTextWhite);
+
+  --colorBackGround: var(--colorBackGroundBlack);
+  --colorBackGroundElement: var(--colorBackGroundElementBlack);
 }
 
 

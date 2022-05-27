@@ -238,8 +238,17 @@ namespace Diary.Migrations
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsBan")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsBlok")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("TimeBan")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 

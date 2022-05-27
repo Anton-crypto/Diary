@@ -9,4 +9,38 @@
     color: #bfbfb1;
     text-align: center;
     background-color: $colorItem;
+
+    &__body {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &-left {
+            img {
+                width: 60px;
+                height: 60px;
+                border-radius: 100%;
+                margin-right: 5px;
+            }
+            display: flex;
+            align-items: center;
+        }
+        &-right {
+            button {
+                border-radius: 2px;
+                outline: none;
+                border: none;
+                display: block;
+                color: $colorButtonText;
+                padding: 0 20px;
+            }
+
+            .subscriptions-sub {
+                background-color: var(--colorActiveElemen);    
+            }
+            .subscriptions-un {
+                background-color: var(--colorUnUseActiveElemen);
+            }
+        }
+    }
 }

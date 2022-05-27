@@ -2,7 +2,8 @@ import { IUser } from "./user.model"
 
 export interface ISubscriptions {
     id : string
-    user? : IUser[]
+    users? : IUser
+    user? : IUser []
     userSubscriptionID: string
     userWriterID : string
 }

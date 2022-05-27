@@ -65,7 +65,7 @@
 .user-details {
     margin-bottom: 20px;
     .body {
-        background-color: $colorItem;
+        background-color: var(--colorActiveElemen);  
         &__button {
 
             padding: 24px;
@@ -87,10 +87,10 @@
             }
 
             &-sub {
-                background-color: $colorButtonUse;    
+                background-color: var(--colorActiveElemen);    
             }
             &-un {
-                background-color: $colorButtonUnUse;
+                background-color: var(--colorUnUseActiveElemen);
             }
         }
         &__info {

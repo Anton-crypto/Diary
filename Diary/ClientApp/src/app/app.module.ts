@@ -22,9 +22,9 @@ import { SettingsUserComponent } from './settings/settings-user/settings-user.co
 import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 import { PostDetailsComponent } from './post/post-details/post-details.component';
 import { CommentComponent } from './post/comment/comment.component';
-import { SavedComponent } from './saved/saved.component';
+import { SavedComponent } from './posts/saved/saved.component';
 import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
-import { MyPostComponent } from './my-post/my-post.component';
+import { MyPostComponent } from './posts/my-post/my-post.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { SearchComponent } from './search/search.component';
 import { PostsModerComponent } from './posts/posts-moder/posts-moder.component';

@@ -37,14 +37,16 @@ export class UserDetailsComponent {
   reting: number  = 0
 
   subWriter: ISubscriptions [] | undefined = []
+  userRole: string = ""
 
   ngOnInit(): void {
 
+    this.userRole = this.postService.getRout();
     this.id = this.route.snapshot.paramMap.get('id');
     this.userAuth = JSON.parse(localStorage.getItem("userExtendedModel")!);
 
     if(this.id != null) {
-      this.getUser(this.id);
+      this.getUser(this.id);  
       this.getSub();
       this.getWriterAll();
       

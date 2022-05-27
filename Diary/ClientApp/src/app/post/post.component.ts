@@ -1,6 +1,7 @@
 import { Component, Inject, Input } from '@angular/core'
 import { PostService } from '../service/post.service';
 import { ModerService } from '../service/moder.service';
+import { ActivatedRoute } from '@angular/router';
 
 import { IPost } from '../models/post.model';
 import { ISaved } from '../models/saved.model';
@@ -17,31 +18,45 @@ export class PostComponent {
 
   constructor (
     private postService: PostService,
-    private moderService: ModerService
+    private moderService: ModerService,
+    private route: ActivatedRoute,
   ) { }
   @Input() post: IPost | undefined;
   user: IUser | undefined;
 
   isSaved : boolean = true
   isLike : boolean = true
+
+  idSaved : string = ""
+  idLike : string = ""
+
   userRole : string = ""
+  rout : any = ""
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem("user")!);
     this.userRole = this.postService.getRout();
+    this.rout = this.route.snapshot.routeConfig!.path
 
     if(this.post != undefined && this.user != undefined) {
       if(this.post.likes != undefined) {
-        if(this.contains(this.post.likes, this.user.id)) {
-          this.isLike = false
-        }
+        this.post.likes.forEach(like => {
+          if(this.user != undefined && like.userID == this.user.id) {
+            this.isLike = false
+            this.idLike = like.id!
+          }
+        });
       }
       if(this.post.saveds != undefined) {
-        if(this.contains(this.post.saveds, this.user.id)) {
-          this.isSaved = false
-        }
+        this.post.saveds.forEach(save => {
+          if(this.user != undefined && save.userID == this.user.id) {
+            this.isSaved = false
+            this.idSaved = save.id!
+          }
+        });
       }
     }
+    console.log(this.post!.likes)
 
   }
   contains(arr: any [], elem : string) : boolean {
@@ -58,6 +73,10 @@ export class PostComponent {
       this.moderService.example(this.post.id.toString()).subscribe((() => { this.isSaved = false }));
     }
   }
+  deletePost() {
+
+  }
+  
   public savedPost () {
     
     let saved : ISaved = {
@@ -73,11 +92,11 @@ export class PostComponent {
     }
     this.postService.likePost(like).subscribe((() => { this.isLike = false }));
   }
-  public unLikePost (id :string) {
-    this.postService.unLikePost(id).subscribe((() => {}));
+  public unLikePost () {
+    this.postService.unLikePost(this.idLike).subscribe((() => { this.isLike = true }));
   }
-  public unSavedPost (id :string) {
-    this.postService.unSavedPost(id).subscribe((() => {}));
+  public unSavedPost () {
+    this.postService.unSavedPost(this.idSaved).subscribe((() => { this.isSaved = true }));
   }
   public createImgPath = (serverPath: string) => this.postService.createImgPath(serverPath);
 }

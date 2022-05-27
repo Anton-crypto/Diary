@@ -7,10 +7,10 @@ a.navbar-brand {
 }
 
 .navbar {
-  background-color: #22272b !important;
+  background-color: var(--colorBackGroundElement) !important;
 }
 .navbar .nav-link {
-  color: aliceblue !important;
+  color: var(--colorTitleText) !important;
 }
 
 html {

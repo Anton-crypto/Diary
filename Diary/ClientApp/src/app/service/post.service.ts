@@ -83,10 +83,10 @@ export class PostService {
     // Method group Delete // 
 
     unSavedPost(id: string) : Observable<ISaved> {
-        return this.http.delete<ISaved>(this.baseUrl + `saved/` + id)
+        return this.http.delete<ISaved>(this.baseUrl + `saved/${id}`)
     }
     unLikePost(id: string) : Observable<ILike> {
-        return this.http.delete<ILike>(this.baseUrl + `like/` + id)
+        return this.http.delete<ILike>(this.baseUrl + `like/${id}`)
     }
 
     // Method group Put // 
@@ -97,20 +97,16 @@ export class PostService {
 
     /////////////////////
 
-    public diffDays(dateFirst: Date, dateLast: Date): number {
-
-        const timeDiff : number = Math.abs(dateFirst.getTime() - dateLast.getTime());
-        const diffDays : number = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-        
-        return diffDays;
-    }
-
     public getUserFromLocalStorge () {
         return JSON.parse(localStorage.getItem("userExtendedModel")!);
     }
 
     public createImgPath (serverPath: string) { 
         return this.baseUrlImg + serverPath; 
+    }
+
+    public getRout() {
+        return localStorage.getItem("role")!;
     }
 
     public createPostSubItem(posts : IPost[]) : IPost[] {
@@ -140,8 +136,11 @@ export class PostService {
 
         return posts;
     }
+    public diffDays(dateFirst: Date, dateLast: Date): number {
 
-    public getRout() {
-        return localStorage.getItem("role")!;
+        const timeDiff : number = Math.abs(dateFirst.getTime() - dateLast.getTime());
+        const diffDays : number = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+        
+        return diffDays;
     }
 }

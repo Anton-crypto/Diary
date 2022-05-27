@@ -16,6 +16,11 @@
         public string? About { get; set; }
         public string? Gender { get; set; }
 
+        public bool? IsBan { get; set; }
+        public DateTime? TimeBan { get; set; }
+        public bool? IsBlok { get; set; }
+
+
         public virtual ICollection<Post>? Posts { get; set; }
         public virtual ICollection<Subscriptions>? Subscribers { get; set; }
         public virtual ICollection<Comment>? Comments { get; set; }
