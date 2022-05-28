@@ -42,7 +42,7 @@ namespace Diary.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            User userClientModel = _contextDiary.Users.FirstOrDefault(x => x.Email == login.Email);
+            User userClientModel = _contextDiary.Users.FirstOrDefault(x => x.Email == login.Email && x.IsBlok == false);
 
             if (user is null) // Поправить ошибку
             {
@@ -90,7 +90,7 @@ namespace Diary.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, register.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, "moder")
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
             };
 
             var accessToken = _tokenService.GenerateAccessToken(claims);
@@ -118,6 +118,8 @@ namespace Diary.Controllers
                 Font = "",
                 About = "",
                 Gender = "",
+                IsBlok = false,
+                IsBan = false,
             };
 
             await _contextDiary.Users.AddAsync(userDiary);

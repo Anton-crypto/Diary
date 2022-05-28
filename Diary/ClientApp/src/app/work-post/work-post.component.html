@@ -21,7 +21,8 @@
             </div>
             <div class = "post__body-item" *ngIf="item.teg =='image'">
                 <div>
-                    <img class="post__body-img" [src]="item.value" alt="" srcset="">
+                    <img class="post__body-img" [src]="item.value" *ngIf="item.file" alt="" srcset="">
+                    <img class="post__body-img" [src]="createImgPath(item.value)" *ngIf="!item.file" alt="" srcset="">
                 </div>
                 <div class="cross" *ngIf="i != 0 || bodyItem.length > 1">
                     <div *ngIf="i != 0" (click)="upItem(i)"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" color="#ffffff" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20V4m-7 7l7-7l7 7"/></svg></div>
@@ -79,6 +80,17 @@
         </div>
     </div>
 </div>
-<div>
+<div class="tegs">
+    <div class="teg" >
+        <div class="teg-item" *ngFor="let item of searchSet.tegs; let i = index; ">
+            {{item}} 
+            <svg (click)="deleteTeg(i)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M20 20L4 4m16 0L4 20"/></svg>                
+        </div>
+    </div>
+    <div class="button">
+        <input (keypress)="addTeg($event)" type="text" class="text" [(ngModel)]="searchSet.value" placeholder="добавить тег">
+    </div>
+</div>
+<div class="post__button">
     <button (click)="addNewPost()">Добавить</button>
 </div>

@@ -99,6 +99,10 @@ export function tokenGetter() {
             component: WorkPostComponent,
           },
           {
+            path: 'work-post/:id',
+            component: WorkPostComponent,
+          },
+          {
             path: 'setting-user',
             component: SettingsUserComponent,
           },

@@ -20,7 +20,7 @@
             font-size: 12px;
             button {
                 background-color: rgba(34, 39, 43, 0.5);
-                color: aliceblue;
+                color: var(--colorButtonText);
                 border: none;
                 line-height: 18px;
                 padding: 5px 10px;
@@ -30,7 +30,7 @@
     &__body {
         width: 100%;
         height: auto;
-        background-color: $colorItem;
+        background-color: var(--colorBackGroundElement);
 
         .info {
             padding-top: 40px;
@@ -40,21 +40,21 @@
             font-size: 14px;
             line-height: 24px;
             font-weight: 500;
-            color: #7d7d7d;
+            color: var(--colorTitleBody);
             width: 100%;
             padding-top: 10px;
             padding-left: 170px;
             padding-right: 25px;
 
             input {
-                color: #bfbfbf;
+                color: var(--colorTitleBody);
                 width: 100%;
                 background-color: transparent;
-                border: 1px solid $colorBorder !important;
+                border: 1px solid var(--colorBorder) !important;
                 padding: 10px 20px;
                 margin-top: 5px;
                 &:focus-visible{
-                    border: 1px solid $colorElent !important;
+                    border: 1px solid var(--colorActiveElemen) !important;
                     outline: none !important;
                 }
             }
@@ -62,11 +62,11 @@
                 color: #bfbfbf;
                 width: 100%;
                 background-color: transparent;
-                border: 1px solid $colorBorder !important;
+                border: 1px solid var(--colorBorder) !important;
                 padding: 10px 20px;
                 margin-top: 5px;
                 &:focus-visible{
-                    border: 1px solid $colorElent !important;
+                    border: 1px solid var(--colorActiveElemen) !important;
                     outline: none !important;
                 }
             }
@@ -85,7 +85,7 @@
             line-height: 20px;
             font-weight: 400;
             padding: 8px 40px;
-            background-color: $colorElent;
+            background-color: var(--colorActiveElemen);
             border-radius: 2px;
             border: none;
             color: aliceblue;

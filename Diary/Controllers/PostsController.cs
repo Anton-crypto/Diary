@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using Diary.Models.SubPost;
 using System.Net.Mail;
 using System.Net;
+using static Diary.Static.StaticClass;
 
 namespace Diary.Controllers
 {
@@ -323,31 +324,11 @@ namespace Diary.Controllers
                 List<Subscriptions> subscriptions = _context.Subscriptionses.Where(x => x.UserSubscriptionID == post.UserID).ToList();
                 User userSub = _context.Users.FirstOrDefault(x => x.ID == post.UserID);
 
-
+                
                 foreach (var subscription in subscriptions)
                 {
-                    try
-                    {
-                        User user = await _context.Users.FirstOrDefaultAsync(x => x.ID == subscription.UserWriterID);
-
-                        MailAddress from = new MailAddress("toni_naumov_1990@mail.ru", "Diary");
-                        MailAddress to = new MailAddress(user.Email);
-                        MailMessage m = new MailMessage(from, to);
-
-                        m.Subject = "Оповещение";
-                        m.Body = $"<h2>У пользователя по именем {userSub.Name} gявился новый пост !</h2>";
-                        m.IsBodyHtml = true;
-
-                        SmtpClient smtp = new SmtpClient("smtp.mail.ru", 587);
-
-                        smtp.Credentials = new NetworkCredential("toni_naumov_1990", "999-333-111-Ked-139_L");
-                        smtp.EnableSsl = true;
-                        smtp.Send(m);
-                    }
-                    catch (Exception)
-                    {
-                        throw;
-                    }
+                    User user = await _context.Users.FirstOrDefaultAsync(x => x.ID == subscription.UserWriterID);
+                    SendingMessagesToEmail($"<h2>У пользователя по именем {userSub.Name} gявился новый пост !</h2>", user.Email);
                 }
 
                 return Ok(post);

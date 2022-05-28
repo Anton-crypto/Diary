@@ -16,7 +16,7 @@ $colorText: #bfbfb1;
 
 
 .border {
-    border: 1px solid $colorBorder !important;
+    border: 1px solid var(--colorBorder) !important;
     border-radius: 2px;
 }
 

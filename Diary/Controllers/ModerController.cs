@@ -88,11 +88,12 @@ namespace Diary.Controllers
                 return NotFound();
             }
 
-            user.IsBlok = false;
+            user.IsBlok = true;
 
             string message = $"<h2>" +
                 $"На вашей странице была замечена подозрительная активность! " +
                 $"Ваш аккаунт был заблокирован!</h2>";
+
             string email = $"{user.Email}";
 
             SendingMessagesToEmail(message, email);
@@ -116,12 +117,13 @@ namespace Diary.Controllers
                 return NotFound();
             }
 
-            user.IsBan = false;
-            user.TimeBan = DateTime.Now.AddDays(30);
+            user.IsBan = true;
+            user.TimeBan = DateTime.Now.AddMinutes(5);
 
             string message = $"<h2>" +
                 $"На вашей странице была замечена подозрительная активность! " +
                 $"Временно вы не сможете размешять посты и коментировать записи!</h2>";
+
             string email = $"{user.Email}";
 
             SendingMessagesToEmail(message, email);

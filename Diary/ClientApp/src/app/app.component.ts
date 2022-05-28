@@ -46,33 +46,34 @@ export class AppComponent {
   colorSvapTeam() {
     if(this.isCheckedTeam) {
 
-      this._elementRef.nativeElement.style.setProperty('--colorBackGround', 'var(--colorBackGroundBlack)');
-      this._elementRef.nativeElement.style.setProperty('--colorBackGroundElement', 'var(--colorBackGroundElementBlack)');
-
-      this._elementRef.nativeElement.style.setProperty('--colorTitleText', 'var(--colorTitleTextWhite)');
-
       let masStyle : Array<any> = [
 
         {key: "--colorBackGround", value : "var(--colorBackGroundBlack)"},
         {key: "--colorBackGroundElement", value : "var(--colorBackGroundElementBlack)"},
         {key: "--colorTitleText", value : "var(--colorTitleTextWhite)"},
+        {key: "--colorBorder", value : "var(--colorBorderBlack)"},
       ]
+
+      masStyle.forEach((item : any) => {
+        this._elementRef.nativeElement.style.setProperty(item.key, item.value);
+      });
 
       localStorage.setItem("team", JSON.stringify(masStyle));
       localStorage.setItem("isCheckedTeam", JSON.stringify({isChecked : true}));
 
     } else {
-      this._elementRef.nativeElement.style.setProperty('--colorBackGround', 'var(--colorBackGroundWhite)');
-      this._elementRef.nativeElement.style.setProperty('--colorBackGroundElement', 'var(--colorBackGroundElementWhite)');
-
-      this._elementRef.nativeElement.style.setProperty('--colorTitleText', 'var(--colorTitleTextBlack)');
 
       let masStyle : Array<any> = [
 
         {key: "--colorBackGround", value : "var(--colorBackGroundWhite)"},
         {key: "--colorBackGroundElement", value : "var(--colorBackGroundElementWhite)"},
         {key: "--colorTitleText", value : "var(--colorTitleTextBlack)"},
+        {key: "--colorBorder", value : "var(--colorBorderWhite)"},
       ]
+
+      masStyle.forEach((item : any) => {
+        this._elementRef.nativeElement.style.setProperty(item.key, item.value);
+      });
 
       localStorage.setItem("team", JSON.stringify(masStyle));
       localStorage.setItem("isCheckedTeam", JSON.stringify({isChecked : false}));

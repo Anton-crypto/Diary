@@ -22,6 +22,7 @@ export class SettingsUserComponent implements AfterViewInit{
   croppedImage: any;
 
   isCheckCrop : boolean = false
+  isCheckVisibleCrop: boolean = false
 
   constructor(private userService: UserService) { }
   
@@ -42,7 +43,8 @@ export class SettingsUserComponent implements AfterViewInit{
     this.isCheckCrop = false;
     this.croppedImage = this.blobToFile(this.dataURItoBlob(data.croppedImage),"file." + this.dataURItoBlob(data.croppedImage).type.split('/')[1])
     this.selectedIconUrlCrop = data.croppedImage
-    console.log(this.croppedImage)
+
+    this.isCheckVisibleCrop = true
   }  
   dataURItoBlob(dataURI : string) {
     // convert base64/URLEncoded data component to raw binary data held in a string

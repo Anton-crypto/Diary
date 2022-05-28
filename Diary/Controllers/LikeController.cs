@@ -34,7 +34,7 @@ namespace Diary.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Like>> Delete(Guid id)
         {
-            Like like = _context.Likes.FirstOrDefault(x => x.UserID == id);
+            Like like = _context.Likes.FirstOrDefault(x => x.ID == id);
 
             if (like == null)
             {

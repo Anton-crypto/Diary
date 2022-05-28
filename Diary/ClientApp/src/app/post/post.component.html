@@ -16,7 +16,7 @@
             <div class = "threeDots">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/></svg>
                 <div class="threeDots-sub">
-                    <div *ngIf="post.isAccessories" class = "bntEdit">Редактировать</div>
+                    <div *ngIf="post.isAccessories" [routerLink]="['/work-post', post.id]" class = "bntEdit">Редактировать</div>
                     <div *ngIf="post.isAccessories" class = "bntEdit">Удалить</div>
                 </div>
             </div>

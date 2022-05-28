@@ -45,7 +45,7 @@ export class PostService {
     // Method group Get // 
     
     getPost(id: string): Observable<IPost> {
-        return this.http.get<IPost>(this.baseUrl + `posts/${id}`,this.httpOptions);    
+        return this.http.get<IPost>(this.baseUrl + `posts/update/${id}`);    
     }
     getSavedPost(id: string): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `saved/${id}`,this.httpOptions);    
@@ -92,7 +92,7 @@ export class PostService {
     // Method group Put // 
 
     putPost(formData: FormData) : Observable<AuthenticatedResponse> {
-        return this.http.put<AuthenticatedResponse>(this.baseUrl + `auth/login`,formData)
+        return this.http.put<AuthenticatedResponse>(this.baseUrl + `posts`,formData)
     }
 
     /////////////////////

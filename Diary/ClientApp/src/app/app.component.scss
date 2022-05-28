@@ -30,13 +30,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: $colorButtonText;
+    color: var(--colorTitleText);
     transition: background-color 200ms,box-shadow 200ms ease-out,bottom 200ms ease-out;
     &__sub {
         position: absolute;
         bottom: 0px;
         right: 0px;
-        background-color: var(--colorBackGroundCardOne);
+        background-color: var(--colorBackGroundElement);
         visibility: hidden;
 
         &-top {
@@ -56,7 +56,7 @@
                 top: 100%;
                 border-left: 7px solid transparent;
                 border-right: 7px solid transparent;
-                border-top: 9px solid var(--colorBackGroundCardOne);
+                border-top: 9px solid var(--colorBackGroundElement);
             }
             div:nth-child(1) {
                 background-color: #a5759d;
@@ -80,13 +80,13 @@
     background-color: var(--colorActiveElemen);
 }
 ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-    background-color: black;
+    background-color: var(--colorBackGround);
 }
 .temaPiker:hover {
-    background-color: $colorItem;
-    box-shadow: 0 1px 8px $colorItem;
+    background-color: var(--colorBackGroundElement);
+    box-shadow: 0 1px 8px var(--colorBackGroundElement);
     .temaPiker__sub {
         visibility: visible;
-        background-color: $colorItem;
+        background-color: var(--colorBackGroundElement);
     }
 }

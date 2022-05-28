@@ -43,7 +43,7 @@ export class UserDetailsComponent {
 
     this.userRole = this.postService.getRout();
     this.id = this.route.snapshot.paramMap.get('id');
-    this.userAuth = JSON.parse(localStorage.getItem("userExtendedModel")!);
+    this.userAuth = this.userService.getUserFromLocalStorge();
 
     if(this.id != null) {
       this.getUser(this.id);  

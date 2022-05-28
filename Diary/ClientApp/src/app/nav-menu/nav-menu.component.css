@@ -32,7 +32,7 @@ html {
   align-items: center;
 }
 .border-nav {
-  border-bottom: 1px solid #2d3236 !important;
+  border-bottom: 1px solid var(--colorBorder) !important;
   border-radius: 2px;
 }
 .icon {

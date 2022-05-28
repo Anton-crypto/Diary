@@ -64,7 +64,7 @@ namespace Diary.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Saved>> Delete(Guid id)
         {
-            Saved saved = _context.Saveds.FirstOrDefault(x => x.UserID == id);
+            Saved saved = _context.Saveds.FirstOrDefault(x => x.ID == id);
 
             if (saved == null)
             {

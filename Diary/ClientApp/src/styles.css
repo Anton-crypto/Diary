@@ -3,9 +3,6 @@
   --colorBack: #171c20;
   --colorElent: #5a8684;
   
-  
-  --colorBorder:#2d3236;
-  
   --colorButtonUse:#5a8684;
   --colorButtonUnUse:#2d3236;
   --colorButtonText:#ffffff;
@@ -37,6 +34,11 @@
 
   --colorBodyTextBlack : #212121;
   --colorBodyTextWhite : #a6a6a6;
+
+  --colorBorderBlack:#2d3236;
+  --colorBorderWhite:#e9e9e9;
+  
+  --colorBorder:var(--colorBorderBlack);;
 
   --colorTitleText: var(--colorTitleTextWhite);
   --colorTitleBody: var(--colorBodyTextWhite);

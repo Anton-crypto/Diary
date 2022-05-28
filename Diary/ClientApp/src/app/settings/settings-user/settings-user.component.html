@@ -35,11 +35,11 @@
       </div>
       <img 
         [src]="selectedIconUrlCrop" 
-        *ngIf="selectedIconUrlCrop != null"
+        *ngIf="selectedIconUrlCrop != null && isCheckVisibleCrop"
       >
       <img 
         [src]="createImgPath(user.icon)" 
-        *ngIf="user.icon != ''"
+        *ngIf="user.icon != '' && !isCheckVisibleCrop"
       >
       <div *ngIf="selectedIconUrl == null && (user.icon == '' || user.icon == null)">
         <img src="../../../assets/img/start-icon.png" alt="" srcset="">
