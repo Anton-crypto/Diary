@@ -44,9 +44,9 @@ export class ModerService {
     // Method group Get // 
     
     reject(id: string): Observable<string> {
-        return this.http.get<string>(this.baseUrl + `moder/${id}`,this.httpOptions);    
+        return this.http.get<string>(this.baseUrl + `moder/reject/${id}`);    
     }
     example(id: string): Observable<string> {
-        return this.http.delete<string>(this.baseUrl + `moder/${id}`, this.httpOptions) 
+        return this.http.delete<string>(this.baseUrl + `moder/${id}`) 
     }
 }

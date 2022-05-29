@@ -13,21 +13,36 @@
                     {{post.timePost}}
                 </div>
             </div>
-            <div class = "threeDots">
-                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/></svg>
-                <div class="threeDots-sub">
-                    <div *ngIf="post.isAccessories" [routerLink]="['/work-post', post.id]" class = "bntEdit">Редактировать</div>
-                    <div *ngIf="post.isAccessories" class = "bntEdit">Удалить</div>
+            <div style="display:flex;">
+                <div *ngIf="post.validationStatus == false">
+                    <svg xmlns="http://www.w3.org/2000/svg" color="red" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32"><path fill="currentColor" d="M6 30H4V2h24l-5.8 9l5.8 9H6Z"/></svg>
+                </div>
+                <div class = "threeDots">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/></svg>
+                    <div class="threeDots-sub">
+                        <div *ngIf="post.isAccessories" [routerLink]="['/work-post', post.id]" class = "bntEdit">Редактировать</div>
+                        <div *ngIf="post.isAccessories" class = "bntEdit">Удалить</div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="story__body" >
+            <div class="story__body-title" *ngIf="post.title != undefined">
+                {{post.title}}
+            </div>
             <div *ngFor="let item of post.postItem">
                 <div class="story__body-text" *ngIf="item.text != undefined">
                     {{item.text}}
                 </div>
                 <div class="story__body-img" *ngIf="item.imgUrl != undefined">
                     <img [src]="createImgPath(item.imgUrl)" alt="" srcset="">
+                </div>
+                <div class="story__body-vidio" *ngIf="item.vidioUrl != undefined">
+                    <youtube-player
+                        class="youtube-player"
+                        [videoId]="item.vidioUrl"
+                    >
+                    </youtube-player>
                 </div>
             </div>
         </div>
@@ -52,8 +67,8 @@
             </div>
         </div>
         <div class="story__menu" *ngIf="(userRole == 'moder' || userRole == 'admin') && rout == 'posts-moder'">
-            <div class="story__menu-btn" style="cursor: pointer;" (click)="reject()" >Отклонить</div>
-            <div class="story__menu-btn" style="cursor: pointer;" (click)="example()" >Принять</div>
+            <div class="story__menu-btn" style="cursor: pointer;" (click)="example()" >Отклонить</div>
+            <div class="story__menu-btn" style="cursor: pointer;" (click)="reject()" >Принять</div>
         </div>
         <div class="story__menu" *ngIf="(userRole == 'moder' || userRole == 'admin') && rout != 'posts-moder'">
             <div class="story__menu-btn" style="cursor: pointer;" (click)="deletePost()">Удалить</div>

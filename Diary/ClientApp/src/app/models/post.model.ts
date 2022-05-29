@@ -22,9 +22,11 @@ export interface IPost {
     comments : IComment []
     saveds : ISaved []
     likes : ILike []
-    postVidio : IPostVidio []
+    postVidios : IPostVidio []
     postTexts : IPostText []
     postImages : IPostImages []
     postItem : any []
     isAccessories : any
+    validationStatus : any
+    tegs: string
 }

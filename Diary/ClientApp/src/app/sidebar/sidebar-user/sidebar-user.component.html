@@ -38,7 +38,7 @@
       </div>
       <div *ngIf="userRole == 'moder' || userRole == 'admin'">
         <a class="sidebar-user__menu-item" [routerLink]="[ '/posts-moder' ]">Проверка постов</a>
-        <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Список пользователей</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/user-list' ]">Список пользователей</a>
       </div>
     </div>
 </div>

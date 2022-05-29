@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core'
 import { UserService } from '../../service/user.service';
 import { IUser } from '../../models/user.model';
+import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 
@@ -15,6 +16,7 @@ export class SidebarUserComponent {
   constructor(
     private userService: UserService, 
     private location: Location,
+    private route: ActivatedRoute,
   ) { }
   
   user: IUser | undefined;
@@ -58,6 +60,8 @@ export class SidebarUserComponent {
     localStorage.removeItem("user");
     localStorage.removeItem("userModel");
     localStorage.removeItem("role");
+    
+    window.location.reload();
   }
   public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);
 }

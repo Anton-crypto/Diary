@@ -110,6 +110,20 @@
                     width: 100% !important;
                 }
             }
+            &-vidio {
+                margin-top: 10px;
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                .youtube-player {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+            &-text {
+                margin-top: 10px;
+            }
             
         }
     }

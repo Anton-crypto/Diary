@@ -1,4 +1,4 @@
-<div class="post__add">
+<div class="post__add" *ngIf="IsMessage">
     <div>
         <input type="text" class="post__input-title" [(ngModel)]="title" placeholder="Заголовок или ссылка на пост для ответа">
     </div>
@@ -80,7 +80,10 @@
         </div>
     </div>
 </div>
-<div class="tegs">
+<div class="message" *ngIf="!IsMessage">
+    Данные были отправлены на сервер для проверки !
+</div>
+<div class="tegs" *ngIf="IsMessage">
     <div class="teg" >
         <div class="teg-item" *ngFor="let item of searchSet.tegs; let i = index; ">
             {{item}} 
@@ -92,5 +95,6 @@
     </div>
 </div>
 <div class="post__button">
-    <button (click)="addNewPost()">Добавить</button>
+    <button (click)="putPost()" *ngIf="idPost != undefined">Добавить</button>
+    <button (click)="addNewPost()" *ngIf="idPost == undefined">Добавить</button>
 </div>

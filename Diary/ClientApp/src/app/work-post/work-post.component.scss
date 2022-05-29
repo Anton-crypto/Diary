@@ -156,3 +156,10 @@
         }
     }
 }
+.message {
+    width: 100%;
+    border: 1px solid var(--colorActiveElemen);
+    padding: 10px;
+    text-align: center;
+    color: $colorText;
+}

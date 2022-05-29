@@ -21,6 +21,7 @@ namespace Diary.Controllers
         }
 
         [HttpGet("{id}")]
+        [Route("reject/{id}")]
         public async Task<ActionResult<Post>> Reject(Guid id)
         {
             Post post = _context

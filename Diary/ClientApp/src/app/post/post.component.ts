@@ -34,8 +34,14 @@ export class PostComponent {
   rout : any = ""
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem("user")!);
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+    
+    this.user = this.postService.getUserFromLocalStorge();
+
     this.userRole = this.postService.getRout();
+
     this.rout = this.route.snapshot.routeConfig!.path
 
     if(this.post != undefined && this.user != undefined) {
@@ -56,7 +62,7 @@ export class PostComponent {
         });
       }
     }
-    console.log(this.post!.likes)
+    console.log(this.post)
 
   }
   contains(arr: any [], elem : string) : boolean {
@@ -65,12 +71,12 @@ export class PostComponent {
   
   reject() {
     if(this.post && this.post.id) {
-      this.moderService.reject(this.post.id.toString()).subscribe((() => { this.isSaved = false }));
+      this.moderService.reject(this.post.id.toString()).subscribe((() => { }));
     }
   }
   example() {
     if(this.post && this.post.id) {
-      this.moderService.example(this.post.id.toString()).subscribe((() => { this.isSaved = false }));
+      this.moderService.example(this.post.id.toString()).subscribe((() => {  this.post = undefined }));
     }
   }
   deletePost() {

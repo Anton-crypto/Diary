@@ -28,6 +28,7 @@ import { MyPostComponent } from './posts/my-post/my-post.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { SearchComponent } from './search/search.component';
 import { PostsModerComponent } from './posts/posts-moder/posts-moder.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -72,6 +73,7 @@ export function tokenGetter() {
     UserDetailsComponent,
     SearchComponent,
     PostsModerComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -97,47 +99,55 @@ export function tokenGetter() {
           {
             path: 'work-post',
             component: WorkPostComponent,
+            canActivate: [AuthGuard],
           },
           {
             path: 'work-post/:id',
             component: WorkPostComponent,
+            canActivate: [AuthGuard],
           },
           {
             path: 'setting-user',
             component: SettingsUserComponent,
-          },
-          {
-            path: 'setting-user',
-            component: SettingsUserComponent,
+            canActivate: [AuthGuard],
           },
           { 
             path: 'post-details/:id', 
             component: PostDetailsComponent,
+            canActivate: [AuthGuard],
           },
           { 
             path: 'saved/:id', 
             component: SavedComponent,
+            canActivate: [AuthGuard],
           },
           { 
             path: 'subscriptions/:id', 
             component: SubscriptionsComponent,
+            canActivate: [AuthGuard],
           },
           { 
             path: 'my-post/:id', 
             component: MyPostComponent,
+            canActivate: [AuthGuard],
           },
           { 
             path: 'user-details/:id', 
             component: UserDetailsComponent,
+            canActivate: [AuthGuard],
           },
           { 
             path: 'posts-moder', 
             component: PostsModerComponent,
+            canActivate: [AuthGuard],
+          },
+          { 
+            path: 'user-list', 
+            component: UserListComponent,
+            canActivate: [AuthGuard],
           }
         ],
       },
-      // { path: '/work-post', component: WorkPostComponent },
-      // { path: '/log', component: MainComponent, canActivate: [AuthGuard] },
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({

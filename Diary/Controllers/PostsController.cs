@@ -20,6 +20,23 @@ namespace Diary.Controllers
             _context = context;
         }
 
+        [HttpGet("{id}")]
+        [Route("update/{id}")]
+        public async Task<ActionResult<IEnumerable<Post>>> GetUpdatePostAsync(Guid id)
+        {
+            Post? post = await _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .FirstOrDefaultAsync(x => x.ID == id);
+
+            return post == null ? NotFound() : new ObjectResult(post);
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> Get()
         {
@@ -81,7 +98,7 @@ namespace Diary.Controllers
                 .Include(c => c.Comments)
                 .Include(l => l.Likes)
                 .Include(s => s.Saveds)
-                .Where(x => x.UserID == id && x.ValidationStatus == true).ToListAsync();
+                .Where(x => x.UserID == id).ToListAsync();
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
@@ -225,24 +242,31 @@ namespace Diary.Controllers
 
                 foreach (var item in userItemList)
                 {
-                    if(item.Split('-')[0] == "title")
+                    if (item == "title")
                     {
                         post.Title = formCollection[item];
                     }
-                    if (item.Split('-')[0] == "email")
+                    if (item == "email")
                     {
                         var email = formCollection[item].ToString();
                         User user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
-                        if (user == null) return StatusCode(500, $"Internal server error");
 
+                        if (user == null) return StatusCode(500, $"Internal server error");
                         post.UserID = user.ID;
 
+                        break;
+                    }
+                    if (item == "teg")
+                    {
+                        post.Tegs = formCollection[item];
                         break;
                     }
                 }
 
                 _context.Posts.Add(post);
                 await _context.SaveChangesAsync();
+
+                List<(string, string)> massId = new List<(string, string)>();
 
                 foreach (var item in userItemList)
                 {
@@ -323,8 +347,7 @@ namespace Diary.Controllers
 
                 List<Subscriptions> subscriptions = _context.Subscriptionses.Where(x => x.UserSubscriptionID == post.UserID).ToList();
                 User userSub = _context.Users.FirstOrDefault(x => x.ID == post.UserID);
-
-                
+     
                 foreach (var subscription in subscriptions)
                 {
                     User user = await _context.Users.FirstOrDefaultAsync(x => x.ID == subscription.UserWriterID);
@@ -351,21 +374,179 @@ namespace Diary.Controllers
 
             return Ok();
         }
-        [HttpPut]
-        public async Task<ActionResult<User>> Put(Post post)
-        {
-            if (post == null)
-            {
-                return BadRequest();
-            }
-            if (!_context.Posts.Any(x => x.ID == post.ID))
-            {
-                return NotFound();
-            }
 
-            _context.Update(post);
-            await _context.SaveChangesAsync();
-            return Ok(post);
+        [HttpPut, DisableRequestSizeLimit]
+        public async Task<ActionResult<Post>> Put()
+        {
+            try
+            {
+                var formCollection = await Request.ReadFormAsync();
+
+                var fileList = formCollection.Files.ToList();
+                var userItemList = formCollection.Keys.ToList();
+
+                Post post = new Post();
+
+                string title = "";
+                string tegs = "";
+
+                foreach (var item in userItemList)
+                {
+                    if (item == "id")
+                    {
+                        post = await _context
+                            .Posts
+                            .Include(t => t.PostTexts)
+                            .Include(v => v.PostVidios)
+                            .Include(i => i.PostImages)
+                            .FirstOrDefaultAsync(x => x.ID == Guid.Parse(formCollection[item].ToString()));
+                    }
+                    else if (item == "title")
+                    {
+                        title = formCollection[item];
+                    }
+                    else if (item == "teg")
+                    {
+                        tegs = formCollection[item];
+                    }
+                }
+
+                if(post is null)
+                {
+                    return StatusCode(500, $"Internal server error");
+                }
+
+                foreach (var item in post.PostTexts)
+                {
+                    _context.PostTexts.Remove(item);
+                    await _context.SaveChangesAsync();
+                }
+                foreach (var item in post.PostVidios)
+                {
+                    _context.PostVidios.Remove(item);
+                    await _context.SaveChangesAsync();
+                }
+
+                post.Title = title;
+                post.Tegs = tegs;
+
+                List<(string, string)> massId = new List<(string, string)>();
+
+                foreach (var item in userItemList)
+                {
+                    var text = item.Split('-');
+                    if (text.Length <= 0) return StatusCode(500, $"Internal server error");
+                    switch (text[0])
+                    {
+                        case "text":
+                            {
+                                PostText postText = new PostText
+                                {
+                                    ID = Guid.NewGuid(),
+                                    Text = formCollection[item],
+                                    PostID = post.ID,
+                                    DisplayNumber = text[1].ToString()
+
+                                };
+
+                                _context.PostTexts.Add(postText);
+                                await _context.SaveChangesAsync();
+
+                                break;
+                            }
+                        case "vidio":
+                            {
+                                PostVidio postVidio = new PostVidio
+                                {
+                                    ID = Guid.NewGuid(),
+                                    VidioUrl = formCollection[item],
+                                    PostID = post.ID,
+                                    DisplayNumber = text[1].ToString()
+                                };
+
+                                _context.PostVidios.Add(postVidio);
+                                await _context.SaveChangesAsync();
+
+                                break;
+                            }
+                        case "img":
+                            {
+                                massId.Add((formCollection[item], text[1].ToString()));
+                                break;
+                            }
+                        default: break;
+                    }
+                }
+
+                List<PostImage> PostImg = new List<PostImage>();
+
+                foreach (var item in massId)
+                {
+                    var buffer = post.PostImages.FirstOrDefault(x => x.ID == Guid.Parse(item.Item1));
+                    if (buffer is not null)
+                    {
+                        buffer.DisplayNumber = item.Item2;
+                        PostImg.Add(buffer);
+
+                        _context.PostImages.Update(buffer);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+                if (post.PostImages.Count > 0)
+                {
+                    foreach (var item in post.PostImages)
+                    {
+                        if (PostImg.FirstOrDefault(x => x.ID == item.ID) == null)
+                        {
+                            _context.PostImages.Remove(item);
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+                }
+
+                var folderName = Path.Combine("Resources", "Images");
+                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+
+                foreach (var item in fileList)
+                {
+                    if (item.Length <= 0)
+                    {
+                        break;
+                    }
+
+                    var fileName = Guid.NewGuid().ToString() + "." +
+                        item.ContentType.Trim('"').Split('/')[1];
+
+                    var fullPath = Path.Combine(pathToSave, fileName);
+                    var dbPath = Path.Combine(folderName, fileName);
+
+                    using (var stream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        item.CopyTo(stream);
+                    }
+
+                    PostImage postImage = new PostImage
+                    {
+                        ID = Guid.NewGuid(),
+                        ImgUrl = dbPath,
+                        PostID = post.ID,
+                        DisplayNumber = item.Name.Split('-')[1]
+                    };
+
+                    _context.PostImages.Add(postImage);
+                    await _context.SaveChangesAsync();
+                }
+
+                _context.Posts.Update(post);
+                await _context.SaveChangesAsync();
+
+                return Ok(post);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
 
         [HttpDelete("{id}")]

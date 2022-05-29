@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { PostService } from '../service/post.service';
 import { ActivatedRoute } from '@angular/router';
 import { IPost } from '../models/post.model';
@@ -9,7 +9,7 @@ import { IPost } from '../models/post.model';
   styleUrls: ['./work-post.component.scss']
 })
 
-export class WorkPostComponent {
+export class WorkPostComponent implements OnInit {
 
   selectedFile: File | null = null;
   selectedFileUrl: FileReader | null | string = null;
@@ -17,6 +17,7 @@ export class WorkPostComponent {
   title : string = ""
   idPost : string | undefined = ""
 
+  IsMessage : boolean = true
   bodyItem : ITest[] = [
     {
       teg : "text",
@@ -37,7 +38,6 @@ export class WorkPostComponent {
   ) { 
 
   }
-
   onFileSelected(event : any) {
     
     this.selectedFile = <File>event.target.files[0];
@@ -54,10 +54,7 @@ export class WorkPostComponent {
     };
 
     reader.readAsDataURL(this.selectedFile);
-
-    //console.log(this.selectedFileUrl)
   }
-
   ngOnInit(): void {
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
@@ -81,12 +78,15 @@ export class WorkPostComponent {
           this.bodyItem.push({teg : "text" , value : item.text});
         }
         if(item.imgUrl != undefined) {
-          this.bodyItem.push({teg : "image" , value : item.imgUrl});
+          this.bodyItem.push({teg : "image" , value : item.imgUrl, id : item.id});
         }
         if(item.vidioUrl != undefined) {
-          this.bodyItem.push({teg : "vidio" , value : ""});
+          this.bodyItem.push({teg : "vidio" , value : item.vidioUrl});
         }
       });
+      if(this.post!.tegs != undefined) {
+        this.searchSet.tegs = this.post!.tegs.substring(0, this.post!.tegs.length - 1).split(',')
+      }
     }));
   }
   addTextFild(): void {
@@ -115,6 +115,50 @@ export class WorkPostComponent {
   downItem(index: number) {
     [this.bodyItem[index], this.bodyItem[index + 1]] = [this.bodyItem[index + 1], this.bodyItem[index]]
   }
+  putPost() {
+    if (this.bodyItem.length > 0 || this.bodyItem[0].value != '') {
+      let files : File[] = []
+      const formData = new FormData();
+
+      let index: number = 0;
+
+      this.bodyItem.forEach(item  => {
+        if(item.teg == "image") {
+          if(item.file) {
+            formData.append('font-' + index, item.file);
+            index++;
+          } else {
+            formData.append('img-' + index, item.id!);
+            index++;
+          }
+        };
+        if(item.teg == "text") {
+          formData.append('text-' + index, item.value);
+          index++;
+        };
+        if(item.teg == "vidio") {
+          formData.append('vidio-' + index, item.value);
+          index ++;
+        };
+      });
+      let teg: string = "";
+      this.searchSet.tegs.forEach((item: any) => {
+        teg += item + ","
+      })
+
+      formData.append('teg', teg);
+      formData.append('title', this.title);
+      formData.append('id', this.idPost!.toString());
+
+      this.postService.putPost(formData).subscribe((() => {
+        this.reset();
+
+        this.IsMessage = false;
+        setTimeout(() => {this.IsMessage = true}, 3000)
+
+      }));
+    }
+  }
   addNewPost() {
     if (this.bodyItem.length > 0 || this.bodyItem[0].value != '') {
 
@@ -139,26 +183,25 @@ export class WorkPostComponent {
           index ++;
         };
       });
+
       let teg: string = "";
+      
       this.searchSet.tegs.forEach((item: any) => {
         teg += item + ","
       })
 
-      let user = JSON.parse(localStorage.getItem("user")!);
+      let user = this.postService.getUserFromLocalStorge();
 
-      formData.append('email-0', user.email);
-      formData.append('title-0', this.title);
-      formData.append('teg-0', teg);
+      formData.append('email', user.email);
+      formData.append('title', this.title);
+      formData.append('teg', teg);
 
-      if(this.idPost != undefined) {
-        this.postService.putPost(formData).subscribe((() => {
-          this.reset();
-        }));
-      } else {
-        this.postService.addPost(formData).subscribe((() => {
-          this.reset();
-        }));
-      }
+      this.postService.addPost(formData).subscribe((() => {
+        this.reset();
+
+        this.IsMessage = false;
+        setTimeout(() => {this.IsMessage = true}, 5000)
+      }));
     }
   }
   private reset() : void {
@@ -192,4 +235,5 @@ export interface ITest {
   teg: string
   value: any
   file?: File
+  id?: string
 }

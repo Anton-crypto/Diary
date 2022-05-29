@@ -123,8 +123,8 @@ export class PostService {
             item.push(...post.postImages)
           if(post.postTexts != undefined && post.postTexts.length > 0) 
             item.push(...post.postTexts)
-          if(post.postVidio != undefined && post.postVidio.length > 0) 
-            item.push(...post.postVidio)
+          if(post.postVidios != undefined && post.postVidios.length > 0) 
+            item.push(...post.postVidios)
   
           item.sort((a, b) => a.displayNumber > b.displayNumber ? 1 : -1);
           post.postItem = item
