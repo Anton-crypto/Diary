@@ -34,22 +34,12 @@ export class SidebarUserComponent {
     console.log(this.userRole)
     
     if(user) {
-      // this.userService.getUserOnEmail(user.email).subscribe((user) => {
-      //   this.user = user;
-      //   localStorage.setItem("userExtendedModel", JSON.stringify(this.user));
-      // });
       this.userService.getUserOnEmail(user.email).subscribe({
         next: (user: IUser) => {
           this.user = user;
-          localStorage.setItem("userExtendedModel", JSON.stringify(this.user));
         },
         error: () => {
-          localStorage.removeItem("jwt");
-          localStorage.removeItem("refreshToken");
-          localStorage.removeItem("user");
-          localStorage.removeItem("userModel");
-          localStorage.removeItem("role");
-
+          this.logOut();
         }
       })
     }
@@ -58,7 +48,6 @@ export class SidebarUserComponent {
     localStorage.removeItem("jwt");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
-    localStorage.removeItem("userModel");
     localStorage.removeItem("role");
     
     window.location.reload();

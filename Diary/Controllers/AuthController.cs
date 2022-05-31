@@ -90,7 +90,7 @@ namespace Diary.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, register.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, "moder")
             };
 
             var accessToken = _tokenService.GenerateAccessToken(claims);
@@ -100,7 +100,7 @@ namespace Diary.Controllers
                 Id = Guid.NewGuid(),
                 Email = register.Email,
                 Password = GetHash(register.Password),
-                Role = "user",
+                Role = "moder",
                 RefreshToken = refreshToken,
                 RefreshTokenExpiryTime = DateTime.Now.AddDays(7),
             };

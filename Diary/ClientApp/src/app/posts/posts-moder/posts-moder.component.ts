@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core'
+import { Component } from '@angular/core'
 import { PostService } from '../../service/post.service';
 import { IPost } from '../../models/post.model';
 

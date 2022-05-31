@@ -88,6 +88,9 @@ export class PostService {
     unLikePost(id: string) : Observable<ILike> {
         return this.http.delete<ILike>(this.baseUrl + `like/${id}`)
     }
+    deletePost(id: string) : Observable<string> {
+        return this.http.delete<string>(this.baseUrl + `posts/${id}`)
+    }
 
     // Method group Put // 
 
@@ -96,10 +99,6 @@ export class PostService {
     }
 
     /////////////////////
-
-    public getUserFromLocalStorge () {
-        return JSON.parse(localStorage.getItem("userExtendedModel")!);
-    }
 
     public createImgPath (serverPath: string) { 
         return this.baseUrlImg + serverPath; 

@@ -1,0 +1,17 @@
+.messages {
+    border: 1px solid var(--colorBorder);
+    &-item {
+        color: var(--colorTitleBody);
+        margin-top: 10px;
+        display: flex;
+        padding: 20px;
+        .time {
+            font-size: 13px;
+            color: var(--colorSubBodyText);    
+        }
+        .icon {
+            font-size: 25px; 
+            margin-right: 20px;
+        }
+    }
+}

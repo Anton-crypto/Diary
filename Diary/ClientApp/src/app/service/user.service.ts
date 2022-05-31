@@ -67,7 +67,7 @@ export class UserService {
     return this.baseUrlImg + serverPath; 
   }
   getUserFromLocalStorge () {
-    return JSON.parse(localStorage.getItem("userExtendedModel")!);
+    return JSON.parse(localStorage.getItem("user")!);
   }
   
 }

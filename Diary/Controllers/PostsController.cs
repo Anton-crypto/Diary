@@ -6,6 +6,7 @@ using Diary.Models.SubPost;
 using System.Net.Mail;
 using System.Net;
 using static Diary.Static.StaticClass;
+using Diary.General;
 
 namespace Diary.Controllers
 {
@@ -19,7 +20,6 @@ namespace Diary.Controllers
         {
             _context = context;
         }
-
         [HttpGet("{id}")]
         [Route("update/{id}")]
         public async Task<ActionResult<IEnumerable<Post>>> GetUpdatePostAsync(Guid id)
@@ -36,7 +36,6 @@ namespace Diary.Controllers
 
             return post == null ? NotFound() : new ObjectResult(post);
         }
-
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> Get()
         {
@@ -53,7 +52,6 @@ namespace Diary.Controllers
 
             return posts == null ? NotFound() : new ObjectResult(posts);
         }
-
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> Get(Guid id)
         {
@@ -118,7 +116,6 @@ namespace Diary.Controllers
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
-
         [HttpPost]
         [Route("search")]
         public async Task<ActionResult<Post>> GetPostSubscriptions(Search search)
@@ -222,13 +219,13 @@ namespace Diary.Controllers
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
-
         [HttpPost, DisableRequestSizeLimit]
         public async Task<ActionResult<Post>> Post()
         {
             try
             {
                 Post post = new Post();
+                User user = null;
 
                 post.ID = Guid.NewGuid();
                 post.TimePost = DateTime.Now;
@@ -240,28 +237,28 @@ namespace Diary.Controllers
                 var fileList = formCollection.Files.ToList();
                 var userItemList = formCollection.Keys.ToList();
 
-                foreach (var item in userItemList)
+
+
+                foreach (var item in userItemList) // Добавить else 
                 {
                     if (item == "title")
                     {
-                        post.Title = formCollection[item];
+                        string title = formCollection[item];
+                        post.Title = title;
                     }
-                    if (item == "email")
+                    else if (item == "email")
                     {
-                        var email = formCollection[item].ToString();
-                        User user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
-
-                        if (user == null) return StatusCode(500, $"Internal server error");
-                        post.UserID = user.ID;
-
-                        break;
+                        user = await _context.Users.FirstOrDefaultAsync(x => x.Email == formCollection[item].ToString());
                     }
-                    if (item == "teg")
+                    else if (item == "teg")
                     {
-                        post.Tegs = formCollection[item];
-                        break;
+                        string tegs = formCollection[item];
+                        post.Tegs = tegs;
                     }
                 }
+
+                if (user == null) return StatusCode(500, $"Полькователь не найден");
+                post.UserID = user.ID;
 
                 _context.Posts.Add(post);
                 await _context.SaveChangesAsync();
@@ -271,7 +268,7 @@ namespace Diary.Controllers
                 foreach (var item in userItemList)
                 {
                     var text = item.Split('-');
-                    if(text.Length <= 0) return StatusCode(500, $"Internal server error");
+                    if(text.Length <= 0) return StatusCode(500, $"Формат именования файлов не соблюдается");
                     switch (text[0])
                     {
                         case "text": 
@@ -345,13 +342,15 @@ namespace Diary.Controllers
                 _context.Posts.Update(post);
                 await _context.SaveChangesAsync();
 
-                List<Subscriptions> subscriptions = _context.Subscriptionses.Where(x => x.UserSubscriptionID == post.UserID).ToList();
-                User userSub = _context.Users.FirstOrDefault(x => x.ID == post.UserID);
-     
+                List<Subscriptions> subscriptions = _context.Subscriptionses.Where(x => x.UserWriterID == post.UserID).ToList();
+
                 foreach (var subscription in subscriptions)
                 {
-                    User user = await _context.Users.FirstOrDefaultAsync(x => x.ID == subscription.UserWriterID);
-                    SendingMessagesToEmail($"<h2>У пользователя по именем {userSub.Name} gявился новый пост !</h2>", user.Email);
+                    User userSubscription = await _context.Users.FirstOrDefaultAsync(x => x.ID == subscription.UserSubscriptionID);
+                    if (userSubscription is null) break;
+
+                    MessageDiary messageDiary = new MessageDiary(_context);
+                    messageDiary.Send(userSubscription, $"<h2>У пользователя по именем ( {user.Name} ) появился новый пост !</h2>");
                 }
 
                 return Ok(post);
@@ -374,7 +373,6 @@ namespace Diary.Controllers
 
             return Ok();
         }
-
         [HttpPut, DisableRequestSizeLimit]
         public async Task<ActionResult<Post>> Put()
         {
@@ -548,11 +546,17 @@ namespace Diary.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
-
         [HttpDelete("{id}")]
         public async Task<ActionResult<Post>> Delete(Guid id)
         {
-            Post post = _context.Posts.FirstOrDefault(x => x.ID == id);
+            Post post = _context.Posts
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .FirstOrDefault(x => x.ID == id);
 
             if (post == null)
             {
@@ -563,6 +567,54 @@ namespace Diary.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(post);
+        }
+        [HttpGet]
+        [Route("hotter")]
+        public async Task<ActionResult<Post>> GetHotPostAsync()
+        {
+            List<Post> posts = await _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(x => x.TimePost.Day == DateTime.Now.Day && x.ValidationStatus == true).ToListAsync();
+
+            return posts is null ? NotFound() : new ObjectResult(posts);
+        }
+        [HttpGet]
+        [Route("best")]
+        public async Task<ActionResult<Post>> GetBestPostAsync()
+        {
+            List<Post> posts = await _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(e => (e.Comments.Count + e.Likes.Count + e.Saveds.Count) * 100 >= 5000 && e.ValidationStatus == true).ToListAsync();
+
+            return posts is null ? NotFound() : new ObjectResult(posts);
+        }
+        [HttpGet]
+        [Route("fresh")]
+        public async Task<ActionResult<Post>> GetFreshPostAsync()
+        {
+            List<Post> posts = await _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(x => x.TimePost.Month == DateTime.Now.Month && x.ValidationStatus == true).ToListAsync();
+
+            return posts is null ? NotFound() : new ObjectResult(posts);
         }
     }
 }

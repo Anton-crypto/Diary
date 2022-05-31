@@ -1,6 +1,9 @@
 import { Component, Inject, Input } from '@angular/core'
+
 import { PostService } from '../service/post.service';
 import { ModerService } from '../service/moder.service';
+import { UserService } from '../service/user.service';
+
 import { ActivatedRoute } from '@angular/router';
 
 import { IPost } from '../models/post.model';
@@ -20,7 +23,9 @@ export class PostComponent {
     private postService: PostService,
     private moderService: ModerService,
     private route: ActivatedRoute,
+    private userService: UserService,
   ) { }
+
   @Input() post: IPost | undefined;
   user: IUser | undefined;
 
@@ -38,8 +43,7 @@ export class PostComponent {
     tag.src = "https://www.youtube.com/iframe_api";
     document.body.appendChild(tag);
     
-    this.user = this.postService.getUserFromLocalStorge();
-
+    this.user = this.userService.getUserFromLocalStorge();
     this.userRole = this.postService.getRout();
 
     this.rout = this.route.snapshot.routeConfig!.path
@@ -71,7 +75,7 @@ export class PostComponent {
   
   reject() {
     if(this.post && this.post.id) {
-      this.moderService.reject(this.post.id.toString()).subscribe((() => { }));
+      this.moderService.reject(this.post.id.toString()).subscribe((() => { this.post = undefined }));
     }
   }
   example() {
@@ -79,8 +83,8 @@ export class PostComponent {
       this.moderService.example(this.post.id.toString()).subscribe((() => {  this.post = undefined }));
     }
   }
-  deletePost() {
-
+  deletePost(id: string) {
+    this.postService.deletePost(id).subscribe((() => { this.ngOnInit()}));
   }
   
   public savedPost () {

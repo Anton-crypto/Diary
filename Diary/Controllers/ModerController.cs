@@ -6,6 +6,7 @@ using Diary.Models.SubPost;
 using System.Net.Mail;
 using System.Net;
 using static Diary.Static.StaticClass;
+using Diary.General;
 
 namespace Diary.Controllers
 {
@@ -14,15 +15,17 @@ namespace Diary.Controllers
     public class ModerController : ControllerBase
     {
         private readonly DiaryContextDb _context;
+        private readonly MessageDiary messageDiary;
 
         public ModerController(DiaryContextDb context)
         {
             _context = context;
+            this.messageDiary = new MessageDiary(context);
         }
 
         [HttpGet("{id}")]
         [Route("reject/{id}")]
-        public async Task<ActionResult<Post>> Reject(Guid id)
+        public async Task<ActionResult<string>> Reject(Guid id)
         {
             Post post = _context
                 .Posts
@@ -34,23 +37,18 @@ namespace Diary.Controllers
                 return NotFound();
             }
 
-            string message = $"<h2>" +
-                $"Поздравляю вы написали заметательный пост! " +
-                $"Скоро он появится в ленте у многих польхователей!</h2>";
-            string email = $"{post.User.Email}";
-
-            SendingMessagesToEmail(message, email);
+            messageDiary.Send(post.User, "Поздравляю вы написали заметательный пост!");
 
             post.ValidationStatus = true;
 
             _context.Posts.Update(post);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Ok");
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Post>> Example(Guid id)
+        public async Task<ActionResult<string>> Example(Guid id)
         {
             Post post = _context
                 .Posts
@@ -62,17 +60,12 @@ namespace Diary.Controllers
                 return NotFound();
             }
 
-            string message = $"<h2>" +
-                $"Данный пост является не коректным! " +
-                $"Если правила будут нарушены повторно вы будете заблокированны на сайте!</h2>";
-            string email = $"{post.User.Email}";
-
-            SendingMessagesToEmail(message, email);
+            messageDiary.Send(post.User, "Данный пост является не коректным!");
 
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
 
-            return Ok(post);
+            return Ok("ok");
         }
 
         [HttpGet("{id}")]

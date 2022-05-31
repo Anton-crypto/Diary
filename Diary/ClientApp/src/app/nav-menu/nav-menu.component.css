@@ -41,6 +41,7 @@ html {
   border-radius: 100%;
   display: flex;
   align-items: center;
+  position: relative;
   justify-content: space-around;
   background-color: var(--colorActiveElemen);
 }
@@ -58,4 +59,16 @@ html {
   .container {
     max-width: 1000px !important;
   }
+}
+.count {
+  background-color: var(--colorActiveElemen);
+  border: 1px solid var(--colorBackGroundElement);
+  min-width: 20px;
+  display: block;
+  text-align: center;
+  border-radius: 100%;
+  font-size: 12px;
+  position: absolute;
+  top: -5px;
+  right: -4px;
 }

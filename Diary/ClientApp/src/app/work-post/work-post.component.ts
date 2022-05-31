@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core'
+
 import { PostService } from '../service/post.service';
+import { UserService } from '../service/user.service';
+
 import { ActivatedRoute } from '@angular/router';
 import { IPost } from '../models/post.model';
 
@@ -35,6 +38,7 @@ export class WorkPostComponent implements OnInit {
   constructor(
     private postService: PostService,    
     private route: ActivatedRoute,
+    private userService: UserService,
   ) { 
 
   }
@@ -190,7 +194,7 @@ export class WorkPostComponent implements OnInit {
         teg += item + ","
       })
 
-      let user = this.postService.getUserFromLocalStorge();
+      let user = this.userService.getUserFromLocalStorge();
 
       formData.append('email', user.email);
       formData.append('title', this.title);

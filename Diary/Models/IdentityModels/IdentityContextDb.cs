@@ -15,10 +15,10 @@ namespace Diary.Models.IdentityModels
             modelBuilder.Entity<Person>().ToTable("Person");
             modelBuilder.Entity<Person>().HasData(new Person
             {
-                Id = Guid.Parse("6f9619ff-8b86-d011-b42d-00cf12c964ff"),
+                Id = Guid.NewGuid(),
                 Email = "toni_naumov_1990@mail.ru",
                 Password = GetHash("123wera567"),
-                Role = "user"
+                Role = "admin"
             });
         }
         private string GetHash(string input)

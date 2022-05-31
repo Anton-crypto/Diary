@@ -29,6 +29,7 @@ import { UserDetailsComponent } from './user/user-details/user-details.component
 import { SearchComponent } from './search/search.component';
 import { PostsModerComponent } from './posts/posts-moder/posts-moder.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { MessageComponent } from './message/message.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -73,7 +74,8 @@ export function tokenGetter() {
     UserDetailsComponent,
     SearchComponent,
     PostsModerComponent,
-    UserListComponent
+    UserListComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -145,7 +147,12 @@ export function tokenGetter() {
             path: 'user-list', 
             component: UserListComponent,
             canActivate: [AuthGuard],
-          }
+          },
+          { 
+            path: 'messages', 
+            component: MessageComponent,
+            canActivate: [AuthGuard],
+          },
         ],
       },
     ]),

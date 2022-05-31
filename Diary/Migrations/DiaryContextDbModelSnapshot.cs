@@ -73,6 +73,35 @@ namespace Diary.Migrations
                     b.ToTable("Likes");
                 });
 
+            modelBuilder.Entity("Diary.Models.Message", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsSeen")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsStatus")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeMessage")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Message", (string)null);
+                });
+
             modelBuilder.Entity("Diary.Models.Post", b =>
                 {
                     b.Property<Guid>("ID")
@@ -201,6 +230,9 @@ namespace Diary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool?>("IsAlert")
+                        .HasColumnType("bit");
+
                     b.Property<Guid?>("UserSubscriptionID")
                         .HasColumnType("uniqueidentifier");
 
@@ -253,6 +285,14 @@ namespace Diary.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            ID = new Guid("81f7daba-c626-4caf-a9b8-9bd7b0833aa9"),
+                            Email = "toni_naumov_1990@mail.ru",
+                            Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("Diary.Models.Comment", b =>
@@ -281,6 +321,17 @@ namespace Diary.Migrations
                         .HasForeignKey("UserID");
 
                     b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Diary.Models.Message", b =>
+                {
+                    b.HasOne("Diary.Models.User", "User")
+                        .WithMany("Messages")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -373,6 +424,8 @@ namespace Diary.Migrations
                     b.Navigation("Comments");
 
                     b.Navigation("Likes");
+
+                    b.Navigation("Messages");
 
                     b.Navigation("Posts");
 
