@@ -10,7 +10,7 @@
         align-items: center;
         padding-left: 15px;
         padding-right: 15px;
-        background-color: $colorItem;
+        background-color: var(--colorBackGroundElement);
 
         &-item:first-child {
             flex-grow: 0;
@@ -23,7 +23,7 @@
         }
 
         input {
-            background-color: $colorItem;
+            background-color: var(--colorBackGroundElement);
             outline: none;
             border: none;
             width: 100%;
@@ -57,7 +57,7 @@
         color: #7d7d7d; 
         &-line {
             margin-top: 10px;
-            border-top: 1px solid $colorBorder;
+            border-top: 1px solid var(--colorBorder);
             padding-top: 10px;
         }
         &-line:first-child {
@@ -77,7 +77,7 @@
                     border-radius: 2px;
                 }
                 .plus {
-                    background-color: $colorItem;
+                    background-color: var(--colorBackGroundElement);
                 }
                 .cross {
                     background-color: var(--colorActiveElemen);
@@ -142,9 +142,9 @@
                 cursor: pointer;
             }
             .text {
-                background-color: $colorItem;
+                background-color: var(--colorBackGroundElement);
                 outline: none;
-                border: 1px solid $colorBorder;
+                border: 1px solid var(--colorBorder);
                 padding: 5px 5px;
                 color: $colorText;
                 line-height: 1;

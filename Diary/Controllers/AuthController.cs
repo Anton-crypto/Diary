@@ -12,6 +12,7 @@ using System.Web;
 using Diary.Services;
 using System.Security.Cryptography;
 using System.Text;
+using Diary.General;
 
 namespace Diary.Controllers
 {
@@ -22,6 +23,7 @@ namespace Diary.Controllers
         private readonly IdentityContextDb _context;
         private readonly DiaryContextDb _contextDiary;
 
+        private readonly IMessage _message;
         private readonly ITokenService _tokenService;
 
         public AuthController(IdentityContextDb context, ITokenService tokenService, DiaryContextDb contextDiary)
@@ -29,6 +31,7 @@ namespace Diary.Controllers
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _contextDiary = contextDiary ?? throw new ArgumentNullException(nameof(contextDiary));
             _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
+            _message = new MessageMail();
         }
 
         [HttpPost]
@@ -90,7 +93,7 @@ namespace Diary.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, register.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, "moder")
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
             };
 
             var accessToken = _tokenService.GenerateAccessToken(claims);
@@ -100,7 +103,7 @@ namespace Diary.Controllers
                 Id = Guid.NewGuid(),
                 Email = register.Email,
                 Password = GetHash(register.Password),
-                Role = "moder",
+                Role = "user",
                 RefreshToken = refreshToken,
                 RefreshTokenExpiryTime = DateTime.Now.AddDays(7),
             };
@@ -133,6 +136,51 @@ namespace Diary.Controllers
                 Role = person.Role
             }); ;
         }
+
+        [HttpPost]
+        [Route("reset")]
+        [Produces("application/json")]
+        public async Task<IActionResult> ResetPasswordAsync(ResetPasswod reset)
+        {
+            if (reset is null) 
+                return BadRequest("Данные небыли получены.");
+
+            var user = _context.Persons.FirstOrDefault(x => x.Email == reset.Email);
+
+            if (user is null)
+                return NotFound();
+
+            var newPassword = GetNewPassword();
+            user.Password = GetHash(newPassword);
+
+            _context.Persons.Update(user);
+            await _context.SaveChangesAsync();
+
+            _message.Send(user, newPassword);
+
+            return Ok();
+        }
+        [HttpPost]
+        [Route("swap")]
+        [Produces("application/json")]
+        public async Task<IActionResult> SwapPasswordAsync(Swap swap)
+        {
+            if (swap is null)
+                return BadRequest("Данные небыли получены.");
+
+            var user = _context.Persons.FirstOrDefault(x => x.Email == swap.Email && x.Password == GetHash(swap.OldPassword));
+
+            if (user is null)
+                return NotFound();
+
+            user.Password = GetHash(swap.NewPassword);
+
+            _context.Persons.Update(user);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         private string GetHash(string input)
         {
             var md5 = MD5.Create();
@@ -140,5 +188,20 @@ namespace Diary.Controllers
 
             return Convert.ToBase64String(hash);
         }
+        private string GetNewPassword()
+        {
+            var random = new Random();
+            var letters = "abcdefghijklmnopqrstuvwxyz1234567890";
+            var password = "";
+
+            for (int i = 0; i < 8; i++)
+            {
+                var index = random.Next(0, letters.Length - 1);
+                password += letters[index];
+            }
+
+            return password;
+        }
+
     }
 }

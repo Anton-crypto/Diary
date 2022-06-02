@@ -4,12 +4,16 @@
         *ngIf='user.font != ""'
         [src]="createImgPath(user.font)" 
       >
+      <img src="../../../assets/img/font.jpg" alt="" srcset="" *ngIf="user.font == ''">
     </div>
     <div class="avatar">
         <img 
           [src]="createImgPath(user.icon)" 
           *ngIf="user.icon != ''"
         >
+        <div *ngIf="user.icon == ''">
+            <img src="../../../assets/img/start-icon.png" alt="" srcset="">
+        </div>
     </div>
     <div class="body">
         <div class="body__button">

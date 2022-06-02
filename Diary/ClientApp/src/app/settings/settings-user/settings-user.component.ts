@@ -1,7 +1,9 @@
 import { Component, Inject, ViewChild, AfterViewInit } from '@angular/core'
 import { UserService } from '../../service/user.service';
+import { VerificationService } from 'src/app/service/verification.service';
 import { IUser } from '../../models/user.model';
 import { ImageCroppedEvent, ImageCropperComponent, LoadedImage } from 'ngx-image-cropper';
+import { ISwap } from 'src/app/models/swapPassword.model';
 
 @Component({
   selector: 'app-settings-user',
@@ -24,12 +26,25 @@ export class SettingsUserComponent implements AfterViewInit{
   isCheckCrop : boolean = false
   isCheckVisibleCrop: boolean = false
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private verificationService: VerificationService
+  ) { }
   
   user: IUser | undefined;
 
   @ViewChild(ImageCropperComponent)
   viewChild: ImageCropperComponent |any
+
+  passwordOld : string = ""
+  passwordNew : string = ""
+  passwordNewCopy : string = ""
+
+  swap : ISwap = {
+    email: "",
+    oldPassword: "",
+    newPassword: "",
+  }
 
   ngOnInit(): void {
     this.getUser();
@@ -129,6 +144,12 @@ export class SettingsUserComponent implements AfterViewInit{
         this.user = user;
         console.log(this.user)
       });
+    }
+  }
+  swapPassword () {
+    if(this.passwordNewCopy == this.swap.newPassword && this.swap.newPassword != this.swap.oldPassword) {
+      this.swap.email = this.user?.email!;
+      this.verificationService.swap(this.swap).subscribe(() => {}); 
     }
   }
 

@@ -71,9 +71,9 @@
                 }
             }
             .bntEdit {
-                background-color: $colorItem;
+                background-color: var(--colorBackGround);
                 padding: 5px;
-                border: 1px solid $colorBorder;
+                border: 1px solid var(--colorBorder);
                 cursor: pointer;
             }
         }

@@ -82,5 +82,26 @@
     </div>
   </div>
 </div>
+<div class="togglePassword">
+  <div class="togglePassword__body">
+    <div class="togglePassword__body-item">
+      <label>Старый пароль</label>
+      <input type="password" placeholder="Введите старый пароль"  [(ngModel)]="swap.oldPassword">
+    </div>
+    <div class="togglePassword__body-item">
+      <label>Новый пароль</label>
+      <input type="password" placeholder="Введите новый пароль"  [(ngModel)]="swap.newPassword">
+    </div>
+    <div class="togglePassword__body-item">
+      <label>Повторите пароль</label>
+      <input type="password" placeholder="Повторите пароль"  [(ngModel)]="passwordNewCopy">
+    </div>
+  </div>
+  <div class="button">
+    <button class="save" (click)="swapPassword()">
+      Сохранить
+    </button>
+  </div>
+</div>
 
 <app-img-crop *ngIf="isCheckCrop" [iconFile]="imageChangedEvent" class="set-cropper" (dataChanged)="dataChangeHandler($event)"></app-img-crop>

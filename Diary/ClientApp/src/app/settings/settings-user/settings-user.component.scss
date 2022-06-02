@@ -76,7 +76,7 @@
             width: 100%;
             display: flex;
             justify-content: flex-end;
-            padding: 25px;
+            padding: 0px 25px 25px 25px;
 
         }
         .save {
@@ -143,4 +143,54 @@
     z-index: 10;
     background-color: rgba(34, 39, 43, 0.8);
 
+}
+.togglePassword {
+    margin-top: 20px;
+    background-color: var(--colorBackGroundElement);
+    border: 1px solid var(--colorBorder) !important;
+    padding: 20px;
+    color: var(--colorTitleBody);
+    &__body {
+        &-item {
+            padding-top: 5px;
+            display: flex;
+            white-space: nowrap;
+            align-items: center;
+            label {
+                margin-right: 10px;
+                width: 200px;
+            }
+        }
+    }
+
+    input {
+        color: var(--colorTitleBody);
+        width: 100%;
+        background-color: transparent;
+        border: 1px solid var(--colorBorder) !important;
+        padding: 10px 20px;
+        margin-top: 5px;
+        &:focus-visible{
+            border: 1px solid var(--colorActiveElemen) !important;
+            outline: none !important;
+        }
+    }
+    .button {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+
+    }
+    .save {
+        display: block;
+        font-size: 13px;
+        line-height: 20px;
+        font-weight: 400;
+        padding: 8px 40px;
+        background-color: var(--colorActiveElemen);
+        border-radius: 2px;
+        border: none;
+        color: aliceblue;
+    }
 }

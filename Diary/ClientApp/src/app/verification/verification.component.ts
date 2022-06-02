@@ -25,12 +25,13 @@ export class VerificationComponent implements OnInit{
   credentialsReg: RegisterModel = {email:'', password:'',nikeName:''};
 
   nikeName : string = ""
-  isCheckLogin : boolean = false;
+  isCheckLogin : Ver = Ver.Reg;
 
   passwordReq1 : boolean = false;
   passwordReq2 : boolean = false;
   passwordReq3 : boolean = false;
 
+  email : string = ""
 
   constructor (
     private router: Router, 
@@ -101,14 +102,35 @@ export class VerificationComponent implements OnInit{
       }
     });
   }
-  checkTypeLogin() : boolean {
-    return this.isCheckLogin;
+  checkTypeLogin(valid: string) : boolean {
+    console.log(this.isCheckLogin + "==" + valid == "=> " + (this.isCheckLogin == valid))
+    return this.isCheckLogin == valid;
   }
-  toggolTypeLogin() {
-    this.isCheckLogin = !this.isCheckLogin
+  toggolTypeLogin(value: string) {
+    if(value == Ver.Auth) {
+      this.isCheckLogin = Ver.Auth
+    } else if(value == Ver.Reg){
+      this.isCheckLogin = Ver.Reg
+    } else if(value == Ver.Res){
+      this.isCheckLogin = Ver.Res
+    }
   }
   checkSymbol(item: string) {
     const re = /^[a-z]$/i;
     return re.test(item);
   }
+  resetPassword (form: NgForm) {
+    if (form.valid) {       
+      this.verificationService.reset(this.email).subscribe({
+        next: () => {
+        },
+      })
+    }
+  }
+}
+
+enum Ver {
+  Reg = "Reg",
+  Auth = "Auth",
+  Res = "Res",
 }

@@ -45,6 +45,9 @@ html {
   justify-content: space-around;
   background-color: var(--colorActiveElemen);
 }
+.icon svg {
+  color: var(--colorBackGroundElement);
+}
 
 .nav-link:hover {
   color: #5a8684;
@@ -71,4 +74,7 @@ html {
   position: absolute;
   top: -5px;
   right: -4px;
+}
+.navbar-light .navbar-toggler-icon {
+  background-color: var(--colorTitleText) !important;
 }

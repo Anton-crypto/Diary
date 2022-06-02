@@ -1,14 +1,14 @@
 @import "../../color.scss";
 
 .sidebar-user {
-    background-color: #22272b;
+    background-color: var(--colorBackGroundElement);
     width: 100%;
     color: #5e6061;
     .user {
-        background-color: #1a1e21;
+        background-color: var(--colorBackGround);
         display: flex;
         justify-content: space-between;
-        border-bottom: 1px solid $colorBorder !important;
+        border-bottom: 1px solid var(--colorBorder) !important;
         &__header {
             display: flex;
         }
@@ -34,7 +34,7 @@
 
     &__info {
         padding: 16px 24px;
-        border-bottom: 1px solid $colorBorder !important;
+        border-bottom: 1px solid var(--colorBorder) !important;
     }
     &__hint {
         font-size: 14px;

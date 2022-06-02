@@ -1,5 +1,5 @@
 <div class = "verification border">
-  <form class="example-form"  #loginForm="ngForm" (ngSubmit)="login(loginForm)" *ngIf="checkTypeLogin() == true">
+  <form class="example-form"  #loginForm="ngForm" (ngSubmit)="login(loginForm)" *ngIf="checkTypeLogin('Auth') == true">
     <div class ="text-title">
       Авторизация
     </div>
@@ -39,15 +39,18 @@
       <button mat-raised-button class = "btn__init" [disabled]="!loginForm.valid">Войти</button>
     </div>
     <div>
-      <button mat-button class = "btn__reg" (click)="toggolTypeLogin()">Регистрация</button>
+      <button mat-button class = "btn__reg" (click)="toggolTypeLogin('Reg')">Регистрация</button>
+    </div>
+    <div>
+      <button mat-button class = "btn__reg" (click)="toggolTypeLogin('Res')">Востановить пароль</button>
     </div>
   </form>
-  <form class="example-form"  #registerForm="ngForm" (ngSubmit)="register(registerForm)" *ngIf="checkTypeLogin() == false">
+  <form class="example-form"  #registerForm="ngForm" (ngSubmit)="register(registerForm)" *ngIf="checkTypeLogin('Reg') == true">
     <div class ="text-title">
       Регистрация
     </div>
     <mat-form-field 
-    class="field-mat" 
+    class="field-mat"   
       appearance="outline"
     >
       <input 
@@ -134,7 +137,40 @@
       <button mat-raised-button class = "btn__init" [disabled]="!registerForm.valid">Создать аккаунт</button>
     </div>
     <div>
-      <button mat-button class = "btn__reg" (click)="toggolTypeLogin()">Авторизация</button>
+      <button mat-button class = "btn__reg" (click)="toggolTypeLogin('Auth')">Авторизация</button>
+    </div>
+    <div>
+      <button mat-button class = "btn__reg" (click)="toggolTypeLogin('Res')">Востановить пароль</button>
+    </div>
+  </form>
+  <form class="example-form"  #resetForm="ngForm" (ngSubmit)="resetPassword(resetForm)" *ngIf="checkTypeLogin('Res') == true">
+    <div class ="text-title">
+      Востановление пароля
+    </div>
+    <mat-form-field 
+      class="field-mat"   
+      appearance="outline"
+    >
+      <input 
+        matInput 
+        pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}"
+        maxlength="256" 
+        outlined 
+        type="email" 
+        id="email" 
+        name="email" 
+        placeholder= "E-mail"
+        [(ngModel)]="email"
+      >
+    </mat-form-field>
+    <div>
+      <button mat-raised-button class = "btn__init" [disabled]="!resetForm.valid">Востановить пароль</button>
+    </div>
+    <div>
+      <button mat-button class = "btn__reg" (click)="toggolTypeLogin('Auth')">Авторизация</button>
+    </div>
+    <div>
+      <button mat-button class = "btn__reg" (click)="toggolTypeLogin('Reg')"> Регистрация</button>
     </div>
   </form>
   <div  class = "text-foot">

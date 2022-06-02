@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <style>
+        .message {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-content: center;
+            
+        }
+        .mail {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .password {
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 30px;
+        }
+    </style>
+    <body style="padding: 0;margin: 0;">
+        <div class="message">
+            <div class="mail">
+                <h1 class="title">Восстановление пароля</h1>
+                <div class="header">
+                    Вы запросили востановление пароля Вашего пароля на сайте Diary.<br>
+                    Если вы этого не делали, проигнорируйте это письмо.
+                </div>
+                <div class="password">
+                    Вам высланн новый пароль : ${password} .
+                </div>
+                <div class="footer">
+                    С уважением, Администрация Diary.  
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
