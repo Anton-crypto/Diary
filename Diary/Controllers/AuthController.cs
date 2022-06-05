@@ -136,6 +136,68 @@ namespace Diary.Controllers
                 Role = person.Role
             }); ;
         }
+        [HttpPost]
+        [Route("moder")]
+        [Produces("application/json")]
+        public async Task<IActionResult> CreateNewModerAcountAsync(Register register)
+        {
+            if (register is null)
+            {
+                return BadRequest("Invalid client request");
+            }
+
+            Person user = _context.Persons.FirstOrDefault(x => x.Email == register.Email);
+
+            if (user != null)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, register.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, "moder")
+            };
+
+            var accessToken = _tokenService.GenerateAccessToken(claims);
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            Person person = new Person
+            {
+                Id = Guid.NewGuid(),
+                Email = register.Email,
+                Password = GetHash(register.Password),
+                Role = "moder",
+                RefreshToken = refreshToken,
+                RefreshTokenExpiryTime = DateTime.Now.AddDays(7),
+            };
+
+            await _context.Persons.AddAsync(person);
+            _context.SaveChanges();
+
+
+            User userDiary = new User
+            {
+                ID = Guid.NewGuid(),
+                Email = register.Email,
+                Name = register.NikeName,
+                Icon = "",
+                Font = "",
+                About = "",
+                Gender = "",
+                IsBlok = false,
+                IsBan = false,
+            };
+
+            await _contextDiary.Users.AddAsync(userDiary);
+            _contextDiary.SaveChanges();
+
+            return Ok(new AuthenticatedResponse
+            {
+                Token = accessToken,
+                RefreshToken = refreshToken,
+                User = userDiary,
+                Role = person.Role
+            }); ;
+        }
 
         [HttpPost]
         [Route("reset")]

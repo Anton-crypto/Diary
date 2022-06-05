@@ -1,0 +1,34 @@
+.createModer {
+    background-color: var(--colorBackGroundElement);
+    color: var(--colorTitleBody);
+    padding: 20px;
+    width: 100%;
+    border: 1px solid var(--colorBorder) !important;
+
+    &-item {
+        width: 50%;
+        margin-bottom: 20px;
+        input {
+            background-color: var(--colorBackGround);
+            width: 100%;
+            outline: none;
+            border: 0;
+            color: var(--colorTitleBody);
+            border: 1px solid var(--colorBorder) !important;
+            padding: 10px 20px;
+            &:focus-visible{
+                border: 1px solid var(--colorActiveElemen) !important;
+                outline: none !important;
+            }
+        }
+    }
+    &-btn {
+        button {
+            background-color: var(--colorActiveElemen);
+            border-radius: 2px;
+            border: 0;
+            color: var(--colorButtonText);
+            padding: 5px 10px;
+        }
+    }
+}

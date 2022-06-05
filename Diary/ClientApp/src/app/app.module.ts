@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MainComponent } from './main/main.component';
 import { PostComponent } from './post/post.component';
 import { WorkPostComponent } from './work-post/work-post.component';
-import { TimeLineComponent } from './timeline/timeline.component';
+import { TimeLineComponent } from './posts/posts-time/posts-time.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { VerificationComponent } from './verification/verification.component';
 import { SidebarUserComponent } from './sidebar/sidebar-user/sidebar-user.component';
@@ -30,6 +30,13 @@ import { SearchComponent } from './search/search.component';
 import { PostsModerComponent } from './posts/posts-moder/posts-moder.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { MessageComponent } from './message/message.component';
+import { CreateModerComponent } from './create-moder/create-moder.component'
+import { ModerComponent } from './moder/moder.component';
+
+import { PostsBestComponent } from './posts/posts-best/posts-best.component';
+import { PostsFreshComponent } from './posts/posts-fresh/posts-fresh.component';
+import { PostsHotterComponent } from './posts/posts-hotter/posts-hotter.component';
+import { PostsSubsComponent } from './posts/posts-subs/posts-subs.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -76,6 +83,12 @@ export function tokenGetter() {
     PostsModerComponent,
     UserListComponent,
     MessageComponent,
+    CreateModerComponent,
+    ModerComponent,
+    PostsBestComponent,
+    PostsFreshComponent,
+    PostsHotterComponent,
+    PostsSubsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -151,6 +164,36 @@ export function tokenGetter() {
           { 
             path: 'messages', 
             component: MessageComponent,
+            canActivate: [AuthGuard],
+          },
+          { 
+            path: 'create-moder', 
+            component: CreateModerComponent,
+            canActivate: [AuthGuard],
+          },
+          { 
+            path: 'moders', 
+            component: ModerComponent,
+            canActivate: [AuthGuard],
+          },
+          { 
+            path: 'best', 
+            component: PostsBestComponent,
+            canActivate: [AuthGuard],
+          },
+          { 
+            path: 'hotter', 
+            component: PostsHotterComponent,
+            canActivate: [AuthGuard],
+          },
+          { 
+            path: 'fresh', 
+            component: PostsFreshComponent,
+            canActivate: [AuthGuard],
+          },
+          { 
+            path: 'subs', 
+            component: PostsSubsComponent,
             canActivate: [AuthGuard],
           },
         ],

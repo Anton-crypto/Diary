@@ -37,9 +37,15 @@
         <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Мои посты</a>
         <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Оповещения</a>
       </div>
-      <div *ngIf="userRole == 'moder' || userRole == 'admin'">
+      <div *ngIf="userRole == 'moder'">
         <a class="sidebar-user__menu-item" [routerLink]="[ '/posts-moder' ]">Проверка постов</a>
         <a class="sidebar-user__menu-item" [routerLink]="[ '/user-list' ]">Список пользователей</a>
+      </div>
+      <div *ngIf="userRole == 'admin'">
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/posts-moder' ]">Проверка постов</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/user-list' ]">Список пользователей</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/moders' ]">Список модераторов</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/create-moder' ]">Добавить модератора</a>
       </div>
     </div>
 </div>

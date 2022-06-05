@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Diary.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Http.Headers;  
+using System.Net.Http.Headers;
+using Diary.Models.IdentityModels;
 
 namespace Diary.Controllers
 {
@@ -11,16 +12,26 @@ namespace Diary.Controllers
     {
 
         private readonly DiaryContextDb _context;
+        private readonly IdentityContextDb _contextIdentity;
 
-        public UserController(DiaryContextDb context)
+        public UserController(DiaryContextDb context, IdentityContextDb contextIdentity)
         {
             _context = context;
+            _contextIdentity = contextIdentity;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> Get()
         {
-            return new ObjectResult(await _context.Users.ToListAsync());
+            List<Person> persons = await _contextIdentity.Persons.Where(e => e.Role == "user").ToListAsync();
+            List<User> users = new List<User>();
+
+            foreach (var person in persons)
+            {
+                users.Add(await _context.Users.FirstOrDefaultAsync(x => x.Email == person.Email));
+            }
+
+            return users == null ? NotFound() : new ObjectResult(users);
         }
 
         [HttpGet("{id}")]
@@ -37,7 +48,20 @@ namespace Diary.Controllers
             User user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
             return user == null ? NotFound() : new ObjectResult(user);
         }
+        [HttpGet]
+        [Route("moder")]
+        public async Task<ActionResult<User>> GetModerAsync()
+        {
+            List<Person> persons = await _contextIdentity.Persons.Where(e => e.Role == "moder").ToListAsync();
+            List<User> users = new List<User>();
 
+            foreach (var person in persons)
+            {
+                users.Add(await _context.Users.FirstOrDefaultAsync(x => x.Email == person.Email));
+            }
+
+            return users == null ? NotFound() : new ObjectResult(users);
+        }
         [HttpPut, DisableRequestSizeLimit]
         public async Task<ActionResult<User>> Put()
         {

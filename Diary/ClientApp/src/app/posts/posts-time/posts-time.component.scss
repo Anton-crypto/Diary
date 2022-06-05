@@ -1,0 +1,33 @@
+@import "../color.scss";
+
+.timeline {
+    width: 70%;
+    height: auto;
+    //background-color: #22272b;
+}
+.spin {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+::ng-deep circle {
+    stroke: $colorButtonUse !important;
+}
+::ng-deep mat-spinner {
+    width: 75px !important;
+    height: 75px !important;
+    svg {
+        width: 75px !important;
+        height: 75px !important;
+    }
+}
+.noFoundMessage {
+    width: 100%;
+    border-radius: 2px;
+    margin-bottom: 20px;
+    border: 1px solid #2d3236;
+    padding: 20px;
+    color: #bfbfb1;
+    text-align: center;
+    background-color: $colorItem;
+}

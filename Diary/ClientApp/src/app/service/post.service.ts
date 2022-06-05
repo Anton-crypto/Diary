@@ -43,6 +43,21 @@ export class PostService {
     }
 
     // Method group Get // 
+
+    getHotPost(): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts/hotter`);    
+    }
+    getBestPost(): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts/best`);    
+    }
+    getFreshPost(): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts/fresh`);    
+    }
+    getSubscriptionsPost(id: string): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts/subscriptions/${id}`);    
+    }
+
+    // Method group Get // 
     
     getPost(id: string): Observable<IPost> {
         return this.http.get<IPost>(this.baseUrl + `posts/update/${id}`);    

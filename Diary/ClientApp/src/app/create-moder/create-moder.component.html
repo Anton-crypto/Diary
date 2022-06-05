@@ -1,0 +1,38 @@
+<div class="createModer" *ngIf="isSend == true">
+  <h1>Создание аккаунта мастера</h1>
+  <form class="example-form"  #loginForm="ngForm" (ngSubmit)="createModer(loginForm)">
+    <div class="createModer-item">
+      <input 
+        type="text" 
+        id="email" 
+        name="email"
+        placeholder="email" 
+        [(ngModel)]="credentials.email"
+      >
+    </div>
+    <div class="createModer-item">
+      <input 
+        type="text" 
+        id="nikeName" 
+        name="nikeName"
+        placeholder="nikeName" 
+        [(ngModel)]="credentials.nikeName"
+      >
+    </div>
+    <div class="createModer-item">
+      <input 
+        type="password" 
+        id="password" 
+        name="password"
+        placeholder="пароль" 
+        [(ngModel)]="credentials.password"
+      >
+    </div>
+    <div class="createModer-btn">
+      <button [disabled]="!loginForm.valid">Создать</button>
+    </div>
+  </form>
+</div>
+<div *ngIf="isSend == false">
+
+</div>
