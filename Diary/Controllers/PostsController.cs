@@ -100,22 +100,6 @@ namespace Diary.Controllers
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
-        [HttpGet("{id}")]
-        [Route("subscriptions/{id}")]
-        public async Task<ActionResult<Post>> GetPostSubscriptionsAsync(Guid id)
-        {
-            List<Post> posts = await _context.Posts
-                .Include(p => p.User)
-                .Include(t => t.PostTexts)
-                .Include(v => v.PostVidios)
-                .Include(i => i.PostImages)
-                .Include(c => c.Comments)
-                .Include(l => l.Likes)
-                .Include(s => s.Saveds)
-                .Where(u => u.User.Subscribers.Any(u => u.UserWriterID == id) && u.ValidationStatus == true).ToListAsync();
-
-            return posts is null ? NotFound() : new ObjectResult(posts);
-        }
         [HttpPost]
         [Route("search")]
         public async Task<ActionResult<Post>> GetPostSubscriptions(Search search)
@@ -613,6 +597,40 @@ namespace Diary.Controllers
                 .Include(l => l.Likes)
                 .Include(s => s.Saveds)
                 .Where(x => x.TimePost.Month == DateTime.Now.Month && x.ValidationStatus == true).ToListAsync();
+
+            return posts is null ? NotFound() : new ObjectResult(posts);
+        }
+        [HttpGet("{id}")]
+        [Route("subscriptions/{id}")]
+        public async Task<ActionResult<Post>> GetPostSubscriptionsAsync(Guid id)
+        {
+            List<Post> posts = await _context.Posts
+                .Include(p => p.User)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(u => u.User.Subscribers.Any(u => u.UserWriterID == id) && u.ValidationStatus == true).ToListAsync();
+
+            return posts is null ? NotFound() : new ObjectResult(posts);
+        }
+
+        public async Task<ActionResult<Post>> GetRecommendationsAsync(string email)
+        {
+            User user = _context.Users.FirstOrDefault(e => e.Email == email);  // Поправить
+
+            List<Post> posts = _context.Posts
+                .Include(e => e.User)
+                .Include(e => e.Likes)
+                .Where(e => 
+                    e.ValidationStatus == true &&
+                    e.Likes.Any(u => u.TimeLike.Day == DateTime.Now.Day) &&
+                    e.Likes.Any(u => u.UserID == user.ID) &&
+                    e.UserID != user.ID
+                )
+                .ToList();
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
