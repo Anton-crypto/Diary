@@ -63,7 +63,74 @@ namespace Diary.Controllers
 
  
             MessageDiary messageDiary = new MessageDiary(_context);
-            messageDiary.Send(user, $"Пост с заголовкой ({post.Title}), был прокомментирован пользователем по имени {user.Name}.");
+            messageDiary.Send(post.User, $"Пост с заголовкой ({post.Title}), был прокомментирован пользователем по имени {user.Name}.");
+
+            return Ok(comment);
+        }
+        [HttpPut]
+        public async Task<ActionResult<Comment>> Put(Comment comment)
+        {
+            if(comment is null)
+            {
+                return StatusCode(500, "Данные не коректны.");
+            }
+
+            _context.Comments.Update(comment);
+            await _context.SaveChangesAsync();
+
+            Post post = _context.Posts.Include(e => e.User).FirstOrDefault(e => e.ID == comment.PostID);
+            User user = _context.Users.FirstOrDefault(e => e.ID == comment.UserID);
+
+            if (post is null) return StatusCode(500, " Данынй пост не найтен ");
+            if (comment is null) return BadRequest(" Коментарий сформирован не правельно ");
+            if (post.User is null) return StatusCode(500, " Данынй пост не найтен ");
+            if (user is null) return StatusCode(500, " Пользователь оставивший комментарий не найден ");
+
+            MessageDiary messageDiary = new MessageDiary(_context);
+            messageDiary.Send(post.User, $"Пост с заголовкой ({post.Title}), был прокомментирован пользователем по имени {user.Name}.");
+
+            return Ok(comment);
+        }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Comment>> Delete(Guid id)
+        {
+            Comment comment = _context.Comments.FirstOrDefault(e => e.ID == id);
+
+            User user = _context.Users.FirstOrDefault(e => e.ID == comment.UserID);
+            Post post = _context.Posts.Include(e => e.User).FirstOrDefault(e => e.ID == comment.PostID);
+
+            if (post is null) return StatusCode(500, " Данынй пост не найтен ");
+            if (comment is null) return BadRequest(" Коментарий сформирован не правельно ");
+            if (post.User is null) return StatusCode(500, " Данынй пост не найтен ");
+            if (user is null) return StatusCode(500, " Пользователь оставивший комментарий не найден ");
+
+            _context.Comments.Remove(comment);
+            _context.SaveChanges();
+
+            MessageDiary messageDiary = new MessageDiary(_context);
+            messageDiary.Send(post.User, $"Комментарий пользователя {user.Name} был удален к посту 1.");
+
+            return Ok(comment);
+        }
+        [HttpDelete("{id}")]
+        [Route("moder/{id}")]
+        public async Task<ActionResult<Comment>> DeleteCommentModer(Guid id)
+        {
+            Comment comment = _context.Comments.FirstOrDefault(e => e.ID == id);
+
+            User user = _context.Users.FirstOrDefault(e => e.ID == comment.UserID);
+            Post post = _context.Posts.Include(e => e.User).FirstOrDefault(e => e.ID == comment.PostID);
+
+            if (post is null) return StatusCode(500, " Данынй пост не найтен ");
+            if (comment is null) return BadRequest(" Коментарий сформирован не правельно ");
+            if (post.User is null) return StatusCode(500, " Данынй пост не найтен ");
+            if (user is null) return StatusCode(500, " Пользователь оставивший комментарий не найден ");
+
+            _context.Comments.Remove(comment);
+            _context.SaveChanges();
+
+            MessageDiary messageDiary = new MessageDiary(_context);
+            messageDiary.Send(post.User, $"Комментарий пользователя {user.Name} был удален к посту 1.");
 
             return Ok(comment);
         }

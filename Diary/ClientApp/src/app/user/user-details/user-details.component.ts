@@ -3,9 +3,11 @@ import { UserService } from '../../service/user.service';
 import { IUser } from '../../models/user.model';
 import { ActivatedRoute } from '@angular/router';
 import { IPost } from '../../models/post.model';
-import { PostService } from '../../service/post.service';
 import { ISubscriptions } from 'src/app/models/subscriptions.model';
+
 import { SubscriptionService } from '../../service/subs.service';
+import { PostService } from '../../service/post.service';
+import { ModerService } from 'src/app/service/moder.service';
 
 
 @Component({
@@ -21,6 +23,7 @@ export class UserDetailsComponent {
     private route: ActivatedRoute,
     private subsService: SubscriptionService,
     private postService: PostService,
+    private moderService: ModerService,
   ){ }
   
   user: IUser | undefined;
@@ -85,7 +88,26 @@ export class UserDetailsComponent {
       });
     });
   }
+  blockUser(id: string) {
+    this.moderService.blockingUser(id).subscribe({
+      next: () => {
 
+      },
+      error: () => {
+
+      }
+    });
+  }
+  banUser(id: string) {
+    this.moderService.banUser(id).subscribe({
+      next: () => {
+
+      },
+      error: () => {
+        
+      }
+    });
+  }
   deleteSub() {
     this.subsService.deleteSubs(this.sub!.id!).subscribe(() =>  {
       this.isSub = false

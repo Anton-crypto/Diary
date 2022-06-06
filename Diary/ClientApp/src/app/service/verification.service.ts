@@ -64,4 +64,19 @@ export class VerificationService {
     if(roleInStor == role) return true;
     return false;
   }
+  getHeadersInLocalStore () : object | null {
+
+    const token = localStorage.getItem("jwt");
+    const refreshToken: string = localStorage.getItem("refreshToken")!;
+
+    if(token && refreshToken) {
+      const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
+
+      return {
+        'Content-Type':  'application/json',
+        Authorization: credentials
+      }
+    }
+    return null;
+  }
 }

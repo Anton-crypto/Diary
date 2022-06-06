@@ -7,6 +7,8 @@ using System.Net.Mail;
 using System.Net;
 using static Diary.Static.StaticClass;
 using Diary.General;
+using Microsoft.AspNetCore.Authorization;
+using Diary.Models.IdentityModels;
 
 namespace Diary.Controllers
 {
@@ -15,12 +17,16 @@ namespace Diary.Controllers
     public class ModerController : ControllerBase
     {
         private readonly DiaryContextDb _context;
+        private readonly IdentityContextDb _contextIdentity;
         private readonly MessageDiary messageDiary;
+        private readonly IMessage _messageMail;
 
-        public ModerController(DiaryContextDb context)
+        public ModerController(DiaryContextDb context, IdentityContextDb _contextIdentity)
         {
-            _context = context;
+            this._context = context;
+            this._contextIdentity = _contextIdentity;
             this.messageDiary = new MessageDiary(context);
+            this._messageMail = new MessageMail();
         }
 
         [HttpGet("{id}")]
@@ -122,10 +128,28 @@ namespace Diary.Controllers
 
             SendingMessagesToEmail(message, email);
 
+            //_messageMail.Send(user, "");
+
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
             return Ok();
         }
+        [HttpDelete("{id}"), Authorize]
+        [Route("delete/{id}")]
+        public async Task<ActionResult<string>> Delete(Guid id)
+        {
+            var user = _context.Users.FirstOrDefault(e => e.ID == id);
+            var person = _contextIdentity.Persons.FirstOrDefault(e => e.Email == user.Email);
+
+            _context.Users.Remove(user);
+            _context.SaveChanges();
+
+            _contextIdentity.Persons.Remove(person);
+            _contextIdentity.SaveChanges();
+
+            return Ok("");
+        }       
+
     }
 }

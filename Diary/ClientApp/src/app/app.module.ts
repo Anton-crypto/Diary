@@ -37,6 +37,7 @@ import { PostsBestComponent } from './posts/posts-best/posts-best.component';
 import { PostsFreshComponent } from './posts/posts-fresh/posts-fresh.component';
 import { PostsHotterComponent } from './posts/posts-hotter/posts-hotter.component';
 import { PostsSubsComponent } from './posts/posts-subs/posts-subs.component';
+import { PostsCollComponent } from './posts/posts-coll/posts-coll.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -89,6 +90,7 @@ export function tokenGetter() {
     PostsFreshComponent,
     PostsHotterComponent,
     PostsSubsComponent,
+    PostsCollComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -196,6 +198,11 @@ export function tokenGetter() {
             component: PostsSubsComponent,
             canActivate: [AuthGuard],
           },
+          { 
+            path: 'coll', 
+            component: PostsCollComponent,
+            canActivate: [AuthGuard],
+          },
         ],
       },
     ]),
@@ -203,13 +210,14 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:44407"],
+        allowedDomains: ["localhost:7022"],
         disallowedRoutes: []
       }
     })
   ],
   providers: [
     StoreModel,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

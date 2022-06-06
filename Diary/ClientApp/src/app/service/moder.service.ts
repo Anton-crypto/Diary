@@ -14,31 +14,12 @@ import { ISubscriptions } from '../models/subscriptions.model';
 export class ModerService {
 
     private baseUrl : string = "";
-    private baseUrlImg : string = "";
-
-    private httpOptions = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
 
     constructor (
         private http: HttpClient, 
         private storeModel:StoreModel,
-        private jwtHelper: JwtHelperService
     ) { 
         this.baseUrl = storeModel.getBaseUrl()
-        const token = localStorage.getItem("jwt");
-        const refreshToken: string = localStorage.getItem("refreshToken")!;
-
-        this.baseUrl = storeModel.getBaseUrl()
-        this.baseUrlImg = storeModel.getBaseUrlImg()
-
-        if(token && !this.jwtHelper.isTokenExpired(token) && refreshToken && !this.jwtHelper.isTokenExpired(refreshToken)) {
-            const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
-            this.httpOptions.headers = new HttpHeaders({
-                'Content-Type':  'application/json',
-                Authorization: credentials
-            })
-        }
     }
 
     // Method group Get // 
@@ -48,5 +29,14 @@ export class ModerService {
     }
     example(id: string): Observable<string> {
         return this.http.delete<string>(this.baseUrl + `moder/${id}`) 
+    }
+    blockingUser(id: string): Observable<string> {
+        return this.http.delete<string>(this.baseUrl + `moder/blocking/${id}`) 
+    }
+    banUser(id: string): Observable<string> {
+        return this.http.delete<string>(this.baseUrl + `moder/ban/${id}`) 
+    }
+    deleteModer(id: string): Observable<string> {
+        return this.http.delete<string>(this.baseUrl + `moder/delete/${id}`) 
     }
 }

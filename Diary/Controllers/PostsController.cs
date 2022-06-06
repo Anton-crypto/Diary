@@ -616,7 +616,8 @@ namespace Diary.Controllers
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
-
+        [HttpGet("{email}")]
+        [Route("coll/{email}")]
         public async Task<ActionResult<Post>> GetRecommendationsAsync(string email)
         {
             User user = _context.Users.FirstOrDefault(e => e.Email == email);  // Поправить

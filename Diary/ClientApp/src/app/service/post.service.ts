@@ -56,6 +56,9 @@ export class PostService {
     getSubscriptionsPost(id: string): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `posts/subscriptions/${id}`);    
     }
+    getCollPost(email: string): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts/coll/${email}`);    
+    }
 
     // Method group Get // 
     

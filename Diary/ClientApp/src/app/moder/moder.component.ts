@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router';;
+import { ActivatedRoute } from '@angular/router';
+
 import { UserService } from '../service/user.service';
+import { ModerService } from '../service/moder.service';
+
 import { IUser } from '../models/user.model';
 
 @Component({
@@ -20,7 +23,8 @@ export class ModerComponent implements OnInit {
   
   constructor(
     private route: ActivatedRoute,
-    private userService : UserService,
+    private userService: UserService,
+    private moderService: ModerService,
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +34,16 @@ export class ModerComponent implements OnInit {
     this.userService.getModers()  .subscribe((users) => {
       this.users = users;
       setTimeout(() => {this.check = true;}, 1000)
+    });
+  }
+  deleteModer(id: string) {
+    this.moderService.deleteModer(id).subscribe({
+      next: () => {
+        this.check = false;
+        this.getUsers();
+      },
+      error: () => {}
+
     });
   }
   public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);

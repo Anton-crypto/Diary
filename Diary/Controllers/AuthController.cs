@@ -45,11 +45,16 @@ namespace Diary.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            User userClientModel = _contextDiary.Users.FirstOrDefault(x => x.Email == login.Email && x.IsBlok == false);
+            User userClientModel = _contextDiary.Users.FirstOrDefault(x => x.Email == login.Email);
 
             if (user is null) // Поправить ошибку
             {
                 return BadRequest("Invalid client request"); 
+            }
+
+            if (userClientModel.IsBlok == true) // Поправить ошибку
+            {
+                return BadRequest("IsBlok");
             }
 
             var claims = new List<Claim>
