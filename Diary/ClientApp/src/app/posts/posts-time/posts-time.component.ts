@@ -13,16 +13,41 @@ export class TimeLineComponent {
 
   posts: IPost[] = [];
   check: boolean =  false
+
+  countTime: number= 0;
   
   constructor(private postService: PostService) { }
   ngOnInit(): void {
-    this.getPosts();
+    //this.getPosts();
+
+    this.getPostsPagination(String(this.countTime));
+
+    window.addEventListener('scroll', () => {
+      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+        this.getPostsPagination(String(this.countTime));
+      }
+    });
   }
   getPosts() {
     this.postService.getPosts().subscribe((posts) =>  {
 
       this.posts = this.postService.createPostSubItem(posts)
       this.check = true;
+
+      console.log(this.posts)
+    });
+  }
+  getPostsPagination(count: string) {
+    this.postService.getPostsPagination(count).subscribe((posts) =>  {
+
+      let p = this.postService.createPostSubItem(posts)
+
+      p.forEach(post => {
+        this.posts.push(post);
+      });
+
+      this.check = true;
+      this.countTime++;
 
       console.log(this.posts)
     });

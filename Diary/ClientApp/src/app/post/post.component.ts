@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core'
+import { Component, Inject, Input, ElementRef, ViewChild } from '@angular/core'
 
 import { PostService } from '../service/post.service';
 import { ModerService } from '../service/moder.service';
@@ -31,12 +31,26 @@ export class PostComponent {
 
   isSaved : boolean = true
   isLike : boolean = true
+  isSize: boolean = true
 
   idSaved : string = ""
   idLike : string = ""
 
   userRole : string = ""
   rout : any = ""
+
+  @ViewChild('story__body', { read: ElementRef })
+  storyBody: ElementRef | undefined
+
+  ngAfterViewInit(): void {
+    let item  = this.storyBody;
+    if(item != null) {
+      if(this.getClassEndTime(item.nativeElement.offsetHeight)) {
+        item.nativeElement.className += " hide"
+        console.log(item.nativeElement.className)
+      }
+    }
+  }
 
   ngOnInit(): void {
     const tag = document.createElement('script');
@@ -66,8 +80,13 @@ export class PostComponent {
         });
       }
     }
-    console.log(this.post)
-
+  }
+  resize() {
+    this.isSize = false
+    let item  = this.storyBody;
+    if(item != null) {
+      item.nativeElement.className = ""
+    }
   }
   contains(arr: any [], elem : string) : boolean {
     return arr.length == 0 ? false : arr.find((i : any) => {i.userID.toString() == elem.toString()}) != -1;
@@ -86,7 +105,12 @@ export class PostComponent {
   deletePost(id: string) {
     this.postService.deletePost(id).subscribe((() => { this.ngOnInit()}));
   }
-  
+  getClassEndTime(size: number): boolean {
+    if(size > 400 && this.isSize) {
+      return true
+    }
+    return false
+  }
   public savedPost () {
     
     let saved : ISaved = {

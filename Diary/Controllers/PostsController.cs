@@ -52,6 +52,25 @@ namespace Diary.Controllers
 
             return posts == null ? NotFound() : new ObjectResult(posts);
         }
+        [HttpGet("{pagination}")]
+        [Route("pagination/{pagination}")]
+        public async Task<ActionResult<IEnumerable<Post>>> GetPagination( string pagination )
+        {
+            List<Post>? posts = _context.Posts
+                .Include(p => p.User)
+                .Skip(int.Parse(pagination) * 2)
+                .Take(2)
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .Where(e => e.ValidationStatus == true)
+                .ToList();
+
+            return posts == null ? NotFound() : new ObjectResult(posts);
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> Get(Guid id)
         {

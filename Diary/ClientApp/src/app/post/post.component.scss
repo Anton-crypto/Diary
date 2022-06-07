@@ -126,6 +126,24 @@
             }
             
         }
+        &__read {
+            cursor: pointer;
+            color: var(--colorActiveElemen);
+            padding: 16px 24px 0;
+            position: relative;
+
+            &::before {
+                content: "";
+                width: 100%;
+                height: 24px;
+                z-index: 20;
+                position: absolute;
+                left: 0;
+                bottom: 100%;
+                background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,0) 0%,  var(--colorBackGroundElement) 100%);
+            }
+        }
+
     }
     .author {
         &__name {
@@ -135,5 +153,9 @@
             margin-right: 4px;
             margin-top: 8px;
         }
+    }
+    .hide {
+        max-height: 300px;
+        overflow: hidden;
     }
 }

@@ -26,24 +26,29 @@
                 </div>
             </div>
         </div>
-        <div class="story__body" >
-            <div class="story__body-title" *ngIf="post.title != undefined">
-                {{post.title}}
+        <div class="story__body">
+            <div #story__body>
+                <div class="story__body-title" *ngIf="post.title != undefined">
+                    {{post.title}}
+                </div>
+                <div *ngFor="let item of post.postItem">
+                    <div class="story__body-text" *ngIf="item.text != undefined">
+                        {{item.text}}
+                    </div>
+                    <div class="story__body-img" *ngIf="item.imgUrl != undefined">
+                        <img height="100%" [src]="createImgPath(item.imgUrl)" alt="" srcset="">
+                    </div>
+                    <div class="story__body-vidio" *ngIf="item.vidioUrl != undefined">
+                        <youtube-player
+                            class="youtube-player"
+                            [videoId]="item.vidioUrl"
+                        >
+                        </youtube-player>
+                    </div>
+                </div>
             </div>
-            <div *ngFor="let item of post.postItem">
-                <div class="story__body-text" *ngIf="item.text != undefined">
-                    {{item.text}}
-                </div>
-                <div class="story__body-img" *ngIf="item.imgUrl != undefined">
-                    <img [src]="createImgPath(item.imgUrl)" alt="" srcset="">
-                </div>
-                <div class="story__body-vidio" *ngIf="item.vidioUrl != undefined">
-                    <youtube-player
-                        class="youtube-player"
-                        [videoId]="item.vidioUrl"
-                    >
-                    </youtube-player>
-                </div>
+            <div class="story__read" *ngIf="isSize" (click)="resize()">
+                Показать полностью
             </div>
         </div>
         <div class="story__menu" *ngIf="userRole == 'user'">

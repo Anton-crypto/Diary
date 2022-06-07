@@ -43,6 +43,12 @@ export class PostService {
     }
 
     // Method group Get // 
+    getPosts(): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts`, this.httpOptions);
+    } 
+    getPostsPagination(pagination: string): Observable<IPost[]> {
+        return this.http.get<IPost[]>(this.baseUrl + `posts/pagination/${pagination}`, this.httpOptions);
+    } 
 
     getHotPost(): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `posts/hotter`);    
@@ -67,10 +73,7 @@ export class PostService {
     }
     getSavedPost(id: string): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `saved/${id}`,this.httpOptions);    
-    }
-    getPosts(): Observable<IPost[]> {
-        return this.http.get<IPost[]>(this.baseUrl + `posts`, this.httpOptions);
-    }  
+    } 
     getMyPosts(id: string): Observable<IPost[]> {
         return this.http.get<IPost[]>(this.baseUrl + `posts/mypost/${id}`);
     }  
