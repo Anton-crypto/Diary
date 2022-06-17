@@ -10,29 +10,25 @@ namespace Diary.Controllers
     public class CommentController : ControllerBase
     {
         private readonly DiaryContextDb _context;
+        //private readonly IMessage _message;
 
         public CommentController(DiaryContextDb context)
         {
             _context = context;
+           // _message = message;
         }
+
         [HttpGet("{id}")]
-        [Route("message/{id}")]
-        public async Task<ActionResult<IEnumerable<Message>>> Get(Guid id)
+        [Route("comm/{id}")]
+        public async Task<ActionResult<IEnumerable<Comment>>> GetAllAsync(Guid id)
         {
-            List<Message>? messages = _context.Messages
-                .Where(e => e.UserID == id)
-                .ToList();
+            List<Comment>? comments = await _context.Comments
+                .Where(e => e.PostID == id)
+                .ToListAsync();
 
-            foreach (var message in messages)
-            {
-                if (message.IsSeen == true) break;
-                message.IsSeen = true;
+            if (comments == null) return NotFound();
 
-                _context.Messages.Update(message);
-                await _context.SaveChangesAsync();
-            }
-
-            return messages == null ? NotFound() : new ObjectResult(messages);
+            return comments == null ? NotFound() : new ObjectResult(comments);
         }
         [HttpGet("{id}")]
         [Route("count/{id}")]
@@ -92,6 +88,7 @@ namespace Diary.Controllers
             return Ok(comment);
         }
         [HttpDelete("{id}")]
+        [Route("delete/{id}")]
         public async Task<ActionResult<Comment>> Delete(Guid id)
         {
             Comment comment = _context.Comments.FirstOrDefault(e => e.ID == id);
@@ -101,7 +98,7 @@ namespace Diary.Controllers
 
             if (post is null) return StatusCode(500, " Данынй пост не найтен ");
             if (comment is null) return BadRequest(" Коментарий сформирован не правельно ");
-            if (post.User is null) return StatusCode(500, " Данынй пост не найтен ");
+            if (post.User is null) return StatusCode(500, " Данные о пользователе изменены и это приводи к ошибки ");
             if (user is null) return StatusCode(500, " Пользователь оставивший комментарий не найден ");
 
             _context.Comments.Remove(comment);

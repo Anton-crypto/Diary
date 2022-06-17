@@ -2,6 +2,6 @@ export interface IComment {
     id? : string
     text? : string 
     postid? : string
-    userid? : string
+    userID? : string
     timePost? : Date | number
 }

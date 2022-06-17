@@ -141,6 +141,7 @@ namespace Diary.Controllers
                 Role = person.Role
             }); ;
         }
+        
         [HttpPost]
         [Route("moder")]
         [Produces("application/json")]
@@ -227,6 +228,7 @@ namespace Diary.Controllers
 
             return Ok();
         }
+        
         [HttpPost]
         [Route("swap")]
         [Produces("application/json")]

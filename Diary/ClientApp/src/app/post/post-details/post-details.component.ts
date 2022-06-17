@@ -26,33 +26,8 @@ export class PostDetailsComponent {
   
   getPost(id : string) {
     this.postService.getPost(id).subscribe((post) =>  {
-      console.log(post)
-      this.post = post
-
-      const time = this.diffDays(new Date(post.timePost), new Date());
-      post.timePost = ` ${time} дня назад`;
-
-      let item : any [] = [] 
-
-      if(post.postImages != undefined && post.postImages.length > 0) 
-        item.push(...post.postImages)
-      if(post.postTexts != undefined && post.postTexts.length > 0) 
-        item.push(...post.postTexts)
-      if(post.postVidios != undefined && post.postVidios.length > 0) 
-        item.push(...post.postVidios)
-
-      item.sort((a, b) => a.displayNumber > b.displayNumber ? 1 : -1);
-      post.postItem = item
-
+      this.post = this.postService.createPostSubItem([post])[0];
       console.log(this.post)
-      console.log("sdfsdfsdf")
     });
-  }
-  private diffDays(dateFirst: Date, dateLast: Date): number {
-
-    const timeDiff : number = Math.abs(dateFirst.getTime() - dateLast.getTime());
-    const diffDays : number = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
-    
-    return diffDays;
   }
 }

@@ -13,31 +13,12 @@ import { IMessage } from '../models/message.model';
 export class MessageService {
 
     private baseUrl : string = "";
-    private baseUrlImg : string = "";
-
-    private httpOptions = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
 
     constructor (
         private http: HttpClient, 
         private storeModel:StoreModel,
-        private jwtHelper: JwtHelperService
     ) { 
         this.baseUrl = storeModel.getBaseUrl()
-        const token = localStorage.getItem("jwt");
-        const refreshToken: string = localStorage.getItem("refreshToken")!;
-
-        this.baseUrl = storeModel.getBaseUrl()
-        this.baseUrlImg = storeModel.getBaseUrlImg()
-
-        if(token && refreshToken) {
-            const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
-            this.httpOptions.headers = new HttpHeaders({
-                'Content-Type':  'application/json',
-                Authorization: credentials
-            })
-        }
     }
 
     // Method group Get // 

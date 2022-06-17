@@ -17,7 +17,7 @@ export class CreateModerComponent implements OnInit{
     nikeName: ''
   }
 
-  isSend : boolean = false
+  isSend : boolean = true
 
   constructor(
     private verificationService: VerificationService

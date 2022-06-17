@@ -7,7 +7,7 @@
             </div>
             <div class = "user__info">
                 <div class = "user__info-item">
-                  {{user.name}}
+                  <a [routerLink]="[ '/user-details', user.id ]" >{{user.name}}</a>
                 </div>
                 <div class = "user__info-item user__exit" (click) ="logOut()">
                   выйти 

@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthenticatedResponse } from '../models/authenticatedresponse.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { StoreModel } from '../store';
 import { Observable, of } from 'rxjs';
-import { JwtHelperService } from "@auth0/angular-jwt";
-
-import { IPost } from '../models/post.model';
-import { ISaved } from '../models/saved.model';
-import { ISubscriptions } from '../models/subscriptions.model';
-
 
 @Injectable({ providedIn: 'root' })
 export class ModerService {
@@ -17,7 +10,7 @@ export class ModerService {
 
     constructor (
         private http: HttpClient, 
-        private storeModel:StoreModel,
+        private storeModel: StoreModel,
     ) { 
         this.baseUrl = storeModel.getBaseUrl()
     }

@@ -53,10 +53,6 @@ export class PostComponent {
   }
 
   ngOnInit(): void {
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
-    
     this.user = this.userService.getUserFromLocalStorge();
     this.userRole = this.postService.getRout();
 
@@ -124,7 +120,7 @@ export class PostComponent {
       postId : this.post!.id.toString(),
       userID : this.user!.id.toString(),
     }
-    this.postService.likePost(like).subscribe((() => { this.isLike = false }));
+    this.postService.likePost(like).subscribe((() => { this.isLike = false; this.post!.likes.push(like); }));
   }
   public unLikePost () {
     this.postService.unLikePost(this.idLike).subscribe((() => { this.isLike = true }));

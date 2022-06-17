@@ -9,8 +9,11 @@ using System.Text;
 using Diary.Services;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http.Features;
+using Diary.General;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IMessage, MessageDiary>();
 
 builder.Services.AddControllersWithViews();
 
@@ -23,22 +26,21 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddAuthentication(opt => {
-        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidIssuer = AuthOptions.ISSUER,
-            ValidAudience = AuthOptions.AUDIENCE,
-            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-            ValidateIssuerSigningKey = true,
-        };
-    });
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidIssuer = AuthOptions.ISSUER,
+        ValidAudience = AuthOptions.AUDIENCE,
+        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+        ValidateIssuerSigningKey = true,
+    };
+});
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("EnableCORS", builder =>

@@ -3,8 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthenticatedResponse } from '../models/authenticatedresponse.model';
 import { StoreModel } from '../store';
 import { Observable, of } from 'rxjs';
-import { JwtHelperService } from "@auth0/angular-jwt";
-
 import { IPost } from '../models/post.model';
 import { IComment } from '../models/sub-post/comment.model';
 import { ISaved } from '../models/saved.model';
@@ -24,22 +22,9 @@ export class PostService {
     constructor (
         private http: HttpClient, 
         private storeModel:StoreModel,
-        private jwtHelper: JwtHelperService
     ) { 
-        this.baseUrl = storeModel.getBaseUrl()
-        const token = localStorage.getItem("jwt");
-        const refreshToken: string = localStorage.getItem("refreshToken")!;
-
-        this.baseUrl = storeModel.getBaseUrl()
-        this.baseUrlImg = storeModel.getBaseUrlImg()
-
-        if(token && !this.jwtHelper.isTokenExpired(token) && refreshToken && !this.jwtHelper.isTokenExpired(refreshToken)) {
-            const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken });
-            this.httpOptions.headers = new HttpHeaders({
-                'Content-Type':  'application/json',
-                Authorization: credentials
-            })
-        }
+        this.baseUrl = storeModel.getBaseUrl();
+        this.baseUrlImg = storeModel.getBaseUrlImg();
     }
 
     // Method group Get // 

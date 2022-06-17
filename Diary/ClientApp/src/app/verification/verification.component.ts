@@ -93,7 +93,6 @@ export class VerificationComponent implements OnInit{
     } 
 
     this.credentialsReg.password.split('').forEach(item => {
-      console.log( typeof item == "string")
       if(this.checkSymbol(item)) {
         this.passwordReq2 = true
       }
@@ -103,7 +102,6 @@ export class VerificationComponent implements OnInit{
     });
   }
   checkTypeLogin(valid: string) : boolean {
-    console.log(this.isCheckLogin + "==" + valid == "=> " + (this.isCheckLogin == valid))
     return this.isCheckLogin == valid;
   }
   toggolTypeLogin(value: string) {

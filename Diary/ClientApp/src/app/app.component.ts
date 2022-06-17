@@ -15,7 +15,12 @@ export class AppComponent {
   constructor(
     private _elementRef: ElementRef,
     private _sanitizer: DomSanitizer
-  ) {}
+  ) {
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+    
+  }
 
   ngOnInit(): void {
     if(localStorage.getItem("team") && localStorage.getItem("isCheckedTeam")) {

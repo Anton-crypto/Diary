@@ -2,32 +2,49 @@
     <div class="comment__header">
         Все комментарии
     </div>
-    <div *ngIf="post != undefined && post.comments != undefined">
-        <div class="comment__list" *ngFor="let comment of post.comments">
+    <div *ngIf="comments != undefined">
+        <div class="comment__list" *ngFor="let item of comments">
             <div class="comment__list-header">
                 <div class="comment__img">
-                    <img [src]="createImgPath(post.user.icon)" alt="" srcset="" *ngIf=" post.user.icon != ''">
-                    <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf=" post.user.icon == ''">
+                    <img [src]="createImgPath(item!.user.icon)" alt="" srcset="" *ngIf=" item!.user.icon != ''">
+                    <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf=" item!.user.icon == ''">
                 </div>
-                <div *ngIf="user != undefined">
+                <div *ngIf="user != undefined" style="margin-right: 10px;">
                     {{user.name}}
                 </div>
                 <div>
-                    {{comment.timePost}}
+                    {{item!.comment.timePost | date}}
                 </div>
-                <div>
-
+                <div class="comment__btn" *ngIf="userRole == 'user' && item?.comment?.userID == user?.id">
+                    <button (click)="deleteComment(item!.comment.id!)">(удалить)</button>
+                </div>
+                <div class="comment__btn" *ngIf="userRole == 'user' && item?.comment?.userID == user?.id">
+                    <button (click)="chageUpdateComment(item!.comment)">(изменить)</button>
+                </div>
+                <div class="comment__btn" *ngIf="userRole != 'user'">
+                    <button (click)="deleteCommentModer(item!.comment.id!)">(удалить)</button>
                 </div>
             </div>
             <div class="comment__list-text">
-                {{comment.text}}
+                {{item!.comment.text}}
             </div>
         </div>
     </div>
-    <div class="comment__input">
-        <input type="text" [(ngModel)]="text" placeholder="Введите текст комментария">
+    <div class="comment__input" *ngIf="commentUpdate == undefined">
+        <input type="text" (keyup.enter)="addComment()" [(ngModel)]="text" placeholder="Введите текст комментария">
     </div>
-    <div class="comment__button">
+    <div class="comment__input" *ngIf="commentUpdate != undefined">
+        <div>
+            ваш коментарий от {{commentUpdate.timePost}}
+        </div>
+        <div>
+            <input type="text" (keyup.enter)="updateComment(commentUpdate)" [(ngModel)]="textUpdate" placeholder="Введите текст комментария">
+        </div>
+    </div>
+    <div class="comment__button" *ngIf="commentUpdate == undefined">
         <button (click)="addComment()">Отправить</button>
+    </div>
+    <div class="comment__button" *ngIf="commentUpdate != undefined">
+        <button (click)="updateComment(commentUpdate)">Отправить</button>
     </div>
 </div>

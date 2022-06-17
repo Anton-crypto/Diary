@@ -1,6 +1,7 @@
 import { Component, Inject, Input } from '@angular/core'
 import { PostService } from '../../service/post.service';
 import { IPost } from '../../models/post.model';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 
 @Component({
@@ -16,7 +17,10 @@ export class TimeLineComponent {
 
   countTime: number= 0;
   
-  constructor(private postService: PostService) { }
+  constructor(
+    private postService: PostService,
+    private route: ActivatedRoute,
+  ) { }
   ngOnInit(): void {
     //this.getPosts();
 

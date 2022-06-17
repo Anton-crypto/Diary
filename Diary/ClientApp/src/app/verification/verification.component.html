@@ -90,6 +90,7 @@
         type="password" 
         id="password" 
         name="password"
+        autocomplete="on"
         placeholder= "Пароль*"
         (input)="checkPassword()"
         [(ngModel)]="credentialsReg.password"
@@ -131,7 +132,7 @@
       </div>
     </div>
     <div class="verification__terms">
-      Создавая аккаунт, я соглашаюсь с правилами Пикабу и даю согласие на обработку персональных данных.
+      Создавая аккаунт, я соглашаюсь с правилами Diary и даю согласие на обработку персональных данных.
     </div>
     <div>
       <button mat-raised-button class = "btn__init" [disabled]="!registerForm.valid">Создать аккаунт</button>
