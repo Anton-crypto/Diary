@@ -1,4 +1,4 @@
 <div >
-    <app-post *ngIf="post != undefined" [post]="post"></app-post>
-    <app-comment *ngIf="post != undefined && post.comments != undefined" [post]="post" ></app-comment>
+    <app-post *ngIf="post != undefined" [post]="post" [countComment]="commentCount"></app-post>
+    <app-comment *ngIf="post != undefined && post.comments != undefined" [post]="post" (commentCount)="getCountComments($event)" ></app-comment>
 </div>   

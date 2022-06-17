@@ -1,4 +1,7 @@
 <div class = "verification border">
+  <div *ngIf="isTextErrorVisible" class="error">
+    {{textError}}
+  </div>
   <form class="example-form"  #loginForm="ngForm" (ngSubmit)="login(loginForm)" *ngIf="checkTypeLogin('Auth') == true">
     <div class ="text-title">
       Авторизация
@@ -29,6 +32,7 @@
         [minLength]="10" 
         type="password" 
         id="password" 
+        autocomplete="on"
         name="password"
         placeholder= "Пароль*"
         [(ngModel)]="credentials.password"

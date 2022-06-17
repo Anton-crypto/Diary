@@ -27,6 +27,6 @@ export class MessageService {
         return this.http.get<string>(this.baseUrl + `comment/count/${id}`);    
     }
     getMessage(id: string): Observable<IMessage []> {
-        return this.http.get<IMessage []>(this.baseUrl + `comment/message/${id}`);    
+        return this.http.get<IMessage []>(this.baseUrl + `message/${id}`);    
     }
 }

@@ -32,6 +32,8 @@ export class VerificationComponent implements OnInit{
   passwordReq3 : boolean = false;
 
   email : string = ""
+  textError: string = ""
+  isTextErrorVisible: boolean = false
 
   constructor (
     private router: Router, 
@@ -60,6 +62,19 @@ export class VerificationComponent implements OnInit{
 
           this.router.navigate(["/"]);
         },
+        error: (error) => {
+          this.isTextErrorVisible = true;
+          if(error.error == "Invalid client request") {
+            this.textError = "*Пользователя с такими данными не существует."
+          }
+          if(error.error == "IsBlok") {
+            this.textError = "*Простите, но вы заблокированны на данном ресурсе."
+          }
+
+          setTimeout(() => {
+            this.isTextErrorVisible = false
+          }, 5000)
+        }
       })
     }
   }

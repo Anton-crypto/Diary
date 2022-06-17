@@ -32,6 +32,7 @@ import { UserListComponent } from './user-list/user-list.component';
 import { MessageComponent } from './message/message.component';
 import { CreateModerComponent } from './create-moder/create-moder.component'
 import { ModerComponent } from './moder/moder.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 import { PostsBestComponent } from './posts/posts-best/posts-best.component';
 import { PostsFreshComponent } from './posts/posts-fresh/posts-fresh.component';
@@ -91,6 +92,7 @@ export function tokenGetter() {
     PostsHotterComponent,
     PostsSubsComponent,
     PostsCollComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

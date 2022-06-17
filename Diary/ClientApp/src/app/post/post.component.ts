@@ -27,6 +27,8 @@ export class PostComponent {
   ) { }
 
   @Input() post: IPost | undefined;
+  @Input() countComment: number | undefined;
+
   user: IUser | undefined;
 
   isSaved : boolean = true
@@ -113,20 +115,47 @@ export class PostComponent {
       postId : this.post!.id.toString(),
       userID : this.user!.id.toString(),
     }
-    this.postService.savedPost(saved).subscribe((() => { this.isSaved = false }));
+
+    this.postService.savedPost(saved).subscribe({
+      next: (savedServer) => {
+        this.isSaved = false
+        this.post!.saveds.push(savedServer);
+        this.idSaved = savedServer.id!
+      }
+    });
   }
   public likePost () {
+
     let like : ILike = {
       postId : this.post!.id.toString(),
       userID : this.user!.id.toString(),
     }
-    this.postService.likePost(like).subscribe((() => { this.isLike = false; this.post!.likes.push(like); }));
+
+    this.postService.likePost(like).subscribe({
+      next: (likeServer) => {
+        this.isLike = false; 
+        this.post!.likes.push(likeServer); 
+        this.idLike = likeServer.id!
+      }
+    });
   }
   public unLikePost () {
-    this.postService.unLikePost(this.idLike).subscribe((() => { this.isLike = true }));
+    this.postService.unLikePost(this.idLike).subscribe({
+      next: (like) => {
+        this.isLike = true
+        this.post!.likes = this.post!.likes.filter(item => item.id !== like.id);
+        this.idLike = ""
+      }
+    });
   }
   public unSavedPost () {
-    this.postService.unSavedPost(this.idSaved).subscribe((() => { this.isSaved = true }));
+    this.postService.unSavedPost(this.idSaved).subscribe({
+      next: (saved) => {
+        this.isSaved = true 
+        this.post!.saveds = this.post!.saveds.filter(item => item.id !== saved.id);
+        this.idSaved = ""
+      }
+    });
   }
   public createImgPath = (serverPath: string) => this.postService.createImgPath(serverPath);
 }

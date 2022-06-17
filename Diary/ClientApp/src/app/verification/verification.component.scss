@@ -7,6 +7,10 @@ $mainColor: #5a8684;
     background-color: #22272b;
     padding: 16px 26px;
     color: #5e6061;
+    .error {
+        padding-bottom: 10px;
+        font-size: 14px;
+    }
     &__alternative {
         display: flex;
         margin-top: 12px;

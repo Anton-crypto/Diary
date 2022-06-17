@@ -10,15 +10,15 @@
     </div>
     <div class ="settings__backheader-button">
       <button (click)="fileInputFont.click()" >изменить фон</button>
-      <button>удалить фон</button>
+      <button (click)="deleteFont()">удалить фон</button>
     </div>
-    <img        
-      [src]="selectedFontUrl" 
-      *ngIf="selectedFontUrl != null" 
+    <img 
+      [src]="selectedFontUrlCrop" 
+      *ngIf="selectedFontUrlCrop != null && isCheckVisibleCropFont"
     >
     <img 
-      *ngIf='user.font != ""'
       [src]="createImgPath(user.font)" 
+      *ngIf="user.font != '' && !isCheckVisibleCropFont"
     >
     <img src="../../../assets/img/font.jpg" alt="" srcset="" *ngIf="selectedFontUrl == null && (user.font == '' || user.font == null)">
   </div>
@@ -104,4 +104,18 @@
   </div>
 </div>
 
-<app-img-crop *ngIf="isCheckCrop" [iconFile]="imageChangedEvent" class="set-cropper" (dataChanged)="dataChangeHandler($event)"></app-img-crop>
+<app-img-crop 
+  *ngIf="isCheckCrop" 
+  [iconFile]="imageChangedEvent" 
+  class="set-cropper" 
+  (dataChanged)="dataChangeHandler($event)"
+>
+</app-img-crop>
+<app-img-crop 
+  *ngIf="isCheckCropFont" 
+  [iconFile]="imageChangedEventFont" 
+  [aspectRatio]="4/1"
+  class="set-cropper" 
+  (dataChanged)="dataChangeHandlerFont($event)"
+>
+</app-img-crop>

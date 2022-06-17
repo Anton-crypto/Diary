@@ -10,7 +10,7 @@
                     <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf=" item!.user.icon == ''">
                 </div>
                 <div *ngIf="user != undefined" style="margin-right: 10px;">
-                    {{user.name}}
+                    <a [routerLink]="[ '/user-details', item?.user?.id ]" >{{item?.user?.name}}</a>
                 </div>
                 <div>
                     {{item!.comment.timePost | date}}
@@ -18,14 +18,11 @@
                 <div class="comment__btn" *ngIf="userRole == 'user' && item?.comment?.userID == user?.id">
                     <button (click)="deleteComment(item!.comment.id!)">(удалить)</button>
                 </div>
-                <div class="comment__btn" *ngIf="userRole == 'user' && item?.comment?.userID == user?.id">
-                    <button (click)="chageUpdateComment(item!.comment)">(изменить)</button>
-                </div>
                 <div class="comment__btn" *ngIf="userRole != 'user'">
                     <button (click)="deleteCommentModer(item!.comment.id!)">(удалить)</button>
                 </div>
             </div>
-            <div class="comment__list-text">
+            <div class="comment__list-text" (click)="openUpdateCommentInput(item!.comment)">
                 {{item!.comment.text}}
             </div>
         </div>
@@ -33,9 +30,14 @@
     <div class="comment__input" *ngIf="commentUpdate == undefined">
         <input type="text" (keyup.enter)="addComment()" [(ngModel)]="text" placeholder="Введите текст комментария">
     </div>
-    <div class="comment__input" *ngIf="commentUpdate != undefined">
-        <div>
-            ваш коментарий от {{commentUpdate.timePost}}
+    <div class="comment__update" *ngIf="commentUpdate != undefined">
+        <div class="comment__update-top" (click)="closeUpdateCommentInput()">
+            <div>
+                ваш коментарий от {{commentUpdate.timePost | date}}
+            </div>
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M20 20L4 4m16 0L4 20"/></svg>
+            </div>
         </div>
         <div>
             <input type="text" (keyup.enter)="updateComment(commentUpdate)" [(ngModel)]="textUpdate" placeholder="Введите текст комментария">

@@ -1,6 +1,6 @@
 .messages {
-    border: 1px solid var(--colorBorder);
     &-item {
+        border: 1px solid var(--colorBorder);
         color: var(--colorTitleBody);
         margin-top: 10px;
         display: flex;

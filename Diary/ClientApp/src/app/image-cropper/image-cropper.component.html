@@ -5,7 +5,7 @@
                 [imageChangedEvent]="iconFile"
                 [maintainAspectRatio]="true"
                 [containWithinAspectRatio]="containWithinAspectRatio"
-                [aspectRatio]="1 / 1"
+                [aspectRatio]="aspectRatio"
                 [resizeToWidth]="200"
                 [cropperMinWidth]="100"
                 [onlyScaleDown]="true"
@@ -22,7 +22,7 @@
             </image-cropper>
         </div>
         <div>
-            <img class="img" [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+            <img [class]="setPreview()" [src]="croppedImage" [style.border]="croppedImage ? '1px solid black' : 'none'" />
         </div>
     </div>
     <div class="cropper-btn">

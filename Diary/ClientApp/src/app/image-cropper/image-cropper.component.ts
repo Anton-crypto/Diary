@@ -9,6 +9,7 @@ import { Dimensions, ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper
 
 export class ImageCropperComponent implements OnInit {
 
+    @Input() aspectRatio : number = 1 / 1
     @Input() iconFile : File | undefined = undefined
     croppedImage: any = '';
     @Output() dataChanged: EventEmitter<any> = new EventEmitter<any>()
@@ -25,6 +26,14 @@ export class ImageCropperComponent implements OnInit {
     imageCropped(event: ImageCroppedEvent) {
         this.croppedImage = event.base64;
        /// console.log(this.dataURItoBlob(event.base64!));
+    }
+
+    setPreview() {
+
+        if(1 / 1 == this.aspectRatio) return "circle";
+        if(4 / 1 == this.aspectRatio) return "square";
+
+        return "img";
     }
     
     off () {

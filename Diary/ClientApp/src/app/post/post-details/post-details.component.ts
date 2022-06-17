@@ -13,7 +13,9 @@ import { ActivatedRoute } from '@angular/router';
 export class PostDetailsComponent {
 
   post: IPost | undefined
-  
+  commentCount: number = 0
+
+
   constructor (
     private postService: PostService,
     private route: ActivatedRoute,
@@ -29,5 +31,8 @@ export class PostDetailsComponent {
       this.post = this.postService.createPostSubItem([post])[0];
       console.log(this.post)
     });
+  }
+  getCountComments(count: number) {
+    this.commentCount = count
   }
 }

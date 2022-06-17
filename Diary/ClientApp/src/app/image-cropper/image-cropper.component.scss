@@ -16,6 +16,18 @@
         height: 150px;
         border-radius: 100%;
     }
+    .square {
+        margin-left: 20px;
+        width: 150px;
+        height: 100px;
+    }
+    .circle {
+        margin-left: 20px;
+        width: 150px;
+        height: 150px;
+        border-radius: 100%;
+    }
+
     &-body {
         display: flex;
     }
@@ -29,7 +41,7 @@
             line-height: 20px;
             font-weight: 400;
             padding: 8px 40px;
-            background-color: #5a8684;
+            background-color: var(--colorActiveElemen);
             border-radius: 2px;
             border: none;
             color: aliceblue;

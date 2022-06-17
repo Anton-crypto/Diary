@@ -20,7 +20,7 @@
     }
     &__input {
         input:focus-visible{
-            border: 1px solid $colorElent;
+            border: 1px solid var(--colorActiveElemen);
             outline: none !important;
         }
         input {
@@ -35,7 +35,7 @@
         width: 100%;
         background-color: $colorBack;
         button {
-            background-color: $colorElent;
+            background-color: var(--colorActiveElemen);
             padding: 0 20px;
             border-radius: 2px;
             text-align: inherit;
@@ -61,6 +61,7 @@
         }
         &-text {
             padding: 5px 22px;
+            word-break: break-all;
         }
     }
     &__btn {
@@ -68,6 +69,32 @@
             border: 0px;
             color: var(--colorActiveElemen);
             background-color: transparent
+        }
+    }
+    
+    &__update {
+        input:focus-visible{
+            border: 1px solid var(--colorActiveElemen);
+            outline: none !important;
+        }
+        input {
+            border: 1px solid $colorBorder;
+            padding: 15px 15px;
+            background-color: var(--colorActiveElemen);
+            width: 100%;
+            color: $colorText;
+        }
+        &-top{
+            display: flex;
+            color: $colorText;
+            background-color: $colorItem;
+            padding-left: 18px;
+            font-size: 12px;
+            padding-bottom: 5px;
+            cursor: pointer;
+            div:first-child {
+                padding-right: 10px;
+            }
         }
     }
 }

@@ -19,12 +19,19 @@ export class SettingsUserComponent implements AfterViewInit{
 
   selectedFont : File | undefined;
   selectedFontUrl: FileReader | undefined | string;
+  selectedFontUrlCrop: FileReader | undefined | string;
 
   imageChangedEvent: any = '';
+  imageChangedEventFont: any = '';
+
   croppedImage: any;
+  croppedImageFont: any;
 
   isCheckCrop : boolean = false
+  isCheckCropFont: boolean = false
+
   isCheckVisibleCrop: boolean = false
+  isCheckVisibleCropFont: boolean = false
 
   constructor(
     private userService: UserService,
@@ -61,7 +68,88 @@ export class SettingsUserComponent implements AfterViewInit{
 
     this.isCheckVisibleCrop = true
   }  
-  dataURItoBlob(dataURI : string) {
+  dataChangeHandlerFont(data : any) {
+    this.isCheckCropFont = false;
+    this.croppedImageFont = this.blobToFile(this.dataURItoBlob(data.croppedImage),"file." + this.dataURItoBlob(data.croppedImage).type.split('/')[1])
+    this. selectedFontUrlCrop = data.croppedImage
+
+    this.isCheckVisibleCropFont = true
+  } 
+
+  onIconSelected(event : any) {
+    
+    this.imageChangedEvent = event
+    this.selectedIcon = <File>event.target.files[0];
+    var reader  = new FileReader();
+
+    reader.onload = (event: any) => {
+      this.selectedIconUrl = event.target.result;
+      this.isCheckCrop = true;
+    };
+
+    reader.readAsDataURL(this.selectedIcon);
+  }
+  onFontSelected(event : any) {
+    
+    this.imageChangedEventFont = event
+    this.selectedFont = <File>event.target.files[0];
+    var reader  = new FileReader();
+
+    reader.onload = (event: any) => {
+      this.selectedFontUrl = event.target.result;
+      this.isCheckCropFont = true;
+    };
+
+    reader.readAsDataURL(this.selectedFont);
+  }
+
+  putUser() {
+    if (this.user != undefined) {
+      const formData = new FormData();
+
+      formData.append('id', this.user.id);
+      formData.append('name', this.user.name);
+      formData.append('about', this.user.about);
+      formData.append('gender', this.user.gender);
+
+      if(this.selectedFont != undefined) {
+        formData.append('font', this.croppedImageFont);
+      }
+      if(this.selectedIcon != undefined) {
+        formData.append('icon', this.croppedImage);
+      }
+  
+      this.userService.putUser(formData).subscribe((() => {
+        this.getUser();
+        this.selectedFont = undefined;
+        this.selectedFontUrl = undefined ;
+      }));
+    }
+  }
+  deleteFont() {
+    
+  }
+  getUser() {
+    let user = this.userService.getUserFromLocalStorge();
+
+    if(user) {
+      this.userService.getUser(user.id).subscribe({
+        next: (user) => {
+          this.user = user;
+          this.userService.setUserFromLocalStorge(user);
+        }
+      });
+    }
+  }
+  swapPassword () {
+    if(this.passwordNewCopy == this.swap.newPassword && this.swap.newPassword != this.swap.oldPassword) {
+      this.swap.email = this.user?.email!;
+      this.verificationService.swap(this.swap).subscribe(() => {}); 
+    }
+  }
+
+  public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);
+  private dataURItoBlob(dataURI : string) {
     // convert base64/URLEncoded data component to raw binary data held in a string
     var byteString;
 
@@ -78,7 +166,7 @@ export class SettingsUserComponent implements AfterViewInit{
     }
     return new Blob([ia], {type:mimeString});
   }
-  public blobToFile = (theBlob: Blob, fileName:string): File => {
+  private blobToFile = (theBlob: Blob, fileName:string): File => {
     var b: any = theBlob;
     //A Blob() is almost a File() - it just missing the two properties below which we will add
     b.lastModifiedDate = new Date();
@@ -87,71 +175,4 @@ export class SettingsUserComponent implements AfterViewInit{
     //Cast to a File() type
     return <File>theBlob;
   }
-  onIconSelected(event : any) {
-    
-    this.imageChangedEvent = event
-    this.selectedIcon = <File>event.target.files[0];
-    var reader  = new FileReader();
-
-    reader.onload = (event: any) => {
-      this.selectedIconUrl = event.target.result;
-      this.isCheckCrop = true;
-    };
-
-    reader.readAsDataURL(this.selectedIcon);
-  }
-  onFontSelected(event : any) {
-    
-    this.selectedFont = <File>event.target.files[0];
-    var reader  = new FileReader();
-
-    reader.onload = (event: any) => {
-      this.selectedFontUrl = event.target.result;
-      this.user!.font = "";
-    };
-
-    reader.readAsDataURL(this.selectedFont);
-  }
-
-  putUser() {
-    if (this.user != undefined) {
-      const formData = new FormData();
-
-      formData.append('id', this.user.id);
-      formData.append('name', this.user.name);
-      formData.append('about', this.user.about);
-      formData.append('gender', this.user.gender);
-
-      if(this.selectedFont != undefined) {
-        formData.append('font', this.selectedFont);
-      }
-      if(this.selectedIcon != undefined) {
-        formData.append('icon', this.croppedImage);
-      }
-  
-      this.userService.putUser(formData).subscribe((() => {
-        this.getUser();
-        this.selectedFont = undefined;
-        this.selectedFontUrl = undefined ;
-      }));
-    }
-  }
-  getUser() {
-    let user = this.userService.getUserFromLocalStorge();
-
-    if(user) {
-      this.userService.getUser(user.id).subscribe((user) => {
-        this.user = user;
-        console.log(this.user)
-      });
-    }
-  }
-  swapPassword () {
-    if(this.passwordNewCopy == this.swap.newPassword && this.swap.newPassword != this.swap.oldPassword) {
-      this.swap.email = this.user?.email!;
-      this.verificationService.swap(this.swap).subscribe(() => {}); 
-    }
-  }
-
-  public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);
 }

@@ -20,7 +20,7 @@ import { IMessage } from '../models/message.model';
 
 export class MessageComponent implements OnInit {
 
-  messages: IMessage [] | undefined
+  messages: IMessage [] = []
 
   constructor (
     private messageService: MessageService,
