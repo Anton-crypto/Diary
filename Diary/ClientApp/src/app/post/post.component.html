@@ -75,9 +75,13 @@
         <div class="story__menu" *ngIf="(userRole == 'moder' || userRole == 'admin') && rout == 'posts-moder'">
             <div class="story__menu-btn" style="cursor: pointer;" (click)="example()" >Отклонить</div>
             <div class="story__menu-btn" style="cursor: pointer;" (click)="reject()" >Принять</div>
+            <div class="story__menu-btn" style="cursor: pointer;" (click)="rejectNSFW()" >Принять (NSFW)</div>
         </div>
         <div class="story__menu" *ngIf="(userRole == 'moder' || userRole == 'admin') && rout != 'posts-moder'">
             <div class="story__menu-btn" style="cursor: pointer;" (click)="deletePost(post.id)">Удалить</div>
+            <div class="story__menu-unBtn" style="cursor: pointer;" *ngIf="post.status == 'True'" (click)="deletePost(post.id)">NSFW</div>
+            <div class="story__menu-btn" style="cursor: pointer;" *ngIf="post.status == 'False'" (click)="deletePost(post.id)">NSFW</div>
+            <div class="story__menu-btn" style="cursor: pointer;" (click)="deletePost(post.id)">Комментарии</div>
         </div>
     </div>
 </div>

@@ -120,7 +120,14 @@ export class PostService {
         posts.forEach(post => {
   
           const time = this.diffDays(new Date(post.timePost), new Date());
-          post.timePost = ` ${time} дня назад`;
+
+          if (time == 1) {
+            post.timePost = ` ${time} день назад`;
+          } else if (time <= 4 && time > 1) {
+            post.timePost = ` ${time} дня назад`;
+          } else if (time >= 5) {
+            post.timePost = ` ${time} дней назад`;
+          }
   
           let item : any [] = [] 
   

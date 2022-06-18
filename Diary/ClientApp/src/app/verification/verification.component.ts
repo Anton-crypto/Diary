@@ -61,6 +61,7 @@ export class VerificationComponent implements OnInit{
           localStorage.setItem("role", response.role);
 
           this.router.navigate(["/"]);
+          window.location.reload();
         },
         error: (error) => {
           this.isTextErrorVisible = true;

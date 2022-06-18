@@ -108,7 +108,7 @@ export class CommentComponent {
     array.push(item)
   }
   openUpdateCommentInput(comment: IComment) {
-    if(this.userRole == 'user'&& comment?.userID == this.user?.id) {
+    if(this.userRole == 'user'&& comment?.userID == this.user?.id && this.user!.isBan != true) {
       this.commentUpdate = comment
       this.textUpdate = comment.text!
     }

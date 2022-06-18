@@ -41,6 +41,11 @@ export class UserService {
   getUserFromLocalStorge () {
     return JSON.parse(localStorage.getItem("user")!);
   } 
+  getRole() : string {
+    let role = localStorage.getItem("role");
+
+    return role != null ? role : "";
+  }
   setUserFromLocalStorge (user: IUser) {
     if(user != null) {
       localStorage.setItem("user", JSON.stringify(user));

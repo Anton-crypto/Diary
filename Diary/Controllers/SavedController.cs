@@ -30,7 +30,7 @@ namespace Diary.Controllers
             _context.Saveds.Add(saved);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(saved);
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> Get(Guid id)
@@ -74,7 +74,7 @@ namespace Diary.Controllers
             _context.Saveds.Remove(saved);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(saved);
         }
     }
 }

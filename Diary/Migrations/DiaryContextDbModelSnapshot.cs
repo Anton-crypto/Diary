@@ -289,7 +289,7 @@ namespace Diary.Migrations
                     b.HasData(
                         new
                         {
-                            ID = new Guid("81f7daba-c626-4caf-a9b8-9bd7b0833aa9"),
+                            ID = new Guid("37db172b-a671-4413-982a-6a4c3119b562"),
                             Email = "toni_naumov_1990@mail.ru",
                             Name = "Admin"
                         });

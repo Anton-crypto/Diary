@@ -7,17 +7,30 @@
                   <img [src]="createImgPath(user.icon)"  alt="" srcset="" *ngIf="user.icon != ''">
                   <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf="user.icon == ''">
                </div>
-               <div>
-                  {{user.name}}
+               <div >
+                  <div style="font-size: 11px;" *ngIf="user.timeBan">Пользователь забанен на сайте до {{user.timeBan | date}}</div>
+                  <div style="text-align: start;">
+                     <a [routerLink]="[ '/user-details', user.id ]" >{{user.name}}</a>
+                  </div>
                </div>
             </div>
             <div class="subscriptions__body-right">
-               <button class="subscriptions-sub">
-                  Заблокировать
-              </button>
-              <button class="subscriptions-un">
-                  Забанить
-              </button>
+               <div *ngIf="role == 'admin'">
+                  <button class="subscriptions-sub" *ngIf="user.isBlok == false" (click)="blockUser(user.id)">
+                     Заблокировать
+                  </button>
+                  <button class="subscriptions-un" *ngIf="user.isBlok == true" (click)="unBlockUser(user.id)">
+                     Разблокировать
+                  </button>
+               </div>
+               <div style="margin-top: 10px;" *ngIf="role == 'moder' || role == 'admin'">
+                  <button class="subscriptions-sub" *ngIf="user.isBan == false" (click)="banUser(user)">
+                     Забанить
+                  </button>
+                  <button class="subscriptions-un" *ngIf="user.isBan == true" (click)="unBanUser(user)">
+                     Разбанить
+                  </button>
+               </div>
             </div>
          </div>
       </div>

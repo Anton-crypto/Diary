@@ -29,7 +29,7 @@ namespace Diary.Controllers
             _context.Likes.Add(like);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(like);
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult<Like>> Delete(Guid id)
@@ -44,7 +44,7 @@ namespace Diary.Controllers
             _context.Likes.Remove(like);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(like);
         }
     }
 }

@@ -56,6 +56,8 @@ namespace Diary.Controllers
         [Route("pagination/{pagination}")]
         public async Task<ActionResult<IEnumerable<Post>>> GetPagination( string pagination )
         {
+            int numberPages = pagination == "0" ? 1 : int.Parse(pagination);
+            
             List<Post>? posts = _context.Posts
                 .Include(p => p.User)
                 .Skip(int.Parse(pagination) * 2)
@@ -625,13 +627,14 @@ namespace Diary.Controllers
         {
             List<Post> posts = await _context.Posts
                 .Include(p => p.User)
+                .Include(p => p.User.Subscribers)
                 .Include(t => t.PostTexts)
                 .Include(v => v.PostVidios)
                 .Include(i => i.PostImages)
                 .Include(c => c.Comments)
                 .Include(l => l.Likes)
                 .Include(s => s.Saveds)
-                .Where(u => u.User.Subscribers.Any(u => u.UserWriterID == id) && u.ValidationStatus == true).ToListAsync();
+                .Where(u => u.User.Subscribers.Any(u => u.UserSubscriptionID == id) && u.ValidationStatus == true).ToListAsync();
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }
@@ -653,6 +656,67 @@ namespace Diary.Controllers
                 .ToList();
 
             return posts is null ? NotFound() : new ObjectResult(posts);
+        }
+
+        [HttpDelete("{id}")]
+        [Route("delete/{id}")]
+        public async Task<ActionResult<Post>> DeletePost(Guid id)
+        {
+            var post = _context.Posts
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .FirstOrDefault(e => e.ID == id);
+
+            if(post is null)
+            {
+                return NotFound();
+            }
+
+            post.PostTexts.Clear();
+            post.PostVidios.Clear();
+            post.PostImages.Clear();
+            post.Comments.Clear();
+            post.Likes.Clear();
+            post.Saveds.Clear();
+
+            _context.Posts.Remove(post);
+            _context.SaveChanges();
+
+            return Ok(post);
+        }
+        [HttpDelete("{id}")]
+        [Route("deletemo/{id}")]
+        public async Task<ActionResult<Post>> DeletePostModer(Guid id)
+        {
+            var post = _context.Posts
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.Saveds)
+                .FirstOrDefault(e => e.ID == id);
+
+            if (post is null)
+            {
+                return NotFound();
+            }
+
+            post.PostTexts.Clear();
+            post.PostVidios.Clear();
+            post.PostImages.Clear();
+            post.Comments.Clear();
+            post.Likes.Clear();
+            post.Saveds.Clear();
+
+            _context.Posts.Remove(post);
+            _context.SaveChanges();
+
+            return Ok(post);
         }
     }
 }

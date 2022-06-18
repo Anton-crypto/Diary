@@ -7,4 +7,7 @@ export interface IUser {
     gender : string
     font : string
     role : string
+    isBan: boolean
+    isBlok: boolean
+    timeBan: Date
 }

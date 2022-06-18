@@ -29,4 +29,5 @@ export interface IPost {
     isAccessories : any
     validationStatus : any
     tegs: string
+    status: string
 }

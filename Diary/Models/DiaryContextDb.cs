@@ -30,14 +30,6 @@ namespace Diary.Models
             modelBuilder.Entity<PostImage>().ToTable("PostImage");
             modelBuilder.Entity<PostText>().ToTable("PostText");
             modelBuilder.Entity<Message>().ToTable("Message");
-
-
-            modelBuilder.Entity<User>().HasData(new User { 
-                ID = Guid.NewGuid(), 
-                Email = "toni_naumov_1990@mail.ru", 
-                Name = "Admin",            
-            });
-
         }
     }
 }

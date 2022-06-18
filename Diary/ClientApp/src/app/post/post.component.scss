@@ -7,16 +7,24 @@
         width: 100%;
         height: auto;
         background-color: var(--colorBackGroundElement);
-        color: #c9cbcd;
+        color: var(--colorTitleBody);
 
         &__menu {
             display: flex;
             padding: 15px 23px;
-            border-top: 1px solid $colorBorder;
-            background-color: $colorBack;
+            border-top: 1px solid var(--colorBorder);
+            background-color: var(--colorBackGround);
 
             &-btn {
                 background-color: var(--colorActiveElemen);
+                padding: 5px;
+                margin-right: 10px;
+                border: 1px solid var(--colorBorder);
+                color: var(--colorButtonText);
+                border-radius: 3px;
+            }
+            &-unBtn {
+                background-color: var(--colorUnUseActiveElemen);
                 padding: 5px;
                 margin-right: 10px;
                 border: 1px solid var(--colorBorder);

@@ -95,6 +95,11 @@ export class PostComponent {
       this.moderService.reject(this.post.id.toString()).subscribe((() => { this.post = undefined }));
     }
   }
+  rejectNSFW() {
+    if(this.post && this.post.id) {
+      this.moderService.reject(this.post.id.toString()).subscribe((() => { this.post = undefined }));
+    }
+  }
   example() {
     if(this.post && this.post.id) {
       this.moderService.example(this.post.id.toString()).subscribe((() => {  this.post = undefined }));

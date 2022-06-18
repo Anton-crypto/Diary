@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IUser } from '../models/user.model';
 import { MessageService } from '../service/message.service';
 import { UserService } from '../service/user.service';
 
@@ -10,6 +11,7 @@ import { UserService } from '../service/user.service';
 export class NavMenuComponent implements OnInit {
   isExpanded = false;
   countUnSennMessage: number = 0
+  user: IUser | undefined
 
   constructor (
     private messageService: MessageService, 
@@ -19,6 +21,10 @@ export class NavMenuComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getCountUnSeenMessage();
+    
+    setTimeout(()=> {
+      this.getCountUnSeenMessage();
+    }, 10000)
   }
  
   collapse() {
@@ -26,7 +32,7 @@ export class NavMenuComponent implements OnInit {
   }
   getCountUnSeenMessage(): void {
     let user = this.userService.getUserFromLocalStorge();
-
+    this.user = user
     if(user != null) {
       this.messageService.getCountUnSeen(user.id).subscribe({
         next: (count : string) => {

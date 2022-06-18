@@ -13,13 +13,13 @@ namespace Diary.Models.IdentityModels
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Person>().ToTable("Person");
-            modelBuilder.Entity<Person>().HasData(new Person
-            {
-                Id = Guid.NewGuid(),
-                Email = "toni_naumov_1990@mail.ru",
-                Password = GetHash("123wera567"),
-                Role = "admin"
-            });
+            //modelBuilder.Entity<Person>().HasData(new Person
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Email = "toni_naumov_1990@mail.ru",
+            //    Password = GetHash("123wera567"),
+            //    Role = "admin"
+            //});
         }
         private string GetHash(string input)
         {

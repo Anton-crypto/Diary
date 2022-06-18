@@ -28,7 +28,10 @@ export class TimeLineComponent {
 
     window.addEventListener('scroll', () => {
       if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-        this.getPostsPagination(String(this.countTime));
+        console.log(this.route.snapshot.routeConfig)
+        if(this.route.snapshot.routeConfig!.path == "") {
+          this.getPostsPagination(String(this.countTime));
+        }
       }
     });
   }

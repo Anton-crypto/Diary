@@ -18,14 +18,14 @@ namespace Diary.Controllers
     {
         private readonly DiaryContextDb _context;
         private readonly IdentityContextDb _contextIdentity;
-        private readonly MessageDiary messageDiary;
+        private readonly IMessage _messageDiary;
         private readonly IMessage _messageMail;
 
         public ModerController(DiaryContextDb context, IdentityContextDb _contextIdentity)
         {
             this._context = context;
             this._contextIdentity = _contextIdentity;
-            this.messageDiary = new MessageDiary(context);
+            _messageDiary = new MessageDiary(context);
             this._messageMail = new MessageMail();
         }
 
@@ -43,7 +43,7 @@ namespace Diary.Controllers
                 return NotFound();
             }
 
-            messageDiary.Send(post.User, "Поздравляю вы написали заметательный пост!");
+            _messageDiary.Send(post.User, "Поздравляю вы написали заметательный пост!");
 
             post.ValidationStatus = true;
 
@@ -66,7 +66,7 @@ namespace Diary.Controllers
                 return NotFound();
             }
 
-            messageDiary.Send(post.User, "Данный пост является не коректным!");
+            _messageDiary.Send(post.User, "Данный пост является не коректным!");
 
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
@@ -78,25 +78,18 @@ namespace Diary.Controllers
         [Route("blocking/{id}")]
         public async Task<ActionResult<Post>> Blocking(Guid id)
         {
-            User user = _context
-                .Users
-                .Include(e => e.Posts)
-                .FirstOrDefault(x => x.ID == id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
+            User user = _context.Users.FirstOrDefault(x => x.ID == id);
+            if (user is null) return NotFound();
 
             user.IsBlok = true;
 
-            string message = $"<h2>" +
-                $"На вашей странице была замечена подозрительная активность! " +
-                $"Ваш аккаунт был заблокирован!</h2>";
+            //string message = $"<h2>" +
+            //    $"На вашей странице была замечена подозрительная активность! " +
+            //    $"Ваш аккаунт был заблокирован!</h2>";
 
-            string email = $"{user.Email}";
+            //string email = $"{user.Email}";
 
-            SendingMessagesToEmail(message, email);
+            //SendingMessagesToEmail(message, email);
 
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
@@ -109,7 +102,6 @@ namespace Diary.Controllers
         {
             User user = _context
                 .Users
-                .Include(e => e.Posts)
                 .FirstOrDefault(x => x.ID == id);
 
             if (user == null)
@@ -120,21 +112,67 @@ namespace Diary.Controllers
             user.IsBan = true;
             user.TimeBan = DateTime.Now.AddMinutes(5);
 
-            string message = $"<h2>" +
-                $"На вашей странице была замечена подозрительная активность! " +
-                $"Временно вы не сможете размешять посты и коментировать записи!</h2>";
+            //System.Timers.Timer timer = new(interval: 1000 * 60 );
+            //timer.Elapsed += (sender, e) => TimerBant(user, timer );
+            //timer.Start();
 
-            string email = $"{user.Email}";
+            string message = $"На вашей странице была замечена подозрительная активность! " +
+                $"Временно вы не сможете размешять посты и коментировать записи!";
 
-            SendingMessagesToEmail(message, email);
-
-            //_messageMail.Send(user, "");
+            _messageDiary.Send(user, message);
 
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
             return Ok();
         }
+        //private void TimerBant ( User user, System.Timers.Timer timer)
+        //{
+        //    user.IsBan = false;
+
+        //    using (DbContext db = new DbContext("DateBaseDiary")
+        //    {
+
+        //    }
+        //        _context.Users.Update(user);
+        //    _context.SaveChangesAsync();
+
+        //    timer.Stop();
+        //}
+
+        [HttpGet("{id}")]
+        [Route("ban/delete/{id}")]
+        public async Task<ActionResult<User>> BanDeleteAsync(Guid id)
+        {
+            User user = _context.Users.FirstOrDefault(x => x.ID == id);
+            if (user == null) return NotFound();
+
+            user.IsBan = false;
+            user.TimeBan = null;
+
+            _messageDiary.Send(user, "Простите произошла ошибка Бан был снят.");
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(user);
+        }
+
+        [HttpGet("{id}")]
+        [Route("blocking/delete/{id}")]
+        public async Task<ActionResult<User>> BlockingDeleteAsync(Guid id)
+        {
+            User user = _context.Users.FirstOrDefault(x => x.ID == id);
+            if (user is null) return NotFound(); 
+
+            user.IsBlok = false;
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(user);
+        }
+
         [HttpDelete("{id}"), Authorize]
         [Route("delete/{id}")]
         public async Task<ActionResult<string>> Delete(Guid id)

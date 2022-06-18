@@ -37,9 +37,11 @@
 
             .subscriptions-sub {
                 background-color: var(--colorActiveElemen);    
+                width: 155px;
             }
             .subscriptions-un {
-                background-color: var(--colorUnUseActiveElemen);
+                background-color: var(--colorUnUseActiveElemen);   
+                width: 155px;
             }
         }
     }

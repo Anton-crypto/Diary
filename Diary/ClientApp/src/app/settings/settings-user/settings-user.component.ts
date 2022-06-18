@@ -55,7 +55,6 @@ export class SettingsUserComponent implements AfterViewInit{
 
   ngOnInit(): void {
     this.getUser();
-    console.log(this.user)
   }
 
   ngAfterViewInit() {

@@ -10,12 +10,12 @@ namespace Diary.Controllers
     public class CommentController : ControllerBase
     {
         private readonly DiaryContextDb _context;
-        //private readonly IMessage _message;
+        private readonly IMessage _message;
 
         public CommentController(DiaryContextDb context)
         {
             _context = context;
-           // _message = message;
+            _message = new MessageDiary(_context);
         }
 
         [HttpGet("{id}")]
@@ -57,9 +57,7 @@ namespace Diary.Controllers
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
- 
-            MessageDiary messageDiary = new MessageDiary(_context);
-            messageDiary.Send(post.User, $"Пост с заголовкой ({post.Title}), был прокомментирован пользователем по имени {user.Name}.");
+            _message.Send(post.User, $"Пост с заголовкой ({post.Title}), был прокомментирован пользователем по имени {user.Name}.");
 
             return Ok(comment);
         }
@@ -70,6 +68,8 @@ namespace Diary.Controllers
             {
                 return StatusCode(500, "Данные не коректны.");
             }
+
+            comment.TimePost = DateTime.Now;
 
             _context.Comments.Update(comment);
             await _context.SaveChangesAsync();
@@ -82,8 +82,7 @@ namespace Diary.Controllers
             if (post.User is null) return StatusCode(500, " Данынй пост не найтен ");
             if (user is null) return StatusCode(500, " Пользователь оставивший комментарий не найден ");
 
-            MessageDiary messageDiary = new MessageDiary(_context);
-            messageDiary.Send(post.User, $"Пост с заголовкой ({post.Title}), был прокомментирован пользователем по имени {user.Name}.");
+            _message.Send(post.User, $"Пост с заголовкой ({post.Title}), был прокомментирован пользователем по имени {user.Name}.");
 
             return Ok(comment);
         }
@@ -104,8 +103,7 @@ namespace Diary.Controllers
             _context.Comments.Remove(comment);
             _context.SaveChanges();
 
-            MessageDiary messageDiary = new MessageDiary(_context);
-            messageDiary.Send(post.User, $"Комментарий пользователя {user.Name} был удален к посту 1.");
+            _message.Send(post.User, $"Комментарий пользователя {user.Name} был удален к посту 1.");
 
             return Ok(comment);
         }
@@ -126,8 +124,7 @@ namespace Diary.Controllers
             _context.Comments.Remove(comment);
             _context.SaveChanges();
 
-            MessageDiary messageDiary = new MessageDiary(_context);
-            messageDiary.Send(post.User, $"Комментарий пользователя {user.Name} был удален к посту 1.");
+            _message.Send(post.User, $"Комментарий пользователя {user.Name} был удален к посту 1.");
 
             return Ok(comment);
         }

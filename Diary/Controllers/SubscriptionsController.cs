@@ -27,6 +27,7 @@ namespace Diary.Controllers
             Subscriptions subscriptions = new Subscriptions
             {
                 ID = Guid.NewGuid(),
+                UsersID = sub.UserWriterID,
                 UserSubscriptionID = sub.UserSubscriptionID,
                 UserWriterID = sub.UserWriterID,
             };

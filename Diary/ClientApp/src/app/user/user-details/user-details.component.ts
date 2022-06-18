@@ -46,6 +46,7 @@ export class UserDetailsComponent {
 
     this.userRole = this.postService.getRout();
     this.id = this.route.snapshot.paramMap.get('id');
+
     this.userAuth = this.userService.getUserFromLocalStorge();
 
     if(this.id != null) {
@@ -74,7 +75,6 @@ export class UserDetailsComponent {
       this.sub = sub
       if(this.sub.userSubscriptionID != null) {
         this.isSub = true
-        console.log("true")
       }
     });
   }
@@ -114,15 +114,14 @@ export class UserDetailsComponent {
     });
   }
   addSub() {
-    let userSub : IUser = JSON.parse(localStorage.getItem("userExtendedModel")!);
+
     let sub : ISubscriptions = {
       id : "",
       user : [],
-      userSubscriptionID: userSub.id,
+      userSubscriptionID: this.userAuth!.id,
       userWriterID : this.id!
     }
-    console.log(sub)
-
+    
     this.subsService.addSubs(sub).subscribe(() =>  {
       this.isSub = true
     });

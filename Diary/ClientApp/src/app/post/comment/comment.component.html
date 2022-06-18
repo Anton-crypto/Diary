@@ -15,7 +15,7 @@
                 <div>
                     {{item!.comment.timePost | date}}
                 </div>
-                <div class="comment__btn" *ngIf="userRole == 'user' && item?.comment?.userID == user?.id">
+                <div class="comment__btn" *ngIf="userRole == 'user' && item?.comment?.userID == user?.id && user!.isBan != true">
                     <button (click)="deleteComment(item!.comment.id!)">(удалить)</button>
                 </div>
                 <div class="comment__btn" *ngIf="userRole != 'user'">
@@ -27,26 +27,31 @@
             </div>
         </div>
     </div>
-    <div class="comment__input" *ngIf="commentUpdate == undefined">
-        <input type="text" (keyup.enter)="addComment()" [(ngModel)]="text" placeholder="Введите текст комментария">
-    </div>
-    <div class="comment__update" *ngIf="commentUpdate != undefined">
-        <div class="comment__update-top" (click)="closeUpdateCommentInput()">
-            <div>
-                ваш коментарий от {{commentUpdate.timePost | date}}
+    <div *ngIf="user!.isBan != true">
+        <div class="comment__input" *ngIf="commentUpdate == undefined">
+            <input type="text" (keyup.enter)="addComment()" [(ngModel)]="text" placeholder="Введите текст комментария">
+        </div>
+        <div class="comment__update" *ngIf="commentUpdate != undefined">
+            <div class="comment__update-top" (click)="closeUpdateCommentInput()">
+                <div>
+                    ваш коментарий от {{commentUpdate.timePost | date}}
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M20 20L4 4m16 0L4 20"/></svg>
+                </div>
             </div>
             <div>
-                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M20 20L4 4m16 0L4 20"/></svg>
+                <input type="text" (keyup.enter)="updateComment(commentUpdate)" [(ngModel)]="textUpdate" placeholder="Введите текст комментария">
             </div>
         </div>
-        <div>
-            <input type="text" (keyup.enter)="updateComment(commentUpdate)" [(ngModel)]="textUpdate" placeholder="Введите текст комментария">
+        <div class="comment__button" *ngIf="commentUpdate == undefined">
+            <button (click)="addComment()">Отправить</button>
+        </div>
+        <div class="comment__button" *ngIf="commentUpdate != undefined">
+            <button (click)="updateComment(commentUpdate)">Отправить</button>
         </div>
     </div>
-    <div class="comment__button" *ngIf="commentUpdate == undefined">
-        <button (click)="addComment()">Отправить</button>
-    </div>
-    <div class="comment__button" *ngIf="commentUpdate != undefined">
-        <button (click)="updateComment(commentUpdate)">Отправить</button>
+    <div *ngIf="user!.isBan == true">
+        <app-not-found text="На данный момент функция комментирования отключена."></app-not-found>
     </div>
 </div>

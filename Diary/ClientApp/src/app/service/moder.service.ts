@@ -29,6 +29,12 @@ export class ModerService {
     banUser(id: string): Observable<string> {
         return this.http.delete<string>(this.baseUrl + `moder/ban/${id}`) 
     }
+    unBlockingUser(id: string): Observable<string> {
+        return this.http.delete<string>(this.baseUrl + `moder/blocking/delete/${id}`) 
+    }
+    unBanUser(id: string): Observable<string> {
+        return this.http.delete<string>(this.baseUrl + `moder/ban/delete/${id}`) 
+    }
     deleteModer(id: string): Observable<string> {
         return this.http.delete<string>(this.baseUrl + `moder/delete/${id}`) 
     }
