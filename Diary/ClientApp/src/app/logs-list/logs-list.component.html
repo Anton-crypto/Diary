@@ -1,0 +1,29 @@
+<div >
+   <div *ngIf="check">
+      <div class="subscriptions" *ngFor="let user of  logs">
+         <div *ngIf="user" class="subscriptions__body">
+            <div class="subscriptions__body-left">
+               <div class="subscriptions-icon">
+                  <img [src]="createImgPath(user.user.icon)"  alt="" srcset="" *ngIf="user.user.icon != ''">
+                  <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf="user.user.icon == ''">
+               </div>
+               <div >
+                  <div style="font-size: 11px;" *ngIf="user.user.timeBan">Пользователь забанен на сайте до {{user.user.timeBan | date}}</div>
+                  <div style="text-align: start;">
+                     <a [routerLink]="[ '/user-details', user.id ]" >{{user.user.name}}</a>
+                  </div>
+                  <div>{{user.text}}</div>
+               </div>
+            </div>
+            <div class="subscriptions__body-right"></div>
+         </div>
+      </div>
+      <div class="noFoundMessage" *ngIf="logs.length == 0">
+         На сайте на данынй момент нет пользователей !
+     </div>
+   </div>
+   <div *ngIf="!check" class="spin">
+      <mat-spinner></mat-spinner>
+  </div>  
+</div>  
+

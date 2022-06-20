@@ -14,6 +14,7 @@ namespace Diary.Models
         public virtual User User { get; set; }
 
         public bool? ValidationStatus { get; set; }
+        public bool? NSFW { get; set; }
 
         public ICollection<Comment>? Comments { get; set; }
         public virtual ICollection<PostImage>? PostImages { get; set; }

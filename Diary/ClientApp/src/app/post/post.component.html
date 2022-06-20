@@ -19,10 +19,13 @@
                 </div>
                 <div class = "threeDots">
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 16 16"><path fill="currentColor" d="M3 9.5a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3a1.5 1.5 0 0 1 0 3z"/></svg>
-                    <div class="threeDots-sub">
+                    <div class="threeDots-sub" *ngIf="(userRole == 'user')">
                         <div *ngIf="post.isAccessories" [routerLink]="['/work-post', post.id]" class = "bntEdit">Редактировать</div>
                         <div *ngIf="post.isAccessories" (click)="deletePost(post.id)" class = "bntEdit">Удалить</div>
                     </div>
+                    <!-- <div *ngIf="(userRole == 'moder' || userRole == 'admin')">
+                        <div *ngIf="post.isAccessories" (click)="deletePostModer(post.id)" class = "bntEdit">Удалить</div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -78,10 +81,10 @@
             <div class="story__menu-btn" style="cursor: pointer;" (click)="rejectNSFW()" >Принять (NSFW)</div>
         </div>
         <div class="story__menu" *ngIf="(userRole == 'moder' || userRole == 'admin') && rout != 'posts-moder'">
-            <div class="story__menu-btn" style="cursor: pointer;" (click)="deletePost(post.id)">Удалить</div>
-            <div class="story__menu-unBtn" style="cursor: pointer;" *ngIf="post.status == 'True'" (click)="deletePost(post.id)">NSFW</div>
-            <div class="story__menu-btn" style="cursor: pointer;" *ngIf="post.status == 'False'" (click)="deletePost(post.id)">NSFW</div>
-            <div class="story__menu-btn" style="cursor: pointer;" (click)="deletePost(post.id)">Комментарии</div>
+            <div class="story__menu-btn" style="cursor: pointer;" (click)="deletePostModer(post.id)">Удалить</div>
+            <div class="story__menu-unBtn" style="cursor: pointer;" *ngIf="post.nsfw == true" (click)="togleNSFW(post.id)">NSFW</div>
+            <div class="story__menu-btn" style="cursor: pointer;" *ngIf="post.nsfw == false" (click)="togleNSFW(post.id)">NSFW</div>
+            <div class="story__menu-btn" style="cursor: pointer;" [routerLink]="['/post-details', post.id]">Комментарии</div>
         </div>
     </div>
 </div>

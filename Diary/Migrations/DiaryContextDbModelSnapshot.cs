@@ -108,6 +108,9 @@ namespace Diary.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool?>("NSFW")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -132,6 +135,34 @@ namespace Diary.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Post", (string)null);
+                });
+
+            modelBuilder.Entity("Diary.Models.PostCheckLogs", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("PostID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("PostID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("PostCheckLogs");
                 });
 
             modelBuilder.Entity("Diary.Models.Saved", b =>
@@ -285,14 +316,6 @@ namespace Diary.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("User", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("37db172b-a671-4413-982a-6a4c3119b562"),
-                            Email = "toni_naumov_1990@mail.ru",
-                            Name = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("Diary.Models.Comment", b =>
@@ -343,6 +366,21 @@ namespace Diary.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Diary.Models.PostCheckLogs", b =>
+                {
+                    b.HasOne("Diary.Models.Post", "Post")
+                        .WithMany()
+                        .HasForeignKey("PostID");
+
+                    b.HasOne("Diary.Models.User", "User")
+                        .WithMany("PostCheckLogss")
+                        .HasForeignKey("UserID");
+
+                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -426,6 +464,8 @@ namespace Diary.Migrations
                     b.Navigation("Likes");
 
                     b.Navigation("Messages");
+
+                    b.Navigation("PostCheckLogss");
 
                     b.Navigation("Posts");
 

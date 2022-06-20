@@ -30,4 +30,5 @@ export interface IPost {
     validationStatus : any
     tegs: string
     status: string
+    nsfw: boolean
 }

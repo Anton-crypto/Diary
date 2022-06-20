@@ -5,6 +5,7 @@ import { StoreModel } from '../store';
 import { Observable, of } from 'rxjs';
 
 import { IUser } from '../models/user.model';
+import { ILoginModel } from '../models/logs.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -22,6 +23,9 @@ export class UserService {
   
   getUser(id: string): Observable<IUser> {
     return this.http.get<IUser>(this.baseUrl + `user/id/${id}`);
+  }
+  getLogs(): Observable<ILoginModel []> {
+    return this.http.get<ILoginModel []>(this.baseUrl + `moder/getLoges`);
   }
   getModers(): Observable<IUser []> {
     return this.http.get<IUser []>(this.baseUrl + `user/moder`);

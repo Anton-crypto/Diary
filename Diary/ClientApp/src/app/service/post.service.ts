@@ -95,7 +95,10 @@ export class PostService {
         return this.http.delete<ILike>(this.baseUrl + `like/${id}`)
     }
     deletePost(id: string) : Observable<string> {
-        return this.http.delete<string>(this.baseUrl + `posts/${id}`)
+        return this.http.delete<string>(this.baseUrl + `posts/delete/${id}`)
+    }
+    deletePostModer(id: string, idUser: string) : Observable<string> {
+        return this.http.delete<string>(this.baseUrl + `posts/deletemo/${id}&${idUser}`)
     }
 
     // Method group Put // 

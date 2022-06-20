@@ -22,11 +22,11 @@
     </div>
     <div class = "sidebar-user__info">
         <div>
-          <span class = "sidebar-user__lable">100</span>
+          <span class = "sidebar-user__lable">{{reting}}</span>
           <span class = "sidebar-user__hint">рейтинг</span>
         </div>
-        <div>
-          <span class = "sidebar-user__lable">0</span>
+        <div *ngIf="subWriter != null">
+          <span class = "sidebar-user__lable">{{subWriter!.length}}</span>
           <span class = "sidebar-user__hint">подписчиков</span>
         </div>
     </div>
@@ -35,7 +35,7 @@
         <a class="sidebar-user__menu-item" [routerLink]="[ '/subscriptions', user.id ]">Управление подписками</a>
         <a class="sidebar-user__menu-item" [routerLink]="[ '/saved', user.id ]">Сохраненное</a>
         <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Мои посты</a>
-        <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Оповещения</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/messages', user.id ]">Оповещения</a>
       </div>
       <div *ngIf="userRole == 'moder'">
         <a class="sidebar-user__menu-item" [routerLink]="[ '/posts-moder' ]">Проверка постов</a>
@@ -46,9 +46,10 @@
         <a class="sidebar-user__menu-item" [routerLink]="[ '/user-list' ]">Список пользователей</a>
         <a class="sidebar-user__menu-item" [routerLink]="[ '/moders' ]">Список модераторов</a>
         <a class="sidebar-user__menu-item" [routerLink]="[ '/create-moder' ]">Добавить модератора</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/logs-list' ]">История действий</a>
       </div>
     </div>
 </div>
-<div>
+<div *ngIf="user != null && user!.isBan == false && userRole == 'user'">
   <button mat-raised-button class = "btn__add" [routerLink]="['/work-post']">Добавить пост</button>
 </div>

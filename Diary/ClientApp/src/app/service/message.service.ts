@@ -24,7 +24,7 @@ export class MessageService {
     // Method group Get // 
     
     getCountUnSeen(id: string): Observable<string> {
-        return this.http.get<string>(this.baseUrl + `comment/count/${id}`);    
+        return this.http.get<string>(this.baseUrl + `message/${id}`);    
     }
     getMessage(id: string): Observable<IMessage []> {
         return this.http.get<IMessage []>(this.baseUrl + `message/${id}`);    

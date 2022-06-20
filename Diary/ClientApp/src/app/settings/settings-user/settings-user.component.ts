@@ -47,11 +47,18 @@ export class SettingsUserComponent implements AfterViewInit{
   passwordNew : string = ""
   passwordNewCopy : string = ""
 
+  passwordReq1 : boolean = false;
+  passwordReq2 : boolean = false;
+  passwordReq3 : boolean = false;
+
   swap : ISwap = {
     email: "",
     oldPassword: "",
     newPassword: "",
   }
+
+  textErrorFromSwap : string = ""
+  isErrorFromSwap : boolean = false
 
   ngOnInit(): void {
     this.getUser();
@@ -125,9 +132,12 @@ export class SettingsUserComponent implements AfterViewInit{
       }));
     }
   }
-  deleteFont() {
-    
-  }
+  // deleteFont() {
+  //   if(this.user) {
+  //     this.user.font = ''
+  //     this.croppedImageFont = ''
+  //   }
+  // }
   getUser() {
     let user = this.userService.getUserFromLocalStorge();
 
@@ -140,11 +150,65 @@ export class SettingsUserComponent implements AfterViewInit{
       });
     }
   }
+  checkPassword() {
+    
+    this.passwordReq1 = false;
+    this.passwordReq2 = false;
+    this.passwordReq3 = false;
+    console.log(this.swap.newPassword)
+
+    if(this.swap.newPassword.length >=6) {
+      this.passwordReq1 = true;
+    } 
+
+    this.swap.newPassword.split('').forEach(item => {
+      if(this.checkSymbol(item)) {
+        this.passwordReq2 = true
+      }
+      if(parseInt(item, 10) != NaN) {
+        this.passwordReq3 = true
+      }
+    });
+  }
+  checkSymbol(item: string) {
+    const re = /^[a-z]$/i;
+    return re.test(item);
+  }
   swapPassword () {
-    if(this.passwordNewCopy == this.swap.newPassword && this.swap.newPassword != this.swap.oldPassword) {
-      this.swap.email = this.user?.email!;
-      this.verificationService.swap(this.swap).subscribe(() => {}); 
+    if(this.swap.newPassword == this.swap.oldPassword) {
+      this.showMessage("Старый пароль не должен совпадать с новым.")
+      return;
     }
+    if(this.passwordNewCopy != this.swap.newPassword) {
+      this.showMessage("Пароли не совпадают.")
+      return;
+    }
+    if(this.passwordReq1 != true && this.passwordReq2 != true && this.passwordReq3 != true) {
+      this.showMessage("Пароль не подходит под требования ( 1 - цифра; 1 - буква; минимум 6 символов).")
+      return;
+    }
+
+    this.swap.email = this.user?.email!;
+
+    this.verificationService.swap(this.swap).subscribe({
+      next: () => {
+        this.swap.newPassword = "";
+        this.passwordNewCopy = "";
+        this.swap.oldPassword = "";
+
+        this.showMessage("Пароль успешно изменен.")
+      }, 
+      error: () =>{
+        this.showMessage("Данные введены некорректно.")
+      }
+    }); 
+  }
+  showMessage (text: string) {
+    this.textErrorFromSwap = text
+    this.isErrorFromSwap = true
+    setTimeout(() => this.isErrorFromSwap = false, 3000);
+    
+    return;
   }
 
   public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);

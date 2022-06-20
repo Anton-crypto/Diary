@@ -149,6 +149,7 @@ export class CommentComponent {
     })
   }
   deleteComment (id: string) {
+
     this.commentService.delete(id).subscribe({
       next : (comment: IComment) => {
 
@@ -164,7 +165,10 @@ export class CommentComponent {
     })
   }
   deleteCommentModer (id: string) {
-    this.commentService.deleteModeration(id).subscribe({
+    let user = this.userService.getUserFromLocalStorge();
+    if(user == null) return;
+
+    this.commentService.deleteModeration(id, user.id).subscribe({
       next : (comment: IComment) => {
 
         const index = this.comments!.findIndex(n => n?.comment.id === id);

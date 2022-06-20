@@ -21,7 +21,6 @@ builder.Services.AddDbContext<DiaryContextDb>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DateBaseDiary")));
 builder.Services.AddDbContext<IdentityContextDb>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DateBaseDiaryIdentity")));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

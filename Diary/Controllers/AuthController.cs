@@ -92,8 +92,10 @@ namespace Diary.Controllers
 
             Person user = _context.Persons.FirstOrDefault(x => x.Email == register.Email);
 
-            if (user != null)
-                return StatusCode(StatusCodes.Status500InternalServerError);
+            if (user is not null)
+            {
+                return BadRequest("UserAlready"); ;
+            }
 
             var claims = new List<Claim>
             {

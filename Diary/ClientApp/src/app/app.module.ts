@@ -33,6 +33,7 @@ import { MessageComponent } from './message/message.component';
 import { CreateModerComponent } from './create-moder/create-moder.component'
 import { ModerComponent } from './moder/moder.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LogsListComponent } from './logs-list/logs-list.component';
 
 import { PostsBestComponent } from './posts/posts-best/posts-best.component';
 import { PostsFreshComponent } from './posts/posts-fresh/posts-fresh.component';
@@ -93,6 +94,7 @@ export function tokenGetter() {
     PostsSubsComponent,
     PostsCollComponent,
     NotFoundComponent,
+    LogsListComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -203,6 +205,11 @@ export function tokenGetter() {
           { 
             path: 'coll', 
             component: PostsCollComponent,
+            canActivate: [AuthGuard],
+          },
+          { 
+            path: 'logs-list', 
+            component: LogsListComponent,
             canActivate: [AuthGuard],
           },
         ],

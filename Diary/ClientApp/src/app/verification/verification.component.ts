@@ -95,6 +95,15 @@ export class VerificationComponent implements OnInit{
 
           this.router.navigate(["/"]);
         },
+        error: (error) => {
+          this.isTextErrorVisible = true;
+          if(error.error == "UserAlready") {
+            this.textError = "*Пользователь с такими данными уже есть на портале."
+          }
+          setTimeout(() => {
+            this.isTextErrorVisible = false
+          }, 5000)
+        }
       })
     }
   }

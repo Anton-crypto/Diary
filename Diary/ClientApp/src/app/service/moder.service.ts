@@ -20,8 +20,14 @@ export class ModerService {
     reject(id: string): Observable<string> {
         return this.http.get<string>(this.baseUrl + `moder/reject/${id}`);    
     }
+    rejectNSFW(id: string): Observable<string> {
+        return this.http.get<string>(this.baseUrl + `moder/rejectNSFW/${id}`);    
+    }
     example(id: string): Observable<string> {
-        return this.http.delete<string>(this.baseUrl + `moder/${id}`) 
+        return this.http.delete<string>(this.baseUrl + `moder/postdel/${id}`) 
+    }
+    togleNSFW(id: string): Observable<boolean> {
+        return this.http.get<boolean>(this.baseUrl + `moder/ToggleNSFW/${id}`) 
     }
     blockingUser(id: string): Observable<string> {
         return this.http.delete<string>(this.baseUrl + `moder/blocking/${id}`) 

@@ -29,6 +29,18 @@ namespace Diary.Controllers
             this._messageMail = new MessageMail();
         }
 
+        [HttpGet()]
+        [Route("getLoges")]
+        public async Task<ActionResult<PostCheckLogs>> GetLogs()
+        {
+            List<PostCheckLogs> logs = _context.PostCheckLogs
+                .Include(e => e.User)
+                .Include(e => e.Post)
+                .ToList();
+
+            return logs == null ? NotFound() : new ObjectResult(logs);
+        }
+
         [HttpGet("{id}")]
         [Route("reject/{id}")]
         public async Task<ActionResult<string>> Reject(Guid id)
@@ -46,6 +58,7 @@ namespace Diary.Controllers
             _messageDiary.Send(post.User, "Поздравляю вы написали заметательный пост!");
 
             post.ValidationStatus = true;
+            post.NSFW = false;
 
             _context.Posts.Update(post);
             await _context.SaveChangesAsync();
@@ -53,8 +66,9 @@ namespace Diary.Controllers
             return Ok("Ok");
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<string>> Example(Guid id)
+        [HttpGet("{id}")]
+        [Route("rejectNSFW/{id}")]
+        public async Task<ActionResult<string>> RejectNSFW(Guid id)
         {
             Post post = _context
                 .Posts
@@ -66,7 +80,66 @@ namespace Diary.Controllers
                 return NotFound();
             }
 
-            _messageDiary.Send(post.User, "Данный пост является не коректным!");
+            _messageDiary.Send(post.User, "Поздравляю вы написали заметательный пост!");
+
+            post.ValidationStatus = true;
+            post.NSFW = true;
+
+            _context.Posts.Update(post);
+            await _context.SaveChangesAsync();
+
+            return Ok("Ok");
+        }
+        [HttpGet("{id}")]
+        [Route("ToggleNSFW/{id}")]
+        public async Task<ActionResult<bool>> ToggleNSFW(Guid id)
+        {
+            Post post = _context
+                .Posts
+                .Include(e => e.User)
+                .FirstOrDefault(x => x.ID == id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            post.NSFW = !post.NSFW;
+            _messageDiary.Send(post.User, $"Статус поста был изменен на NSFW({post.NSFW})");
+
+            _context.Posts.Update(post);
+            await _context.SaveChangesAsync();
+
+            return Ok(post.NSFW);
+        }
+
+        [HttpDelete("{id}")]
+        [Route("postdel/{id}")]
+        public async Task<ActionResult<string>> Example(Guid id)
+        {
+            var post = _context.Posts
+                .Include(t => t.PostTexts)
+                .Include(v => v.PostVidios)
+                .Include(i => i.PostImages)
+                .Include(c => c.Comments)
+                .Include(l => l.Likes)
+                .Include(s => s.User)
+                .Include(s => s.Saveds)
+                .FirstOrDefault(e => e.ID == id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            _messageDiary.Send(post.User, "Данный пост является не коректным! И был отклонен.");
+
+            post.PostTexts.Clear();
+            post.PostVidios.Clear();
+            post.PostImages.Clear();
+            post.Comments.Clear();
+            post.Likes.Clear();
+            post.Saveds.Clear();
 
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
@@ -83,13 +156,13 @@ namespace Diary.Controllers
 
             user.IsBlok = true;
 
-            //string message = $"<h2>" +
-            //    $"На вашей странице была замечена подозрительная активность! " +
-            //    $"Ваш аккаунт был заблокирован!</h2>";
+            string message = $"<h2>" +
+                $"На вашей странице была замечена подозрительная активность! " +
+                $"Ваш аккаунт был заблокирован!</h2>";
 
-            //string email = $"{user.Email}";
+            string email = $"{user.Email}";
 
-            //SendingMessagesToEmail(message, email);
+            SendingMessagesToEmail(message, email);
 
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
@@ -110,11 +183,7 @@ namespace Diary.Controllers
             }
 
             user.IsBan = true;
-            user.TimeBan = DateTime.Now.AddMinutes(5);
-
-            //System.Timers.Timer timer = new(interval: 1000 * 60 );
-            //timer.Elapsed += (sender, e) => TimerBant(user, timer );
-            //timer.Start();
+            user.TimeBan = DateTime.Now.AddDays(25);
 
             string message = $"На вашей странице была замечена подозрительная активность! " +
                 $"Временно вы не сможете размешять посты и коментировать записи!";
@@ -126,19 +195,6 @@ namespace Diary.Controllers
 
             return Ok();
         }
-        //private void TimerBant ( User user, System.Timers.Timer timer)
-        //{
-        //    user.IsBan = false;
-
-        //    using (DbContext db = new DbContext("DateBaseDiary")
-        //    {
-
-        //    }
-        //        _context.Users.Update(user);
-        //    _context.SaveChangesAsync();
-
-        //    timer.Stop();
-        //}
 
         [HttpGet("{id}")]
         [Route("ban/delete/{id}")]
@@ -169,6 +225,12 @@ namespace Diary.Controllers
 
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
+
+            string message = $"<h2>Портал приносит извинения. Блокировка произошла по ошибке.</h2>";
+
+            string email = $"{user.Email}";
+
+            SendingMessagesToEmail(message, email);
 
             return Ok(user);
         }

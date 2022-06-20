@@ -107,9 +107,9 @@ namespace Diary.Controllers
 
             return Ok(comment);
         }
-        [HttpDelete("{id}")]
-        [Route("moder/{id}")]
-        public async Task<ActionResult<Comment>> DeleteCommentModer(Guid id)
+        [HttpDelete("{id}&{idUserModer}")]
+        [Route("moder/{id}&{idUserModer}")]
+        public async Task<ActionResult<Comment>> DeleteCommentModer(Guid id, Guid idUserModer)
         {
             Comment comment = _context.Comments.FirstOrDefault(e => e.ID == id);
 
@@ -125,6 +125,16 @@ namespace Diary.Controllers
             _context.SaveChanges();
 
             _message.Send(post.User, $"Комментарий пользователя {user.Name} был удален к посту 1.");
+
+            PostCheckLogs postCheckLogs = new PostCheckLogs();
+
+            postCheckLogs.ID = Guid.NewGuid();
+            postCheckLogs.UserID = idUserModer;
+            postCheckLogs.Time = DateTime.Now;
+            postCheckLogs.Text = "Удаление комментария мотератором.";
+
+            _context.PostCheckLogs.Add(postCheckLogs);
+            _context.SaveChanges();
 
             return Ok(comment);
         }

@@ -46,10 +46,10 @@ export class PostComponent {
 
   ngAfterViewInit(): void {
     let item  = this.storyBody;
+    console.log(this.post)
     if(item != null) {
       if(this.getClassEndTime(item.nativeElement.offsetHeight)) {
         item.nativeElement.className += " hide"
-        console.log(item.nativeElement.className)
       }
     }
   }
@@ -79,6 +79,15 @@ export class PostComponent {
       }
     }
   }
+  togleNSFW(id: string) {
+    if(this.post && this.post.id) {
+      this.moderService.togleNSFW(this.post.id).subscribe(((nsfw) => { 
+        if(nsfw != null && this.post) {
+          this.post.nsfw = nsfw
+        }
+      }));
+    }
+  }
   resize() {
     this.isSize = false
     let item  = this.storyBody;
@@ -97,16 +106,23 @@ export class PostComponent {
   }
   rejectNSFW() {
     if(this.post && this.post.id) {
-      this.moderService.reject(this.post.id.toString()).subscribe((() => { this.post = undefined }));
+      this.moderService.rejectNSFW(this.post.id.toString()).subscribe((() => { this.post = undefined }));
     }
   }
   example() {
     if(this.post && this.post.id) {
-      this.moderService.example(this.post.id.toString()).subscribe((() => {  this.post = undefined }));
+      this.moderService.example(this.post.id).subscribe((() => {  this.post = undefined }));
     }
   }
   deletePost(id: string) {
     this.postService.deletePost(id).subscribe((() => { this.ngOnInit()}));
+  }
+  deletePostModer(id: string) {
+    let user = this.userService.getUserFromLocalStorge();
+
+    if(user) {
+      this.postService.deletePostModer(id, user.id).subscribe((() => { this.ngOnInit()}));
+    }
   }
   getClassEndTime(size: number): boolean {
     if(size > 400 && this.isSize) {

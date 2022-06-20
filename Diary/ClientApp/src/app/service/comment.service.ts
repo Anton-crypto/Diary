@@ -40,7 +40,7 @@ export class CommentService {
     delete(id: string): Observable<IComment> {
         return this.http.delete<IComment>(this.baseUrl + `comment/delete/${id}`);    
     }
-    deleteModeration(id: string): Observable<IComment> {
-        return this.http.get<IComment>(this.baseUrl + `comment/moder/${id}`);    
+    deleteModeration(id: string, idUserModer: string): Observable<IComment> {
+        return this.http.get<IComment>(this.baseUrl + `comment/moder/${id}&${idUserModer}`);    
     }
 }

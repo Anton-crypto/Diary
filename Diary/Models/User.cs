@@ -27,5 +27,6 @@
         public virtual ICollection<Like>? Likes { get; set; }
         public virtual ICollection<Saved>? Saveds { get; set; }
         public virtual ICollection<Message>? Messages { get; set; }
+        public virtual ICollection<PostCheckLogs>? PostCheckLogss { get; set; }
     }
 }

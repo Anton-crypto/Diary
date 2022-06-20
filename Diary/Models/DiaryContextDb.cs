@@ -19,6 +19,7 @@ namespace Diary.Models
         public DbSet<PostText> PostTexts { get; set; }
 
         public DbSet<Message> Messages { get; set; }
+        public DbSet<PostCheckLogs> PostCheckLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

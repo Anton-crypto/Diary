@@ -15,10 +15,12 @@ namespace Diary.Controllers
     public class PostsController : ControllerBase
     {
         private readonly DiaryContextDb _context;
+        private readonly IMessage _message;
 
         public PostsController(DiaryContextDb context)
         {
             _context = context;
+            _message = new MessageDiary(_context);
         }
         [HttpGet("{id}")]
         [Route("update/{id}")]
@@ -56,12 +58,12 @@ namespace Diary.Controllers
         [Route("pagination/{pagination}")]
         public async Task<ActionResult<IEnumerable<Post>>> GetPagination( string pagination )
         {
-            int numberPages = pagination == "0" ? 1 : int.Parse(pagination);
-            
+            int pag = pagination == "0" ? 1 : int.Parse(pagination);
+
             List<Post>? posts = _context.Posts
                 .Include(p => p.User)
                 .Skip(int.Parse(pagination) * 2)
-                .Take(2)
+                .Take(pag * 2)
                 .Include(t => t.PostTexts)
                 .Include(v => v.PostVidios)
                 .Include(i => i.PostImages)
@@ -551,28 +553,6 @@ namespace Diary.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Post>> Delete(Guid id)
-        {
-            Post post = _context.Posts
-                .Include(t => t.PostTexts)
-                .Include(v => v.PostVidios)
-                .Include(i => i.PostImages)
-                .Include(c => c.Comments)
-                .Include(l => l.Likes)
-                .Include(s => s.Saveds)
-                .FirstOrDefault(x => x.ID == id);
-
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            _context.Posts.Remove(post);
-            await _context.SaveChangesAsync();
-
-            return Ok(post);
-        }
         [HttpGet]
         [Route("hotter")]
         public async Task<ActionResult<Post>> GetHotPostAsync()
@@ -688,9 +668,9 @@ namespace Diary.Controllers
 
             return Ok(post);
         }
-        [HttpDelete("{id}")]
-        [Route("deletemo/{id}")]
-        public async Task<ActionResult<Post>> DeletePostModer(Guid id)
+        [HttpDelete("{id}&{idUser}")]
+        [Route("deletemo/{id}&{idUser}")]
+        public async Task<ActionResult<Post>> DeletePostModer(Guid id, Guid idUser)
         {
             var post = _context.Posts
                 .Include(t => t.PostTexts)
@@ -698,6 +678,7 @@ namespace Diary.Controllers
                 .Include(i => i.PostImages)
                 .Include(c => c.Comments)
                 .Include(l => l.Likes)
+                .Include(s => s.User)
                 .Include(s => s.Saveds)
                 .FirstOrDefault(e => e.ID == id);
 
@@ -705,6 +686,8 @@ namespace Diary.Controllers
             {
                 return NotFound();
             }
+
+            _message.Send(post.User, " Ваш пост был удален модератором. ");
 
             post.PostTexts.Clear();
             post.PostVidios.Clear();
@@ -714,6 +697,16 @@ namespace Diary.Controllers
             post.Saveds.Clear();
 
             _context.Posts.Remove(post);
+            _context.SaveChanges();
+
+            PostCheckLogs postCheckLogs = new PostCheckLogs();
+
+            postCheckLogs.ID = Guid.NewGuid();
+            postCheckLogs.UserID = idUser;
+            postCheckLogs.Time = DateTime.Now;
+            postCheckLogs.Text = "Удаление поста.";
+
+            _context.PostCheckLogs.Add(postCheckLogs);
             _context.SaveChanges();
 
             return Ok(post);

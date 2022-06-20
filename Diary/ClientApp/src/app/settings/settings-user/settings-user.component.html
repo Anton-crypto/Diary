@@ -10,7 +10,7 @@
     </div>
     <div class ="settings__backheader-button">
       <button (click)="fileInputFont.click()" >изменить фон</button>
-      <button (click)="deleteFont()">удалить фон</button>
+      <!-- <button (click)="deleteFont()">удалить фон</button> -->
     </div>
     <img 
       [src]="selectedFontUrlCrop" 
@@ -84,17 +84,20 @@
 </div>
 <div class="togglePassword">
   <div class="togglePassword__body">
+    <div *ngIf="isErrorFromSwap">
+      {{textErrorFromSwap}}
+    </div>
     <div class="togglePassword__body-item">
       <label>Старый пароль</label>
-      <input type="password" placeholder="Введите старый пароль"  [(ngModel)]="swap.oldPassword">
+      <input type="password" placeholder="Введите старый пароль"  [(ngModel)]="swap.oldPassword" autocomplete="on">
     </div>
     <div class="togglePassword__body-item">
       <label>Новый пароль</label>
-      <input type="password" placeholder="Введите новый пароль"  [(ngModel)]="swap.newPassword">
+      <input type="password" placeholder="Введите новый пароль" (input)="checkPassword()"  [(ngModel)]="swap.newPassword" autocomplete="on">
     </div>
     <div class="togglePassword__body-item">
       <label>Повторите пароль</label>
-      <input type="password" placeholder="Повторите пароль"  [(ngModel)]="passwordNewCopy">
+      <input type="password" placeholder="Повторите пароль"  [(ngModel)]="passwordNewCopy" autocomplete="on">
     </div>
   </div>
   <div class="button">

@@ -36,27 +36,35 @@ export class TimeLineComponent {
     });
   }
   getPosts() {
-    this.postService.getPosts().subscribe((posts) =>  {
+    this.postService.getPosts().subscribe({
+      next: (posts) => {
 
-      this.posts = this.postService.createPostSubItem(posts)
-      this.check = true;
-
-      console.log(this.posts)
+        this.posts = this.postService.createPostSubItem(posts)
+        this.check = true;
+  
+      },
+      error: () => {
+        this.check = true;
+      }
     });
   }
   getPostsPagination(count: string) {
-    this.postService.getPostsPagination(count).subscribe((posts) =>  {
+    this.postService.getPostsPagination(count).subscribe({
+      next: (posts) => {
 
-      let p = this.postService.createPostSubItem(posts)
+        let p = this.postService.createPostSubItem(posts)
 
-      p.forEach(post => {
-        this.posts.push(post);
-      });
-
-      this.check = true;
-      this.countTime++;
-
-      console.log(this.posts)
+        p.forEach(post => {
+          this.posts.push(post);
+        });
+  
+        this.check = true;
+        this.countTime++;
+  
+      },
+      error: () => {
+        this.check = true;
+      }
     });
   }
   dataSearchHandler(data : any) {
