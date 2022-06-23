@@ -4,9 +4,10 @@ $mainColor: #5a8684;
 .verification {
     width: 100%;
     height: auto;
-    background-color: #22272b;
+    background-color: var(--colorBackGroundElement);
+    border-radius: var(--colorBorder);
     padding: 16px 26px;
-    color: #5e6061;
+    color: var(--colorTitleText);
     .error {
         padding-bottom: 10px;
         font-size: 14px;
@@ -18,12 +19,15 @@ $mainColor: #5a8684;
         div {
             height: 32px;
             width: 32px;
-            background-color: #333333;
+            background-color: var(--colorBackGround);
+            svg {
+                color: var(--colorTitleText);
+            }
             text-align: center;
             padding-top: 4px;
             border-radius: 5px;
             mat-icon {
-                color: white;
+                color: var(--colorTitleText);
             }
         }
         div:hover:nth-last-child(1) {
@@ -98,9 +102,10 @@ $mainColor: #5a8684;
         }
     }
     &__radio {
-        background-color: #1a1e21;
+        background-color: var(--colorBackGround);
         padding: 12px;
         margin-top: 12px;
+        border: 1px solid var(--colorBorder);
 
         &-link {
             display: flex;
@@ -109,8 +114,8 @@ $mainColor: #5a8684;
             height: 20px;
             width: 20px;
             border-radius: 100%;
-            background-color: rgb(29, 28, 28);
-            border: 1px solid #2d3236 !important;
+            background-color: var(--colorBackGroundElement);
+            border: 1px solid var(--colorBorder) !important;
             margin-right: 5px;
             div{
                 height: 18px;
@@ -157,7 +162,7 @@ $mainColor: #5a8684;
         color: #bfbfbf;
     } 
     .mat-input-element::placeholder {
-        color: #bfbfbf33;
+        color: var(--colorTitleBody);
     }
     
     .mat-form-field-outline-start,

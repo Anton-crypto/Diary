@@ -16,7 +16,9 @@ export class PostsCollComponent {
 
   posts: IPost[] = [];
   check: boolean =  false
-  
+
+  isLoader: boolean = true;
+
   constructor(
     private postService: PostService,
     private userService: UserService,
@@ -31,17 +33,12 @@ export class PostsCollComponent {
     this.postService.getCollPost(user.email).subscribe((posts) =>  {
 
       this.posts = this.postService.createPostSubItem(posts)
-      this.check = true;
-      
-      console.log(this.posts)
+      this.isLoader = false;
     });
   }
   dataSearchHandler(data : any) {
-
-    this.check = false;
+    this.isLoader = true;
     this.posts = this.postService.createPostSubItem(data)
-    this.check = true;
-
-    console.log(data)
+    this.isLoader = false;
   }  
 }

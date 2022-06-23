@@ -35,11 +35,11 @@ body {
     width: 100%;
     border-radius: 2px;
     margin-bottom: 20px;
-    border: 1px solid #2d3236;
+    border: 1px solid var(--colorBorder);
     padding: 20px;
     color: #bfbfb1;
     text-align: center;
-    background-color: $colorItem;
+    background-color: var(--colorBackGroundElement);
 }
 
 .spin {
@@ -57,14 +57,4 @@ body {
         width: 75px !important;
         height: 75px !important;
     }
-}
-.noFoundMessage {
-    width: 100%;
-    border-radius: 2px;
-    margin-bottom: 20px;
-    border: 1px solid #2d3236;
-    padding: 20px;
-    color: #bfbfb1;
-    text-align: center;
-    background-color: $colorItem;
 }

@@ -115,7 +115,7 @@ export class PostComponent {
     }
   }
   deletePost(id: string) {
-    this.postService.deletePost(id).subscribe((() => { this.ngOnInit()}));
+    this.postService.deletePost(id).subscribe((() => { this.post = undefined}));
   }
   deletePostModer(id: string) {
     let user = this.userService.getUserFromLocalStorge();

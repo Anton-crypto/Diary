@@ -1,0 +1,16 @@
+.loader {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+::ng-deep circle {
+    stroke: var(--colorActiveElemen) !important;
+}
+::ng-deep mat-spinner {
+    width: 75px !important;
+    height: 75px !important;
+    svg {
+        width: 75px !important;
+        height: 75px !important;
+    }
+}

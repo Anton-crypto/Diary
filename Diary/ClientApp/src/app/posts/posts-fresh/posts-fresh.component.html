@@ -2,9 +2,7 @@
     <app-search class="search" (searchEmit)="dataSearchHandler($event)"></app-search>
     <div *ngIf="check">
         <app-post *ngFor="let post of posts" [post]="post"></app-post>
-        <div class="noFoundMessage" *ngIf="posts.length == 0">
-            Посты не найдены
-        </div>
+        <app-not-found *ngIf="posts.length == 0"  text="Посты не найдены"></app-not-found>
     </div>
     <div *ngIf="!check" class="spin">
         <mat-spinner></mat-spinner>

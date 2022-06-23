@@ -64,6 +64,10 @@
             top: 0px;
             left: -25px;
             cursor: pointer;
+            color: var(--colorSubBodyText);
+            svg {
+                color: var(--colorSubBodyText);
+            }
         }
     }
     &__menu {

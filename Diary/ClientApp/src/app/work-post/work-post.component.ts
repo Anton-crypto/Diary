@@ -21,6 +21,8 @@ export class WorkPostComponent implements OnInit {
   idPost : string | undefined = ""
 
   IsMessage : boolean = true
+  isLoader : boolean = false
+
   bodyItem : ITest[] = [
     {
       teg : "text",
@@ -120,6 +122,8 @@ export class WorkPostComponent implements OnInit {
     [this.bodyItem[index], this.bodyItem[index + 1]] = [this.bodyItem[index + 1], this.bodyItem[index]]
   }
   putPost() {
+    this.isLoader = true;
+
     if (this.bodyItem.length > 0 || this.bodyItem[0].value != '') {
       let files : File[] = []
       const formData = new FormData();
@@ -157,14 +161,18 @@ export class WorkPostComponent implements OnInit {
       this.postService.putPost(formData).subscribe((() => {
         this.reset();
 
+        this.isLoader = false;
         this.IsMessage = false;
+        
         setTimeout(() => {this.IsMessage = true}, 3000)
 
       }));
     }
   }
   addNewPost() {
-    if (this.bodyItem.length > 0 || this.bodyItem[0].value != '') {
+    this.isLoader = true;
+
+    if ((this.bodyItem.length > 0 || this.bodyItem[0].value != '')) {
 
       let files : File[] = []
       const formData = new FormData();
@@ -203,8 +211,15 @@ export class WorkPostComponent implements OnInit {
       this.postService.addPost(formData).subscribe((() => {
         this.reset();
 
+        this.isLoader = false;
         this.IsMessage = false;
-        setTimeout(() => {this.IsMessage = true}, 5000)
+
+        this.searchSet.tegs = [];
+        this.searchSet.value = "";
+
+        setTimeout(() => {
+          this.IsMessage = true
+        }, 5000)
       }));
     }
   }
