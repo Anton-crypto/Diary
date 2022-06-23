@@ -581,7 +581,7 @@ namespace Diary.Controllers
                 .Include(c => c.Comments)
                 .Include(l => l.Likes)
                 .Include(s => s.Saveds)
-                .Where(e => (e.Comments.Count + e.Likes.Count + e.Saveds.Count) * 100 >= 5000 && e.ValidationStatus == true).ToListAsync();
+                .Where(e => (e.Comments.Count + e.Likes.Count + e.Saveds.Count) * 100 >= 1000 && e.ValidationStatus == true).ToListAsync();
 
             return posts is null ? NotFound() : new ObjectResult(posts);
         }

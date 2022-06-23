@@ -13,10 +13,10 @@
         }
     }
     &__header {
-        border-bottom: 1px solid $colorBorder;
+        border-bottom: 1px solid var(--colorBorder);
         padding: 10px 24px;
         color: $colorText;
-        background-color: $colorItem;
+        background-color: var(--colorBackGroundElement);
     }
     &__input {
         input:focus-visible{
@@ -24,16 +24,16 @@
             outline: none !important;
         }
         input {
-            border: 1px solid $colorBorder;
+            border: 1px solid var(--colorBorder);
             padding: 15px 15px;
-            background-color: $colorItem;
+            background-color: var(--colorBackGroundElement);
             width: 100%;
-            color: $colorText;
+            color: var(--colorTitleBody);
         }
     }
     &__button {
         width: 100%;
-        background-color: $colorBack;
+        background-color: var(--colorBackGround);
         button {
             background-color: var(--colorActiveElemen);
             padding: 0 20px;
@@ -50,8 +50,8 @@
         padding: 16px 20px;
     }
     &__list {
-        background-color: $colorItem;
-        color: $colorText;
+        background-color: var(--colorBackGroundElement);
+        color: var(--colorTitleBody);
         padding: 10px 24px;
         &-header {
             display: flex;
