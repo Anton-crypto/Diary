@@ -78,16 +78,16 @@
             outline: none !important;
         }
         input {
-            border: 1px solid $colorBorder;
+            border: 1px solid var(--colorBorder);
             padding: 15px 15px;
-            background-color: var(--colorActiveElemen);
+            background-color: var(--colorBackGroundElement);
             width: 100%;
-            color: $colorText;
+            color: var(--colorTitleBody);
         }
         &-top{
             display: flex;
-            color: $colorText;
-            background-color: $colorItem;
+            color: var(--colorTitleBody);
+            background-color: var(--colorBackGroundElement);
             padding-left: 18px;
             font-size: 12px;
             padding-bottom: 5px;

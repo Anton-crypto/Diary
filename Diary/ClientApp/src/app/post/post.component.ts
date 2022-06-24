@@ -101,21 +101,49 @@ export class PostComponent {
   
   reject() {
     if(this.post && this.post.id) {
-      this.moderService.reject(this.post.id.toString()).subscribe((() => { this.post = undefined }));
+      this.moderService.reject(this.post.id.toString()).subscribe({
+        next: () => {
+          this.post = undefined
+        },
+        error: () => {
+          this.post = undefined
+        }
+      });
     }
   }
   rejectNSFW() {
     if(this.post && this.post.id) {
-      this.moderService.rejectNSFW(this.post.id.toString()).subscribe((() => { this.post = undefined }));
+      this.moderService.rejectNSFW(this.post.id.toString()).subscribe({
+        next: () => {
+          this.post = undefined
+        },
+        error: () => {
+          this.post = undefined
+        }
+      });
     }
   }
   example() {
     if(this.post && this.post.id) {
-      this.moderService.example(this.post.id).subscribe((() => {  this.post = undefined }));
+      this.moderService.example(this.post.id).subscribe({
+        next: () => {
+          this.post = undefined
+        },
+        error: () => {
+          this.post = undefined
+        }
+      });
     }
   }
   deletePost(id: string) {
-    this.postService.deletePost(id).subscribe((() => { this.post = undefined}));
+    this.postService.deletePost(id).subscribe({
+      next: () => {
+        this.post = undefined
+      },
+      error: () => {
+        this.post = undefined
+      }
+    });
   }
   deletePostModer(id: string) {
     let user = this.userService.getUserFromLocalStorge();

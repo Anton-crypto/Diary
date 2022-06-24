@@ -4,11 +4,11 @@
     width: 100%;
     border-radius: 2px;
     margin-bottom: 20px;
-    border: 1px solid #2d3236;
+    border: 1px solid var(--colorBorder);
     padding: 20px;
-    color: #bfbfb1;
+    color: var(--colorTitleBody);
     text-align: center;
-    background-color: $colorItem;
+    background-color: var(--colorBackGroundElement);
 
     &__body {
         display: flex;

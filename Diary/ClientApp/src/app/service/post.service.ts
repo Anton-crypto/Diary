@@ -130,6 +130,8 @@ export class PostService {
             post.timePost = ` ${time} дня назад`;
           } else if (time >= 5) {
             post.timePost = ` ${time} дней назад`;
+          } else if(time == 0) {
+            post.timePost = `сегодня`;
           }
   
           let item : any [] = [] 
@@ -155,6 +157,10 @@ export class PostService {
 
         const timeDiff : number = Math.abs(dateFirst.getTime() - dateLast.getTime());
         const diffDays : number = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+
+        if(dateFirst.toDateString() === dateLast.toDateString()) {
+            return 0
+        }
         
         return diffDays;
     }
