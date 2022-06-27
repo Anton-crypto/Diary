@@ -242,6 +242,14 @@ namespace Diary.Controllers
             var user = _context.Users.FirstOrDefault(e => e.ID == id);
             var person = _contextIdentity.Persons.FirstOrDefault(e => e.Email == user.Email);
 
+            var logs = _context.PostCheckLogs.Where(e => e.UserID == user.ID).ToList();
+
+            foreach (var log in logs)
+            {
+                _context.PostCheckLogs.Remove(log);
+                _context.SaveChanges();
+            }
+
             _context.Users.Remove(user);
             _context.SaveChanges();
 

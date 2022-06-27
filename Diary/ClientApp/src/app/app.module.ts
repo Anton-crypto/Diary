@@ -35,6 +35,7 @@ import { ModerComponent } from './moder/moder.component';
 import { NotFoundComponent } from './component/not-found/not-found.component';
 import { LogsListComponent } from './logs-list/logs-list.component';
 import { LoaderComponent } from './component/loader/loader.component';
+import { ChatComponent } from './chat/chat.component';
 
 import { PostsBestComponent } from './posts/posts-best/posts-best.component';
 import { PostsFreshComponent } from './posts/posts-fresh/posts-fresh.component';
@@ -58,6 +59,7 @@ import { JwtModule, } from "@auth0/angular-jwt";
 import {StoreModel} from "./store"
 
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
 
 export function tokenGetter() { 
   return localStorage.getItem("jwt"); 
@@ -97,6 +99,7 @@ export function tokenGetter() {
     NotFoundComponent,
     LogsListComponent,
     LoaderComponent,
+    ChatComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -212,6 +215,11 @@ export function tokenGetter() {
           { 
             path: 'logs-list', 
             component: LogsListComponent,
+            canActivate: [AuthGuard],
+          },
+          { 
+            path: 'chat', 
+            component: ChatComponent,
             canActivate: [AuthGuard],
           },
         ],

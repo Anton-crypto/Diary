@@ -20,6 +20,7 @@ namespace Diary.Models
 
         public DbSet<Message> Messages { get; set; }
         public DbSet<PostCheckLogs> PostCheckLogs { get; set; }
+        public DbSet<Chat> Chats { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

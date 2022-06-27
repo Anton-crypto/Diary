@@ -22,6 +22,26 @@ namespace Diary.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Diary.Models.Chat", b =>
+                {
+                    b.Property<Guid?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UserFromId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("UserToId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Chats");
+                });
+
             modelBuilder.Entity("Diary.Models.Comment", b =>
                 {
                     b.Property<Guid>("ID")

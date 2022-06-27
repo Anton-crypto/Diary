@@ -27,6 +27,7 @@
     "@angular/router": "~13.0.1",
     "@angular/youtube-player": "^13.3.7",
     "@auth0/angular-jwt": "^5.0.2",
+    "@microsoft/signalr": "^6.0.6",
     "angular-md5": "^0.1.10",
     "bootstrap": "^5.1.0",
     "buffer": "^6.0.3",
