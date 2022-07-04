@@ -26,6 +26,16 @@ namespace Diary.Controllers.WebSocket
             return Ok(new { Message = "Request Completed" });
         }
 
+        [HttpGet("{userFromId}&{userToId}")]
+        [Route("getCats/{userFromId}&{userToId}")]
+        public IActionResult GetChatsUserPeerToPeer(Guid userFromId, Guid userToId)
+        {
+            var chats = _context.Chats.Where(e => e.UserFromId == userFromId && e.UserToId == userToId).ToList();
+
+            _hub.Clients.All.SendAsync("TransferChartData", chats);
+            return Ok(new { Message = "Request Completed" });
+        }
+
         //public void Post (Chat caht)
         //{
         //    _context.Chats.Add(caht);

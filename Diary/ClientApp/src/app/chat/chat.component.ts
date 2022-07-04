@@ -35,8 +35,14 @@ export class ChatComponent {
     this.getUsers();
   }
   setUserChat(userIdChat: string) {
-    console.log(userIdChat)
-    this.userIdChat = userIdChat
+
+    this.userIdChat = userIdChat;
+    let user : IUser = this.userService.getUserFromLocalStorge();
+
+    this.http.get(`https://localhost:7022/api/chart/getcats/${user.id}&${userIdChat}`).subscribe(res => {
+      console.log(res);
+    })
+
   }
   private getUsers () {
     this.userService.getUsers().subscribe({

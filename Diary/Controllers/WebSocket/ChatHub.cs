@@ -17,7 +17,7 @@ namespace Diary.Controllers.WebSocket
         }
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            //string user = _user.FirstOrDefault(u => u.Key == Context.ConnectionId).Value;
+            _user.Remove(Context.ConnectionId); 
 
             await Clients.All.SendAsync("Notify", $"{Context.ConnectionId} покинул в чат");
             await base.OnDisconnectedAsync(exception);
