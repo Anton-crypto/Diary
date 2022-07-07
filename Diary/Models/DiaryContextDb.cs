@@ -6,7 +6,6 @@ namespace Diary.Models
     public class DiaryContextDb : DbContext
     {
         public DiaryContextDb(DbContextOptions<DiaryContextDb> options) : base(options) {}
-
         public DbSet<User> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Subscriptions> Subscriptionses { get; set; }

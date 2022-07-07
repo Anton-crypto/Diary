@@ -45,7 +45,7 @@ builder.Services.AddAuthentication(opt => {
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder => builder
-        .WithOrigins("https://localhost:44407", "http://localhost:4200")
+        .WithOrigins("https://localhost:44407", "http://localhost:4200", "https://localhost:65222")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials());
@@ -69,7 +69,10 @@ builder.Services.Configure<FormOptions>(o =>
     o.MemoryBufferThreshold = int.MaxValue;
 });
 
+
 builder.Services.AddSignalR();
+
+
 
 var app = builder.Build();
 
@@ -87,6 +90,7 @@ app.MapControllerRoute(
         name: "default",
         pattern: "{controller}/{action=Index}/{id?}"
     );
+
 app.MapFallbackToFile("index.html");
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()

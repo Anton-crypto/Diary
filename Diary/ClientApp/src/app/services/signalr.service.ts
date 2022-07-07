@@ -41,6 +41,14 @@ export class SignalrService {
       this.hubConnection.invoke('broadcastchartdata', message).catch(err => console.error(err));
     }
   }
+  public getNewMessageListener = () => {
+    if(this.hubConnection != undefined) {
+      this.hubConnection.on('getnewmessage', (chat) => {
+        console.log("getnewmessage")
+        this.chats.push(chat)
+      });
+    }
+  }
   public addBroadcastChartDataListener = () => {
     if(this.hubConnection != undefined) {
       this.hubConnection.on('broadcastchartdata', (chat) => {

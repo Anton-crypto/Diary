@@ -5,8 +5,11 @@ import { IChatModel } from '../models/chat.model';
 
 import { SignalrService } from '../services/signalr.service';
 import { UserService } from '../service/user.service';
+import { ChatService } from '../services/chat.service';
 
 import { IUser } from '../models/user.model';
+
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat',
@@ -19,37 +22,61 @@ export class ChatComponent {
   constructor(
     public signalRService: SignalrService, 
     private http: HttpClient, 
-    private userService: UserService
+    private userService: UserService,
+    private chatService: ChatService,
   ) { }
 
   text : string = ""
   сhats : IChatModel[] = []
-  users : IUser[] = []
+  users : (IUser)[] | null = []
   userIdChat : string = ""
+  user!: IUser 
 
   ngOnInit() {
+    this.user = this.userService.getUserFromLocalStorge();
+
     this.signalRService.startConnection();
     this.signalRService.addTransferChartDataListener();
     this.signalRService.addBroadcastChartDataListener();   
+    this.signalRService.getNewMessageListener();
     this.startHttpRequest();
     this.getUsers();
   }
   setUserChat(userIdChat: string) {
 
     this.userIdChat = userIdChat;
-    let user : IUser = this.userService.getUserFromLocalStorge();
-
-    this.http.get(`https://localhost:7022/api/chart/getcats/${user.id}&${userIdChat}`).subscribe(res => {
-      console.log(res);
+    this.http.get<IChatModel[]>(`https://localhost:7022/api/chart/getcats/${this.user.id}&${userIdChat}`).subscribe(сhats => {
+      this.signalRService.chats = сhats
     })
 
   }
   private getUsers () {
-    this.userService.getUsers().subscribe({
+    this.userService.getUsers().pipe(
+      
+      map((users) => {
+        users.forEach((user, i) => {
+          if(user.id == this.user.id) {
+            users.splice(i, 1);
+            return;
+          }
+        });
+        return  users;
+      }),
+
+    ).subscribe({
       next : (users) => {
         this.users = users
       }
     })
+  }
+  private removeById(fromItems: any, id: any) {
+    const index1  = fromItems.findIndex((element: any) => {
+      return element.id === id;
+    });
+    if (index1 >= 0 ) {
+      fromItems.splice(index1,1);
+    }
+    return fromItems;
   }
   private startHttpRequest = () => {
 
@@ -67,9 +94,11 @@ export class ChatComponent {
       userToId : this.userIdChat,
       userFromId : user.id
     }
-    console.log(chat)
-
-    this.signalRService.broadcastChartData(chat);
+    this.chatService.postChatMessage(chat).subscribe({
+      next: (chat) => {
+        this.signalRService.chats.push(chat);
+      }
+    })
   }
   public createImgPath = (serverPath: string) => this.userService.createImgPath(serverPath);
 }
