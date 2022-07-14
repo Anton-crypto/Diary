@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using System.Net.Http.Headers;
+using System.IO;
 
 namespace Diary.Controllers
 {
@@ -15,11 +16,11 @@ namespace Diary.Controllers
         {
             try
             {
-                var folderName = Path.Combine("Resources", "Images");
-                var pathToRead = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var folderName = System.IO.Path.Combine("Resources", "Images");
+                var pathToRead = System.IO.Path.Combine(Directory.GetCurrentDirectory(), folderName);
                 var photos = Directory.EnumerateFiles(pathToRead)
                     .Where(IsAPhotoFile)
-                    .Select(fullPath => Path.Combine(folderName, Path.GetFileName(fullPath)));
+                    .Select(fullPath => System.IO.Path.Combine(folderName, System.IO.Path.GetFileName(fullPath)));
 
                 return Ok(new { photos });
             }

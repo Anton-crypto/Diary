@@ -1,16 +1,18 @@
-using Diary.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Diary.Identity;
-using Diary.Models.IdentityModels;
 using System.Text;
-using Diary.Services;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http.Features;
+
 using Diary.General;
 using Diary.Controllers.WebSocket;
+using Diary.GraphQL;
+using Diary.Identity;
+using Diary.Models.IdentityModels;
+using Diary.Services;
+using Diary.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,6 +74,11 @@ builder.Services.Configure<FormOptions>(o =>
 
 builder.Services.AddSignalR();
 
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Queries>()
+    .AddProjections();
+
 
 
 var app = builder.Build();
@@ -95,7 +102,7 @@ app.MapFallbackToFile("index.html");
 app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {
-    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+    FileProvider = new PhysicalFileProvider(System.IO.Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
     RequestPath = new PathString("/Resources")
 });
 app.UseWebSockets(new WebSocketOptions
@@ -103,4 +110,10 @@ app.UseWebSockets(new WebSocketOptions
     KeepAliveInterval = TimeSpan.FromSeconds(120),
 });
 app.MapHub<ChatHub>("/chart");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapGraphQL("/graphql" );
+});
+
 app.Run();

@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core'
+import { Component, Inject, Input, ViewChild, ElementRef } from '@angular/core'
 import { PostService } from '../../service/post.service';
 import { IPost } from '../../models/post.model';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -16,24 +16,33 @@ export class TimeLineComponent {
   check: boolean =  false
 
   countTime: number= 0;
+
+  @ViewChild('observer') paginatioObserv: ElementRef | undefined;
   
   constructor(
     private postService: PostService,
-    private route: ActivatedRoute,
   ) { }
   ngOnInit(): void {
     //this.getPosts();
-
     this.getPostsPagination(String(this.countTime));
+  }
+  ngAfterViewInit(): void {
+    if(this.paginatioObserv) {
 
-    window.addEventListener('scroll', () => {
-      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-        console.log(this.route.snapshot.routeConfig)
-        if(this.route.snapshot.routeConfig!.path == "") {
+      const options = {
+        rootMargin: '0px',
+        threshold: 1.0
+      }
+
+      let callback = (entries: any, observer : any) => {
+        if(entries[0].isIntersecting) {
           this.getPostsPagination(String(this.countTime));
         }
       }
-    });
+
+      const observers = new IntersectionObserver(callback, options)
+      observers.observe(this.paginatioObserv.nativeElement)
+    }
   }
   getPosts() {
     this.postService.getPosts().subscribe({

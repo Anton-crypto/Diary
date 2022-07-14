@@ -313,8 +313,8 @@ namespace Diary.Controllers
                     }
                 }
 
-                var folderName = Path.Combine("Resources", "Images");
-                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var folderName = System.IO.Path.Combine("Resources", "Images");
+                var pathToSave = System.IO.Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
                 foreach (var item in fileList)
                 {
@@ -326,8 +326,8 @@ namespace Diary.Controllers
                     var fileName = Guid.NewGuid().ToString() + "." +
                         item.ContentType.Trim('"').Split('/')[1];
 
-                    var fullPath = Path.Combine(pathToSave, fileName);
-                    var dbPath = Path.Combine(folderName, fileName);
+                    var fullPath = System.IO.Path.Combine(pathToSave, fileName);
+                    var dbPath = System.IO.Path.Combine(folderName, fileName);
 
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
@@ -510,8 +510,8 @@ namespace Diary.Controllers
                     }
                 }
 
-                var folderName = Path.Combine("Resources", "Images");
-                var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+                var folderName = System.IO.Path.Combine("Resources", "Images");
+                var pathToSave = System.IO.Path.Combine(Directory.GetCurrentDirectory(), folderName);
 
                 foreach (var item in fileList)
                 {
@@ -523,8 +523,8 @@ namespace Diary.Controllers
                     var fileName = Guid.NewGuid().ToString() + "." +
                         item.ContentType.Trim('"').Split('/')[1];
 
-                    var fullPath = Path.Combine(pathToSave, fileName);
-                    var dbPath = Path.Combine(folderName, fileName);
+                    var fullPath = System.IO.Path.Combine(pathToSave, fileName);
+                    var dbPath = System.IO.Path.Combine(folderName, fileName);
 
                     using (var stream = new FileStream(fullPath, FileMode.Create))
                     {
