@@ -18,12 +18,11 @@ export class TimeLineComponent {
   countTime: number= 0;
 
   @ViewChild('observer') paginatioObserv: ElementRef | undefined;
-  
+
   constructor(
     private postService: PostService,
   ) { }
   ngOnInit(): void {
-    //this.getPosts();
     this.getPostsPagination(String(this.countTime));
   }
   ngAfterViewInit(): void {
@@ -50,7 +49,7 @@ export class TimeLineComponent {
 
         this.posts = this.postService.createPostSubItem(posts)
         this.check = true;
-  
+
       },
       error: () => {
         this.check = true;
@@ -66,10 +65,10 @@ export class TimeLineComponent {
         p.forEach(post => {
           this.posts.push(post);
         });
-  
+
         this.check = true;
         this.countTime++;
-  
+
       },
       error: () => {
         this.check = true;
@@ -83,5 +82,5 @@ export class TimeLineComponent {
     this.check = true;
 
     console.log(data)
-  }  
+  }
 }
