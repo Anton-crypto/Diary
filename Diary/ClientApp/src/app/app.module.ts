@@ -61,8 +61,8 @@ import {StoreModel} from "./store"
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 
-export function tokenGetter() { 
-  return localStorage.getItem("jwt"); 
+export function tokenGetter() {
+  return localStorage.getItem("jwt");
 }
 
 @NgModule({
@@ -73,7 +73,7 @@ export function tokenGetter() {
     PostComponent,
     TimeLineComponent,
     MainComponent,
-    SidebarComponent, 
+    SidebarComponent,
     VerificationComponent,
     SettingsUserComponent,
     SidebarUserComponent,
@@ -114,8 +114,8 @@ export function tokenGetter() {
     MatButtonModule,
     MatSlideToggleModule,
     RouterModule.forRoot([
-      { 
-        path: '', 
+      {
+        path: '',
         component: MainComponent,
         children: [
           {
@@ -137,88 +137,88 @@ export function tokenGetter() {
             component: SettingsUserComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'post-details/:id', 
+          {
+            path: 'post-details/:id',
             component: PostDetailsComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'saved/:id', 
+          {
+            path: 'saved/:id',
             component: SavedComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'subscriptions/:id', 
+          {
+            path: 'subscriptions/:id',
             component: SubscriptionsComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'my-post/:id', 
+          {
+            path: 'my-post/:id',
             component: MyPostComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'user-details/:id', 
+          {
+            path: 'user-details/:id',
             component: UserDetailsComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'posts-moder', 
+          {
+            path: 'posts-moder',
             component: PostsModerComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'user-list', 
+          {
+            path: 'user-list',
             component: UserListComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'messages', 
+          {
+            path: 'messages',
             component: MessageComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'create-moder', 
+          {
+            path: 'create-moder',
             component: CreateModerComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'moders', 
+          {
+            path: 'moders',
             component: ModerComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'best', 
+          {
+            path: 'best',
             component: PostsBestComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'hotter', 
+          {
+            path: 'hotter',
             component: PostsHotterComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'fresh', 
+          {
+            path: 'fresh',
             component: PostsFreshComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'subs', 
+          {
+            path: 'subs',
             component: PostsSubsComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'coll', 
+          {
+            path: 'coll',
             component: PostsCollComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'logs-list', 
+          {
+            path: 'logs-list',
             component: LogsListComponent,
             canActivate: [AuthGuard],
           },
-          { 
-            path: 'chat', 
+          {
+            path: 'chat',
             component: ChatComponent,
             canActivate: [AuthGuard],
           },
