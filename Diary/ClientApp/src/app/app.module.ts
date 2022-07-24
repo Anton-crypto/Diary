@@ -37,6 +37,10 @@ import { LogsListComponent } from './logs-list/logs-list.component';
 import { LoaderComponent } from './component/loader/loader.component';
 import { ChatComponent } from './chat/chat.component';
 
+import { MusicItemComponent } from './component/music/music-item/music-item.component'
+import { MusicMenuComponent } from './component/music/music-menu/music-menu.component'
+import { MusicComponent } from './pages/music/music.component'
+
 import { PostsBestComponent } from './posts/posts-best/posts-best.component';
 import { PostsFreshComponent } from './posts/posts-fresh/posts-fresh.component';
 import { PostsHotterComponent } from './posts/posts-hotter/posts-hotter.component';
@@ -100,6 +104,9 @@ export function tokenGetter() {
     LogsListComponent,
     LoaderComponent,
     ChatComponent,
+    MusicItemComponent,
+    MusicMenuComponent,
+    MusicComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -220,6 +227,11 @@ export function tokenGetter() {
           {
             path: 'chat',
             component: ChatComponent,
+            canActivate: [AuthGuard],
+          },
+          {
+            path: 'music',
+            component: MusicComponent,
             canActivate: [AuthGuard],
           },
         ],

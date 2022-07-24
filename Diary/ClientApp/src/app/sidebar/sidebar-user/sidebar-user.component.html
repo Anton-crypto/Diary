@@ -10,7 +10,7 @@
                   <a [routerLink]="[ '/user-details', user.id ]" >{{user.name}}</a>
                 </div>
                 <div class = "user__info-item user__exit" (click) ="logOut()">
-                  выйти 
+                  выйти
                 </div>
             </div>
         </div>
@@ -37,6 +37,7 @@
         <a class="sidebar-user__menu-item" [routerLink]="[ '/my-post', user.id ]">Мои посты</a>
         <a class="sidebar-user__menu-item" [routerLink]="[ '/messages' ]">Оповещения</a>
         <a class="sidebar-user__menu-item" [routerLink]="[ '/chat' ]">Чат</a>
+        <a class="sidebar-user__menu-item" [routerLink]="[ '/music' ]">Музыка</a>
       </div>
       <div *ngIf="userRole == 'moder'">
         <a class="sidebar-user__menu-item" [routerLink]="[ '/posts-moder' ]">Проверка постов</a>

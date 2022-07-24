@@ -122,6 +122,21 @@ namespace Diary.Migrations
                     b.ToTable("Message", (string)null);
                 });
 
+            modelBuilder.Entity("Diary.Models.Music", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Musics");
+                });
+
             modelBuilder.Entity("Diary.Models.Post", b =>
                 {
                     b.Property<Guid>("ID")

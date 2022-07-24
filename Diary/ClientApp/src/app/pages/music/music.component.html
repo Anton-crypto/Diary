@@ -1,0 +1,6 @@
+<div>
+  <app-music-menu *ngIf="mucisPlay" [mucis]="mucisPlay"></app-music-menu>
+  <div style="margin-top:10px;">
+    <app-music-item *ngFor="let mucis of mucises" [mucis]="mucis" (mucisChanged)="playMucis($event)"></app-music-item>
+  </div>
+</div>

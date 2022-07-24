@@ -3,14 +3,14 @@
         <div class="story__header">
             <div class="story__author">
                 <div class="story__img">
-                    <img [src]="createImgPath(post.user.icon)" alt="" srcset="" *ngIf=" post.user.icon != ''">
-                    <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf=" post.user.icon == ''">
+                  <img [src]="createImgPath(post.user.icon)" alt="" srcset="" *ngIf=" post.user.icon != ''">
+                  <img src="../../../assets/img/start-icon.png" alt="" srcset="" *ngIf=" post.user.icon == ''">
                 </div>
                 <div class="author__name">
-                   <a [routerLink]="[ '/user-details', post.user.id ]" >{{post.user.name}}</a>
+                  <a [routerLink]="[ '/user-details', post.user.id ]" >{{post.user.name}}</a>
                 </div>
                 <div class="story__time">
-                    {{post.timePost}}
+                  {{post.timePost}}
                 </div>
             </div>
             <div style="display:flex;">

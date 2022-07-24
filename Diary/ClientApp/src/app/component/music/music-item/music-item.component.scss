@@ -1,0 +1,44 @@
+.track {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+  background-color: var(--colorBackGroundElement);
+  color: var(--colorTitleBody);
+  padding: 10px;
+  border: 1px solid var(--colorBorder);
+
+  &-left {
+    display: flex;
+    align-items: center;
+  }
+  &-img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    cursor: pointer;
+    position: relative;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    .play {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      opacity: 0;
+      left: 0;
+      background-color: var(--colorBackGround);
+      z-index: 2;
+    }
+  }
+  &:hover {
+    .track-img {
+      .play {
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http.Features;
-
 using Diary.General;
 using Diary.Controllers.WebSocket;
 using Diary.GraphQL;
@@ -17,7 +16,6 @@ using Diary.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IMessage, MessageDiary>();
-
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DiaryContextDb>(options => 

@@ -21,6 +21,8 @@ namespace Diary.Models
         public DbSet<PostCheckLogs> PostCheckLogs { get; set; }
         public DbSet<Chat> Chats { get; set; }
 
+        public DbSet<Music> Musics { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Post>().ToTable("Post");
